@@ -1,8 +1,9 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {observer} from 'mobx-react-lite';
 import {Eye, EyeOff, Mail, Lock} from 'lucide-react';
 import authStore from '../store/authStore';
 import toast from "react-hot-toast";
+import { Link } from 'react-router-dom';
 
 const Login = observer(() => {
   const [form, setForm] = useState({
@@ -57,10 +58,20 @@ const Login = observer(() => {
         ...error,
         global: e.response?.data?.message || 'Email checking failed'
       })
-    }finally {
+    } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (isChecked) {
+      setIsChecked(false)
+      setForm({
+        email: form.email,
+        password: ""
+      })
+    }
+  }, [form.email])
 
   return (
     <section className={"min-h-screen flex items-center justify-center p-4"}>
@@ -127,9 +138,9 @@ const Login = observer(() => {
 
 
         {/*forms*/}
-        <div>
+        <div className={"relative"}>
           {/*Email*/}
-          <div className="mb-6">
+          <div className="mb-6 z-40 relative">
             <label
               className="block text-sm font-medium mb-2 text-gray-95"
             >
@@ -145,7 +156,7 @@ const Login = observer(() => {
                 name={"email"}
                 value={form.email}
                 onChange={handleChange}
-                onKeyPress={(e) => e.key === 'Enter'}
+                onKeyPress={(e) => e.key === 'Enter' && handleContinue()}
                 placeholder="Enter your email"
                 className={`w-full pl-10 pr-4 py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 ${
                   error.email ? 'border-red-500 focus:ring-red-500' : 'focus:ring-red-400'
@@ -163,7 +174,15 @@ const Login = observer(() => {
             )}
           </div>
 
-          <div className="mb-6" style={{display: isChecked ? 'block' : 'none'}}>
+          <div
+            className="mb-6 z-10 duration-500 transition-all"
+            style={{
+              visibility: `${isChecked ? 'visible' : 'hidden'}`,
+              position: `${isChecked ? 'relative' : 'absolute'}`,
+              transform: `${isChecked ? 'translateY(0)' : 'translateY(-100%)'}`,
+              opacity: `${isChecked ? '1' : '0'}`,
+            }}
+          >
             <label
               className="block text-sm font-medium mb-2"
               style={{color: '#F2F2F2'}}
@@ -181,7 +200,7 @@ const Login = observer(() => {
                 type={showPassword ? 'text' : 'password'}
                 value={form.password}
                 onChange={handleChange}
-                onKeyPress={(e) => e.key === 'Enter'}
+                onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
                 placeholder="Enter your password"
                 className={`w-full pl-10 pr-12 py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 ${
                   error.password ? 'border-red-500 focus:ring-red-500' : 'focus:ring-red-400'
@@ -238,6 +257,19 @@ const Login = observer(() => {
             )}
           </button>
         </div>
+
+        <p
+          className="text-center text-sm mt-6"
+          style={{ color: '#B3B3B2' }}
+        >
+          Don't have an account?{' '}
+          <Link to="/register"
+                className="font-semibold hover:underline"
+                style={{ color: '#D65252' }}
+          >
+            Sign up
+          </Link>
+        </p>
 
       </div>
     </section>
