@@ -1,0 +1,109 @@
+require('dotenv').config();
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const passport = require('passport');
+
+const authRoutes = require('./routes/auth');
+const logger = require('./utils/logger');
+require('./services/googleAuth'); // Initialize Google OAuth strategy
+
+const app = express();
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100,
+  message: 'Too many requests from this IP, please try again later',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+
+// Security middleware
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+
+// app.use(limiter);
+
+// CORS configuration
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://yourfrontend.com']
+    : ['http://localhost:5173', 'http://localhost:3001'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
+
+// Passport middleware
+app.use(passport.initialize());
+
+// Request logging
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.path} - IP: ${req.ip}`);
+  next();
+});
+
+// Routes
+app.use('/auth', authRoutes);
+
+// Health check
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  logger.error('Unhandled error:', err);
+
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({
+      error: 'Validation Error',
+      message: err.message
+    });
+  }
+
+  if (err.name === 'JsonWebTokenError') {
+    return res.status(401).json({
+      error: 'Invalid token',
+      message: 'Authentication failed'
+    });
+  }
+
+  if (err.name === 'TokenExpiredError') {
+    return res.status(401).json({
+      error: 'Token expired',
+      message: 'Please refresh your token'
+    });
+  }
+
+  res.status(err.status || 500).json({
+    error: process.env.NODE_ENV === 'production'
+      ? 'Internal Server Error'
+      : err.message,
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  });
+});
+
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({
+    error: 'Route not found',
+    message: `Cannot ${req.method} ${req.originalUrl}`
+  });
+});
+
+module.exports = app;
