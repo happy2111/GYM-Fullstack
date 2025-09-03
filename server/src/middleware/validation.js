@@ -42,7 +42,7 @@ const schemas = {
   updateProfile: Joi.object({
     name: Joi.string().trim().min(2).max(100).optional(),
     phone: Joi.string().pattern(/^\+?[\d\s\-\(\)]+$/).optional().allow(''),
-    dateOfBirth: Joi.date().max('now').optional(),
+    date_of_birth: Joi.date().max('now').optional(),
     gender: Joi.string().valid('male', 'female', 'other').optional()
   })
 };

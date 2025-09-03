@@ -158,12 +158,17 @@ class AuthController {
         await tokenService.saveRefreshToken(tokenData.user_id, newRefreshToken, clientInfo, refreshExpires);
       }
 
+      const user = await authService.findUserByEmail(tokenData.email);
+      if (!user) {
+        return res.status(401).json({ message: 'User email not found ' });
+      }
+
       // Set cookies
       if (newRefreshToken !== refreshToken) {
         res.cookie('refreshToken', newRefreshToken, tokenService.getCookieOptions(true));
       }
 
-      res.json({ message: 'Token refreshed successfully', accessToken: newAccessToken });
+      res.json({ message: 'Token refreshed successfully', accessToken: newAccessToken, user: authService.getUserPublicData(user) });
     } catch (error) {
       logger.error('Refresh token error:', error);
       res.status(401).json({

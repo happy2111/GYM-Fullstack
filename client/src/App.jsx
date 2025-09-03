@@ -9,11 +9,15 @@ import {observer} from 'mobx-react-lite';
 import AuthLayout from './layouts/AuthLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Profile from './pages/Profile';
+import Profile from './layouts/ProfileLayout.jsx';
 import Home from './pages/Home';
 import authStore from './store/authStore';
 import {Toaster} from "react-hot-toast";
 import GoogleAuthCallBack from "./pages/GoogleAuthCallBack.jsx";
+import NavLayout from "./layouts/NavLayout.jsx";
+import ProfileLayout from "./layouts/ProfileLayout.jsx";
+import AccountPreference from "./pages/profile/AccountPreference.jsx";
+import Sessions from "./pages/profile/Sessions.jsx";
 
 // Protected Route Component
 const ProtectedRoute = observer(({children}) => {
@@ -47,20 +51,28 @@ const App = observer(() => {
           />
 
           {/* Protected Routes */}
-          <Route
-            path="/"
-            element={
-              <Home />
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+          <Route path={"/"} element={<NavLayout/>}>
+            <Route
+              path=""
+              element={
+                <Home />
+              }
+            />
+
+            <Route path={"profile"} element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
+              <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />
+              <Route
+                path="account-preference"
+                element={<AccountPreference />}
+              />
+              <Route path={"sessions"} element={<Sessions/>}/>
+            </Route>
+
+          </Route>
+
+
+
+
 
           {/* Fallback */}
           <Route

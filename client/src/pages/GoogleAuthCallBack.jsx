@@ -2,8 +2,10 @@ import {useEffect} from "react";
 import authStore from "../store/authStore.js";
 import authService from "../services/authService.js";
 import { useNavigate } from "react-router-dom";
+import { observer } from 'mobx-react-lite';
 
-const GoogleAuthCallBack = () => {
+
+const GoogleAuthCallBack = observer(() => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +26,6 @@ const GoogleAuthCallBack = () => {
       Loading Google login...
     </div>
   );
-};
+});
 
 export default GoogleAuthCallBack;

@@ -28,3 +28,9 @@
   --color-brown-97: #F8D2D2;  /* Почти пастельный */
   --color-brown-99: #FCEBEB;  /* Для фоновых элементов */
 }
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+}

@@ -116,14 +116,17 @@ class AuthStore {
 
   async refreshToken(){
     this.isLoading = true;
+    this.error = null;
     try {
       const response = await authService.refreshToken();
-      const { accessToken } = response;
+      const { accessToken, user } = response;
       runInAction(() => {
         this.isAuthenticated = true;
         this.isLoading = false;
+        this.user = user;
       });
       localStorage.setItem('token', accessToken);
+      localStorage.setItem('user', JSON.stringify(user));
     }catch (error) {
       console.error(error);
     }
