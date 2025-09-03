@@ -114,6 +114,40 @@ class AuthStore {
     }
   }
 
+  async refreshToken(){
+    this.isLoading = true;
+    try {
+      const response = await authService.refreshToken();
+      const { accessToken } = response;
+      runInAction(() => {
+        this.isAuthenticated = true;
+        this.isLoading = false;
+      });
+      localStorage.setItem('token', accessToken);
+    }catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getMe () {
+    this.isLoading = true;
+    this.error = null;
+    try {
+      const response = authService.getProfile();
+      runInAction(() => {
+        this.user = { ...this.user, ...response.user };
+        this.isLoading = false;
+      });
+      return response;
+    }catch (error) {
+      runInAction(() => {
+        this.error = error.response?.data?.message || 'get me failed';
+        this.isLoading = false;
+      });
+      throw error;
+    }
+  }
+
   logout() {
     runInAction(() => {
       this.user = null;
@@ -130,6 +164,8 @@ class AuthStore {
   clearError() {
     this.error = null;
   }
+
+
 }
 
 const authStore = new AuthStore();

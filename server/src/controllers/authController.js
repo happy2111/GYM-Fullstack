@@ -185,12 +185,7 @@ class AuthController {
         return res.redirect(`${process.env.FRONTEND_URL}/login?error=authentication_failed`);
       }
 
-      // Generate tokens
-      const accessToken = tokenService.generateAccessToken({
-        userId: user.id,
-        email: user.email,
-        role: user.role
-      });
+
 
       const refreshToken = tokenService.generateRefreshToken();
       const clientInfo = getClientInfo(req);
@@ -204,13 +199,12 @@ class AuthController {
       await tokenService.limitUserSessions(user.id, maxSessions);
 
       // Set cookies
-      res.cookie('accessToken', accessToken, tokenService.getCookieOptions(false));
+      // res.cookie('accessToken', accessToken, tokenService.getCookieOptions(false));
       res.cookie('refreshToken', refreshToken, tokenService.getCookieOptions(true));
 
       // Redirect to frontend
       const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001';
-      res.redirect(`${frontendUrl}/dashboard`);
-
+      res.redirect(`${frontendUrl}/auth/google/callback`);
     } catch (error) {
       logger.error('Google callback error:', error);
       const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001';

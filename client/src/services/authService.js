@@ -17,8 +17,7 @@ class AuthService {
   }
 
   async refreshToken() {
-    // Refresh token sent automatically via cookies
-    const response = await api.post('/auth/refresh');
+    const response = await api.post("/auth/refresh");
     return response.data;
   }
 
@@ -34,7 +33,7 @@ class AuthService {
   }
 
   async getProfile() {
-    const response = await api.get('/auth/profile');
+    const response = await api.get('/auth/me');
     return response.data;
   }
 }

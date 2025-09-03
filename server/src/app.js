@@ -27,7 +27,7 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// app.use(limiter);
+app.use(limiter);
 
 // CORS configuration
 app.use(cors({
