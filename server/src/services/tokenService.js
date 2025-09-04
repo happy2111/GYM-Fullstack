@@ -90,7 +90,7 @@ class TokenService {
 
   async getUserSessions(userId) {
     const query = `
-      SELECT id, ip, user_agent, device, expires_at, created_at
+      SELECT id, user_id, ip, user_agent, device, expires_at, created_at
       FROM refresh_tokens 
       WHERE user_id = $1 AND expires_at > NOW()
       ORDER BY created_at DESC

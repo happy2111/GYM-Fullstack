@@ -7,12 +7,18 @@ import {
   Database,
   Megaphone,
   Bell,
-  ArrowLeft
+  ArrowLeft,
+  LogOut,
 } from 'lucide-react';
 import {Outlet, useLocation, Link, useNavigate} from "react-router-dom"
 import ProfileInfo from "../components/ProfileInfo.jsx";
+import authStore from "../store/authStore.js";
 
 const ProfileLayout = () => {
+  useEffect(() => {
+    authStore.getSessions();
+    console.log(authStore.sessions)
+  }, []);
 
   const menuItems = [
     { icon: User, label: 'Account preferences', active: true, href: "account-preference" },
@@ -68,6 +74,14 @@ const ProfileLayout = () => {
                 </Link>
               );
             })}
+
+            <button
+              onClick={authStore.logout}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors `}
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="text-sm">Log out</span>
+            </button>
           </nav>
         </div>
 

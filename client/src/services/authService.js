@@ -36,6 +36,16 @@ class AuthService {
     const response = await api.get('/auth/me');
     return response.data;
   }
+
+  async getSessions() {
+    const response = await api.get('/auth/sessions');
+    return response.data;
+  }
+
+  async revokeSession(sessionId) {
+    const response = await api.delete(`/auth/sessions/${sessionId}`);
+    return response.data;
+  }
 }
 
 const authService = new AuthService();

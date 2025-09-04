@@ -1,52 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Settings, User, Shield, Eye, Database, Megaphone, Bell, Monitor, Smartphone, Tablet, Trash2, MapPin, Clock } from 'lucide-react';
-
+import authStore from "../../store/authStore.js";
+import toast from "react-hot-toast";
 const Sessions = () => {
-  const [sessions, setSessions] = useState([
-    {
-      id: '1',
-      device: 'MacBook Pro - Safari',
-      ip: '192.168.1.100',
-      lastActive: '2025-01-15T10:30:00Z',
-      expiresAt: '2025-02-15T10:30:00Z',
-      current: true
-    },
-    {
-      id: '2',
-      device: 'iPhone 15 Pro - Safari',
-      ip: '192.168.1.101',
-      lastActive: '2025-01-14T15:45:00Z',
-      expiresAt: '2025-02-14T15:45:00Z',
-      current: false
-    },
-    {
-      id: '3',
-      device: 'Windows PC - Chrome',
-      ip: '10.0.0.45',
-      lastActive: '2025-01-13T09:20:00Z',
-      expiresAt: '2025-02-13T09:20:00Z',
-      current: false
-    },
-    {
-      id: '4',
-      device: 'iPad Air - Safari',
-      ip: '192.168.1.102',
-      lastActive: '2025-01-12T20:15:00Z',
-      expiresAt: '2025-02-12T20:15:00Z',
-      current: false
-    }
-  ]);
+
+
+  const [sessions, setSessions] = useState(authStore.sessions);
 
   const [loading, setLoading] = useState(false);
-
-  const menuItems = [
-    { icon: User, label: 'Account preferences', active: false },
-    { icon: Shield, label: 'Sign in & security', active: true },
-    { icon: Eye, label: 'Visibility', active: false },
-    { icon: Database, label: 'Data privacy', active: false },
-    { icon: Megaphone, label: 'Advertising data', active: false },
-    { icon: Bell, label: 'Notifications', active: false },
-  ];
 
   const getDeviceIcon = (device) => {
     if (device.toLowerCase().includes('iphone') || device.toLowerCase().includes('android')) {
@@ -81,12 +42,13 @@ const Sessions = () => {
     setLoading(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const res = await authStore.revokeSession(sessionId)
 
       setSessions(prevSessions =>
         prevSessions.filter(session => session.id !== sessionId)
       );
 
+      toast.success("Session deleted successfully")
       console.log(`Session ${sessionId} deleted successfully`);
     } catch (error) {
       console.error('Failed to delete session:', error);
@@ -112,6 +74,7 @@ const Sessions = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="flex-1 w-full p-8 bg-dark-10 rounded-2xl">

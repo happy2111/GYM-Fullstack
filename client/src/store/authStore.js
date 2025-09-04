@@ -6,6 +6,8 @@ class AuthStore {
   isAuthenticated = false;
   isLoading = false;
   error = null;
+  sessions = [];
+
 
   constructor() {
     makeAutoObservable(this);
@@ -167,6 +169,51 @@ class AuthStore {
   clearError() {
     this.error = null;
   }
+
+  async getSessions() {
+    this.isLoading = true;
+    this.error = null;
+
+    try {
+      const response = await authService.getSessions();
+      runInAction(() => {
+        this.sessions = response.sessions; // допустим, backend возвращает { sessions: [...] }
+        this.isLoading = false;
+      });
+      return response;
+    } catch (error) {
+      runInAction(() => {
+        this.error = error.response?.data?.message || 'Failed to fetch sessions';
+        this.isLoading = false;
+      });
+      throw error;
+    }
+  }
+
+  async revokeSession(sessionId) {
+    try {
+      const response = await authService.revokeSession(sessionId);
+
+      if (response.logout) {
+        // сам себя удалил → выходим
+        runInAction(() => {
+          this.user = null;
+          this.isAuthenticated = false;
+          this.sessions = [];
+        });
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      } else {
+        runInAction(() => {
+          this.sessions = this.sessions.filter(s => s.id !== sessionId);
+        });
+      }
+    } catch (error) {
+      this.error = error.response?.data?.message || "Failed to revoke session";
+      throw error;
+    }
+  }
+
 
 
 }

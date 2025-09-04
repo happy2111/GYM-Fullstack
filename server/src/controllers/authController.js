@@ -243,6 +243,9 @@ class AuthController {
   async deleteSession(req, res) {
     try {
       const { id } = req.params;
+      const sessions = await tokenService.getUserSessions(req.user.id);
+
+      const targetSession = sessions.find(session => session.id === id);
 
       const deleted = await tokenService.deleteRefreshTokenById(id, req.user.id);
 
@@ -253,8 +256,14 @@ class AuthController {
         });
       }
 
-      res.json({
-        message: 'Session deleted successfully'
+      // Текущая сессия
+      const currentToken = req.cookies.refreshToken; // или из заголовка
+      const currentSession = await tokenService.findSessionByToken(currentToken);
+      const currentSessionId = currentSession?.id;
+
+      return res.json({
+        message: 'Session deleted successfully',
+        logout: targetSession?.id === currentSessionId
       });
 
     } catch (error) {

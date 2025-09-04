@@ -7,6 +7,9 @@ const rateLimit = require('express-rate-limit');
 const passport = require('passport');
 
 const authRoutes = require('./routes/auth');
+const membershipRoutes = require('./routes/membership');
+const visitRoutes = require('./routes/visit');
+
 const logger = require('./utils/logger');
 require('./services/googleAuth'); // Initialize Google OAuth strategy
 
@@ -20,7 +23,6 @@ const limiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-
 
 // Security middleware
 app.use(helmet({
@@ -55,6 +57,8 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/memberships', membershipRoutes);
+app.use('/visits', visitRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
