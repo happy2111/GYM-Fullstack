@@ -201,6 +201,250 @@ Cookie: accessToken=your_token_here
 }
 ```
 
+
+### Membership Endpoints
+
+#### POST /memberships
+
+Создание нового абонемента (только `admin`/`trainer`).
+
+**Body:**
+
+```json
+{
+  "type": "monthly",
+  "start_date": "2024-01-15",
+  "end_date": "2024-02-15",
+  "status": "active"
+}
+```
+
+**Response (201):**
+
+```json
+{
+  "message": "Membership created successfully",
+  "membership": {
+    "id": "uuid",
+    "user_id": "uuid",
+    "type": "monthly",
+    "start_date": "2024-01-15",
+    "end_date": "2024-02-15",
+    "status": "active",
+    "created_at": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
+---
+
+#### GET /memberships
+
+Получение списка всех абонементов текущего пользователя (или всех, если `admin`).
+
+**Response (200):**
+
+```json
+{
+  "memberships": [
+    {
+      "id": "uuid",
+      "type": "monthly",
+      "start_date": "2024-01-15",
+      "end_date": "2024-02-15",
+      "status": "active"
+    }
+  ]
+}
+```
+
+---
+
+#### GET /memberships/\:id
+
+Получение информации об абонементе.
+
+**Response (200):**
+
+```json
+{
+  "membership": {
+    "id": "uuid",
+    "type": "yearly",
+    "start_date": "2024-01-15",
+    "end_date": "2025-01-15",
+    "status": "active"
+  }
+}
+```
+
+---
+
+#### PUT /memberships/\:id
+
+Обновление абонемента (доступно только `admin`).
+
+**Body:**
+
+```json
+{
+  "status": "frozen"
+}
+```
+
+**Response (200):**
+
+```json
+{
+  "message": "Membership updated successfully",
+  "membership": {
+    "id": "uuid",
+    "status": "frozen"
+  }
+}
+```
+
+---
+
+#### DELETE /memberships/\:id
+
+Удаление абонемента (только `admin`).
+
+**Response (200):**
+
+```json
+{
+  "message": "Membership deleted successfully"
+}
+```
+
+---
+
+### Visits Endpoints
+
+#### POST /visits
+
+Фиксация визита клиента (через QR, вручную или админом).
+
+**Body:**
+
+```json
+{
+  "user_id": "uuid",
+  "checkin_method": "qr"
+}
+```
+
+**Response (201):**
+
+```json
+{
+  "message": "Visit recorded successfully",
+  "visit": {
+    "id": "uuid",
+    "user_id": "uuid",
+    "visited_at": "2024-01-15T12:45:00Z",
+    "checkin_method": "qr"
+  }
+}
+```
+
+---
+
+#### GET /visits
+
+Получение списка визитов.
+
+**Query Params (опционально):**
+
+* `userId` — фильтр по пользователю
+* `from` / `to` — диапазон дат
+
+**Response (200):**
+
+```json
+{
+  "visits": [
+    {
+      "id": "uuid",
+      "user_id": "uuid",
+      "visited_at": "2024-01-15T12:45:00Z",
+      "checkin_method": "qr"
+    }
+  ]
+}
+```
+
+---
+
+#### GET /visits/\:id
+
+Получение информации о визите.
+
+**Response (200):**
+
+```json
+{
+  "visit": {
+    "id": "uuid",
+    "user_id": "uuid",
+    "visited_at": "2024-01-15T12:45:00Z",
+    "checkin_method": "manual"
+  }
+}
+```
+
+---
+
+#### DELETE /visits/\:id
+
+Удаление визита (например, если отметка была ошибочной).
+
+**Response (200):**
+
+```json
+{
+  "message": "Visit deleted successfully"
+}
+```
+
+---
+
+### System Endpoints
+
+#### GET /health
+
+Проверка работоспособности API.
+
+**Response (200):**
+
+```json
+{
+  "status": "OK",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "uptime": 1234.56
+}
+```
+
+---
+
+### Database Schema (дополнение)
+
+#### memberships table
+
+* Привязка к пользователю
+* Тип абонемента (`single`, `monthly`, `yearly`)
+* Статус (`active`, `expired`, `frozen`)
+* Контроль дат (`start_date`, `end_date`)
+
+#### visits table
+
+* Привязка к пользователю
+* Время посещения (`visited_at`)
+* Метод отметки (`qr`, `manual`, `admin`)
+
+
+
 ## Security Features
 
 1. **Password Hashing**: Используется bcrypt с настраиваемым количеством раундов
