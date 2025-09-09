@@ -18,6 +18,9 @@ import NavLayout from "./layouts/NavLayout.jsx";
 import ProfileLayout from "./layouts/ProfileLayout.jsx";
 import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
+
+
 
 // Protected Route Component
 const ProtectedRoute = observer(({children}) => {
@@ -36,6 +39,9 @@ const ProtectedRoute = observer(({children}) => {
 const App = observer(() => {
 
   useEffect(() => {
+    const { initDataRaw, initData } = retrieveLaunchParams();
+    alert(initDataRaw);
+    alert(initData.user);
     const tg = window.Telegram.WebApp;
     tg.ready();
 
