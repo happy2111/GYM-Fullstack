@@ -39,15 +39,16 @@ const App = observer(() => {
     const tg = window.Telegram.WebApp;
     tg.ready();
 
-    console.log("Telegram user:", tg.initDataUnsafe.user);
-    alert(tg.initDataUnsafe.user)
-    //
-    // fetch("https://your-backend.com/auth/telegram", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ initData: tg.initData }),
-    // });
+    console.log("InitData:", tg.initData);
+    console.log("User:", tg.initDataUnsafe?.user);
+
+    if (tg.initDataUnsafe?.user) {
+      alert(`Привет, ${tg.initDataUnsafe.user.first_name}!`);
+    } else {
+      alert("Нет данных от Telegram");
+    }
   }, []);
+
 
 
 
