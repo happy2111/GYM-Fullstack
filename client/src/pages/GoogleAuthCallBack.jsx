@@ -1,6 +1,5 @@
 import {useEffect} from "react";
 import authStore from "../store/authStore.js";
-import authService from "../services/authService.js";
 import { useNavigate } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
 

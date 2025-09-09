@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -30,7 +30,26 @@ const ProtectedRoute = observer(({children}) => {
   return children;
 });
 
+
+
+
 const App = observer(() => {
+
+  useEffect(() => {
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    console.log("Telegram user:", tg.initDataUnsafe.user);
+    //
+    // fetch("https://your-backend.com/auth/telegram", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ initData: tg.initData }),
+    // });
+  }, []);
+
+
+
   return (
     <Router>
       <AuthLayout>
