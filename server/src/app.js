@@ -7,8 +7,8 @@ const rateLimit = require('express-rate-limit');
 const passport = require('passport');
 
 const authRoutes = require('./routes/auth');
-const membershipRoutes = require('./routes/membership');
-const visitRoutes = require('./routes/visit');
+const membershipRoutes = require('./routes/membershipRoutes');
+const visitRoutes = require('./routes/visitRoutes');
 
 const logger = require('./utils/logger');
 require('./services/googleAuth'); // Initialize Google OAuth strategy

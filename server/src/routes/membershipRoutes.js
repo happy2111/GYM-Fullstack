@@ -1,6 +1,6 @@
 const express = require('express');
 const membershipController = require('../controllers/membershipController');
-const { authMiddleware } = require('../middleware/auth');
+const { authMiddleware, requireRole} = require('../middleware/auth');
 const { validate, schemas } = require('../middleware/validation');
 
 const router = express.Router();
@@ -27,6 +27,7 @@ router.get('/:id',
 // Обновить абонемент
 router.put('/:id',
   authMiddleware,
+  requireRole(["admin", "trainer"]),
   validate(schemas.updateMembership),
   membershipController.updateMembership
 );
@@ -34,6 +35,7 @@ router.put('/:id',
 // Удалить абонемент
 router.delete('/:id',
   authMiddleware,
+  requireRole(["admin", "trainer"]),
   membershipController.deleteMembership
 );
 

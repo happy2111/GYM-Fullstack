@@ -6,7 +6,7 @@ class VisitController {
     try {
       const { userId, date, checkIn, checkOut } = req.body;
 
-      const visit = await visitService.createVisit({
+      const visit = await visitService.logVisit({
         userId,
         date,
         checkIn,

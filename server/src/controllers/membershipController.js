@@ -4,15 +4,12 @@ const logger = require('../utils/logger');
 class MembershipController {
   async createMembership(req, res) {
     try {
-      const { userId, type, startDate, endDate, price } = req.body;
+      const { userId, type, startDate, endDate , price} = req.body;
 
-      const membership = await membershipService.createMembership({
+      const membership = await membershipService.createMembership(
         userId,
-        type,
-        startDate,
-        endDate,
-        price,
-      });
+        { type, startDate, endDate, price }
+      );
 
       res.status(201).json({
         message: 'Membership created successfully',
@@ -28,7 +25,7 @@ class MembershipController {
     try {
       const { userId } = req.params;
 
-      const memberships = await membershipService.getUserMemberships(userId);
+      const memberships = await membershipService.getMembershipsByUser(userId);
 
       res.json({ memberships });
     } catch (error) {
@@ -41,7 +38,7 @@ class MembershipController {
     try {
       const { id } = req.params;
 
-      const membership = await membershipService.getMembershipById(id);
+      const membership = await membershipService.getMembershipsById(id);
 
       if (!membership) {
         return res.status(404).json({ message: 'Membership not found' });

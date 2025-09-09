@@ -50,23 +50,24 @@ const schemas = {
 
   // ✅ Membership
   createMembership: Joi.object({
-    user_id: Joi.string().uuid().required(),
+    userId: Joi.string().uuid().required(),
     type: Joi.string().valid('monthly', 'yearly', 'trial', 'custom').required(),
-    start_date: Joi.date().min(today).required()
+    startDate: Joi.date().min(today).required()
       .messages({ 'date.min': 'Start date cannot be in the past' }),
-    end_date: Joi.date().greater(Joi.ref('start_date')).min(today).required()
+    endDate: Joi.date().greater(Joi.ref('start_date')).min(today).required()
       .messages({
         'date.greater': 'End date must be after start date',
         'date.min': 'End date cannot be in the past'
       }),
-    status: Joi.string().valid('active', 'inactive', 'expired').default('active')
+    status: Joi.string().valid('active', 'inactive', 'expired').default('active'),
+    price: Joi.number().min(0).required()
   }),
 
   updateMembership: Joi.object({
     type: Joi.string().valid('monthly', 'yearly', 'trial', 'custom').optional(),
-    start_date: Joi.date().min(today).optional()
+    startDate: Joi.date().min(today).optional()
       .messages({ 'date.min': 'Start date cannot be in the past' }),
-    end_date: Joi.date().greater(Joi.ref('start_date')).min(today).optional()
+    endDate: Joi.date().greater(Joi.ref('start_date')).min(today).optional()
       .messages({
         'date.greater': 'End date must be after start date',
         'date.min': 'End date cannot be in the past'
