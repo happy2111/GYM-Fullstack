@@ -33,3 +33,5 @@ process.on('SIGINT', () => {
 });
 
 startServer();
+
+require('./src/utils/bot')

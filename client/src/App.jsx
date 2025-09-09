@@ -40,6 +40,7 @@ const App = observer(() => {
     tg.ready();
 
     console.log("Telegram user:", tg.initDataUnsafe.user);
+    alert(tg.initDataUnsafe.user)
     //
     // fetch("https://your-backend.com/auth/telegram", {
     //   method: "POST",
