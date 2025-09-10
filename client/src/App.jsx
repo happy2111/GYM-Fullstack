@@ -49,7 +49,7 @@ const App = observer(() => {
 
     const sendUserData = async () => {
       try {
-        const res = await api.post("/api/auth/telegram", {
+        const res = await api.post("/auth/telegram", {
             telegramId: user.id,
             firstName: user.first_name,
             lastName: user.last_name,
