@@ -206,7 +206,7 @@ class AuthController {
       const refreshExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
       // Save refresh token
-      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires);
+      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, "google");
 
       // Limit user sessions
       const maxSessions = parseInt(process.env.MAX_SESSIONS_PER_USER) || 10;
