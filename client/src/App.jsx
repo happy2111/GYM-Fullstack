@@ -18,6 +18,7 @@ import NavLayout from "./layouts/NavLayout.jsx";
 import ProfileLayout from "./layouts/ProfileLayout.jsx";
 import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
+import api from "./http/index.js";
 
 
 
@@ -39,6 +40,31 @@ const App = observer(() => {
   useEffect(() => {
     const tg = window.Telegram.WebApp;
     tg.ready();
+
+    const user = tg.initDataUnsafe?.user;
+    if (!user) {
+      console.warn("Нет данных о пользователе из Telegram");
+      return;
+    }
+
+    const sendUserData = async () => {
+      try {
+        const res = await api.post("/api/auth/telegram", {
+            telegramId: user.id,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            photoUrl: user.photo_url || null,
+        });
+
+        console.log(res)
+
+
+      } catch (err) {
+        console.error("Ошибка сети при отправке данных Telegram:", err);
+      }
+    };
+
+    sendUserData();
 
     console.log("Full initDataUnsafe:", tg.initDataUnsafe);
     alert(JSON.stringify(tg.initDataUnsafe, null, 2));
