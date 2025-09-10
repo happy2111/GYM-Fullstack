@@ -329,8 +329,8 @@ class AuthController {
 
   async telegram(req, res) {
     try {
+      console.log("📩 Telegram payload:", req.body);
       const user = await authService.createOrUpdateTelegramUser(req.body);
-      console.log("REQUEST BODY:", req.body);
       res.json(user);
     } catch (err) {
       res.status(500).json({error: "Failed to process Telegram user"});

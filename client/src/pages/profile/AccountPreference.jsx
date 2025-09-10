@@ -1,6 +1,5 @@
 import { User, ArrowLeft} from "lucide-react";
 import React, {useState} from "react";
-import { useNavigate } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
 import authStore from "../../store/authStore";
 import toast from "react-hot-toast";

@@ -64,6 +64,7 @@ class AuthService {
         RETURNING id, telegram_id, name, phone, telegram_photo_url, role, created_at, updated_at
       `;
 
+
       const userId = uuidv4();
 
       const result = await pool.query(query, [
