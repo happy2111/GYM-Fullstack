@@ -89,6 +89,29 @@ class TokenService {
     }
   }
 
+  async deleteAllRefreshTokens(userId, method = null) {
+    try {
+      let query;
+      let params;
+
+      if (method) {
+        query = `DELETE FROM refresh_tokens WHERE user_id = $1 AND method = $2`;
+        params = [userId, method];
+      } else {
+        query = `DELETE FROM refresh_tokens WHERE user_id = $1`;
+        params = [userId];
+      }
+
+      const result = await pool.query(query, params);
+      logger.info(`Deleted ${result.rowCount} refresh tokens for user ${userId} ${method ? "("+method+")" : ""}`);
+      return result.rowCount;
+    } catch (error) {
+      logger.error("Error deleting refresh tokens:", error);
+      throw error;
+    }
+  }
+
+
   async getUserSessions(userId) {
     const query = `
       SELECT id, user_id, ip, user_agent, device, expires_at, created_at

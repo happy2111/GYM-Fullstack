@@ -350,14 +350,14 @@ class AuthController {
       const clientInfo = getClientInfo(req);
       const refreshExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
-      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, "telegram");
-      // Лимит сессий
-      const maxSessions = parseInt(process.env.MAX_SESSIONS_PER_USER) || 10;
-      await tokenService.limitUserSessions(user.id, maxSessions);
+      // Удаляем все старые refresh токены для telegram
+      await tokenService.deleteAllRefreshTokens(user.id, "telegram");
 
-      // ⚡ Отдаём access + ставим refresh в cookie
+      // Сохраняем только новый
+      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, "telegram");
+
       res.cookie("refreshToken", refreshToken, tokenService.getCookieOptions(true));
-      logger.info(`User created/updated telegram: ${user.id}`);
+      logger.info(`User telegram login: ${user.id}`);
 
       res.json({
         message: "Telegram login success",
@@ -369,6 +369,7 @@ class AuthController {
       res.status(500).json({ error: "Failed to process Telegram user" });
     }
   }
+
 
 }
 
