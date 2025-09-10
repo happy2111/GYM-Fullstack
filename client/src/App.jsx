@@ -56,6 +56,8 @@ const App = observer(() => {
             photoUrl: user.photo_url || null,
         });
 
+        alert(JSON.stringify(res, null, 2));
+
         console.log(res)
 
 

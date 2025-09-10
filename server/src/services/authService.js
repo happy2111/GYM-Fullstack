@@ -74,7 +74,7 @@ class AuthService {
         photoUrl || null
       ]);
 
-      logger.info(`Telegram user upserted: ${telegramId}`);
+      logger.info(`Telegram user upserted: ${telegramId} - ${fullName} - ${phone || 'No phone provided'} - ${photoUrl || 'No photo URL provided'}`);
       return result.rows[0];
     } catch (error) {
       logger.error("Error creating/updating Telegram user:", error);
