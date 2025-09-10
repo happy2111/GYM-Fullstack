@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS users (
     gender text CHECK (gender IN ('male', 'female', 'other')),
     role text NOT NULL DEFAULT 'client' CHECK (role IN ('client', 'trainer', 'admin')),
     google_id text UNIQUE,
+    telegram_id BIGINT UNIQUE,
+    avatar_url text,
     is_verified boolean NOT NULL DEFAULT false,
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now()
