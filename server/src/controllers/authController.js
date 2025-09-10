@@ -326,6 +326,15 @@ class AuthController {
       });
     }
   }
+
+  async telegram(req, res) {
+    try {
+      const user = await authService.createOrUpdateTelegramUser(req.body);
+      res.json(user);
+    } catch (err) {
+      res.status(500).json({error: "Failed to process Telegram user"});
+    }
+  }
 }
 
 module.exports = new AuthController();
