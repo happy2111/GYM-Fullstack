@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     google_id text UNIQUE,
     telegram_id BIGINT UNIQUE,
     avatar_url text,
+    telegram_phote_url text,
     is_verified boolean NOT NULL DEFAULT false,
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now()

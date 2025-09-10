@@ -41,6 +41,47 @@ class AuthService {
     }
   }
 
+  async createOrUpdateTelegramUser(userData) {
+    const {
+      telegramId,
+      firstName,
+      lastName,
+      photoUrl,
+      phone
+    } = userData;
+
+    try {
+      const fullName = [firstName, lastName].filter(Boolean).join(" ");
+
+      const query = `
+        INSERT INTO users (id, telegram_id, name, phone, telegram_photo_url, role, is_verified)
+        VALUES ($1, $2, $3, $4, $5, 'client', true)
+        ON CONFLICT (telegram_id) DO UPDATE
+        SET name              = EXCLUDED.name,
+            phone             = COALESCE(EXCLUDED.phone, users.phone),
+            telegram_photo_url= EXCLUDED.telegram_photo_url,
+            updated_at        = NOW()
+        RETURNING id, telegram_id, name, phone, telegram_photo_url, role, created_at, updated_at
+      `;
+
+      const userId = uuidv4();
+
+      const result = await pool.query(query, [
+        userId,
+        telegramId,
+        fullName,
+        phone || null,
+        photoUrl || null
+      ]);
+
+      logger.info(`Telegram user upserted: ${telegramId}`);
+      return result.rows[0];
+    } catch (error) {
+      logger.error("Error creating/updating Telegram user:", error);
+      throw error;
+    }
+  }
+
   async findUserByEmail(email) {
     const query = 'SELECT * FROM users WHERE email = $1';
 

@@ -1,5 +1,6 @@
 const { Telegraf } = require("telegraf");
 const bot = new Telegraf(process.env.BOT_TOKEN);
+const { pool } = require("./database");
 
 bot.start((ctx) => {
   ctx.reply("Добро пожаловать! 🚀", {
