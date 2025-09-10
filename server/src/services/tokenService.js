@@ -22,11 +22,11 @@ class TokenService {
     }
   }
 
-  async saveRefreshToken(userId, token, clientInfo, expiresAt) {
+  async saveRefreshToken(userId, token, clientInfo, expiresAt, method = 'email') {
     const query = `
-      INSERT INTO refresh_tokens (user_id, token, ip, user_agent, device, expires_at)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING id
+        INSERT INTO refresh_tokens (user_id, token, ip, user_agent, device, expires_at, method)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+            RETURNING id
     `;
 
     try {
@@ -36,10 +36,11 @@ class TokenService {
         clientInfo.ip,
         clientInfo.userAgent,
         clientInfo.device,
-        expiresAt
+        expiresAt,
+        method
       ]);
 
-      logger.info(`Refresh token saved for user ${userId} from ${clientInfo.device}`);
+      logger.info(`Refresh token saved for user ${userId} (${method}) from ${clientInfo.device}`);
       return result.rows[0].id;
     } catch (error) {
       logger.error('Error saving refresh token:', error);

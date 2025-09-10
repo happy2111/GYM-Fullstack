@@ -38,38 +38,18 @@ const ProtectedRoute = observer(({children}) => {
 
 const App = observer(() => {
   useEffect(() => {
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-
-    const user = tg.initDataUnsafe?.user;
-    if (!user) {
-      console.warn("Нет данных о пользователе из Telegram");
-      return;
-    }
-
-    const sendUserData = async () => {
+    const TelegramLogin = async () => {
       try {
-        const res = await api.post("/auth/telegram", {
-            telegramId: user.id,
-            firstName: user.first_name,
-            lastName: user.last_name,
-            photoUrl: user.photo_url || null,
-        });
 
-        alert(JSON.stringify(res, null, 2));
-
-        console.log(res)
-
+        await authStore.telegramLogin();
+        console.log("Telegram login successful");
 
       } catch (err) {
         console.error("Ошибка сети при отправке данных Telegram:", err);
       }
     };
 
-    sendUserData();
-
-    console.log("Full initDataUnsafe:", tg.initDataUnsafe);
-    alert(JSON.stringify(tg.initDataUnsafe, null, 2));
+    TelegramLogin();
   }, []);
 
 

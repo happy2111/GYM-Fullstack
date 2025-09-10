@@ -214,6 +214,45 @@ class AuthStore {
     }
   }
 
+  async telegramLogin() {
+    this.isLoading = true;
+    this.error = null;
+
+    try {
+      const tg = window.Telegram.WebApp;
+      tg.ready();
+
+      const initData = tg.initDataUnsafe;
+      if (!initData?.user) {
+        throw new Error("Нет данных Telegram пользователя");
+      }
+
+      const response = await authService.telegramAuth({
+        telegramId: initData.user.id,
+        firstName: initData.user.first_name,
+        lastName: initData.user.last_name,
+        photoUrl: initData.user.photo_url || null,
+        username: initData.user.username || null,
+      });
+
+      runInAction(() => {
+        this.user = response.user;
+        this.isAuthenticated = true;
+        this.isLoading = false;
+      });
+
+      localStorage.setItem("token", response.accessToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+
+      return response;
+    } catch (error) {
+      runInAction(() => {
+        this.error = error.response?.data?.message || "Telegram login failed";
+        this.isLoading = false;
+      });
+      throw error;
+    }
+  }
 
 
 }

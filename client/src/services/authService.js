@@ -46,6 +46,14 @@ class AuthService {
     const response = await api.delete(`/auth/sessions/${sessionId}`);
     return response.data;
   }
+
+  async telegramAuth(initData) {
+    const response = await api.post("/auth/telegram", initData, {
+      withCredentials: true, // чтобы сервер мог выставить httpOnly refresh cookie
+    });
+    return response.data;
+  }
+
 }
 
 const authService = new AuthService();

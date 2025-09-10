@@ -27,15 +27,16 @@ class AuthController {
       // Генерим токены
       const accessToken = tokenService.generateAccessToken({
         userId: user.id,
-        email: user.email,
-        role: user.role
+        role: user.role,
+        method: "email"
       });
       const refreshToken = tokenService.generateRefreshToken();
 
       const clientInfo = getClientInfo(req);
       const refreshExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 дней
 
-      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires);
+      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, "email");
+
 
       // Лимит сессий
       const maxSessions = parseInt(process.env.MAX_SESSIONS_PER_USER) || 10;
@@ -75,15 +76,17 @@ class AuthController {
 
       const accessToken = tokenService.generateAccessToken({
         userId: user.id,
-        email: user.email,
-        role: user.role
+        role: user.role,
+        method: "email"
       });
+
       const refreshToken = tokenService.generateRefreshToken();
 
       const clientInfo = getClientInfo(req);
       const refreshExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
-      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires);
+      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, "email");
+
       const maxSessions = parseInt(process.env.MAX_SESSIONS_PER_USER) || 10;
       await tokenService.limitUserSessions(user.id, maxSessions);
 
@@ -142,8 +145,8 @@ class AuthController {
       // Generate new access token
       const newAccessToken = tokenService.generateAccessToken({
         userId: tokenData.user_id,
-        email: tokenData.email,
-        role: tokenData.role
+        role: tokenData.role,
+        method: tokenData.method || "email"
       });
 
       // Optionally rotate refresh token
@@ -158,9 +161,15 @@ class AuthController {
         await tokenService.saveRefreshToken(tokenData.user_id, newRefreshToken, clientInfo, refreshExpires);
       }
 
-      const user = await authService.findUserByEmail(tokenData.email);
+      let user;
+      if (tokenData.method === "telegram") {
+        user = await authService.findUserById(tokenData.user_id);
+      } else {
+        user = await authService.findUserByEmail(tokenData.email);
+      }
+
       if (!user) {
-        return res.status(401).json({ message: 'User email not found ' });
+        return res.status(401).json({ message: 'User not found' });
       }
 
       // Set cookies
@@ -329,13 +338,38 @@ class AuthController {
 
   async telegram(req, res) {
     try {
-      console.log("📩 Telegram payload:", req.body);
       const user = await authService.createOrUpdateTelegramUser(req.body);
-      res.json(user);
+
+      const accessToken = tokenService.generateAccessToken({
+        userId: user.id,
+        role: user.role,
+        method: "telegram"
+      });
+
+      const refreshToken = tokenService.generateRefreshToken();
+      const clientInfo = getClientInfo(req);
+      const refreshExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
+      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, "telegram");
+      // Лимит сессий
+      const maxSessions = parseInt(process.env.MAX_SESSIONS_PER_USER) || 10;
+      await tokenService.limitUserSessions(user.id, maxSessions);
+
+      // ⚡ Отдаём access + ставим refresh в cookie
+      res.cookie("refreshToken", refreshToken, tokenService.getCookieOptions(true));
+      logger.info(`User created/updated telegram: ${user.id}`);
+
+      res.json({
+        message: "Telegram login success",
+        accessToken,
+        user: authService.getUserPublicData(user),
+      });
     } catch (err) {
-      res.status(500).json({error: "Failed to process Telegram user"});
+      logger.error("Telegram login failed:", err);
+      res.status(500).json({ error: "Failed to process Telegram user" });
     }
   }
+
 }
 
 module.exports = new AuthController();
