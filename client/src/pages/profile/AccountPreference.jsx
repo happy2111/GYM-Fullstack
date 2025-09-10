@@ -210,6 +210,7 @@ const AccountPreference = observer(() => {
           {/* Action Buttons */}
           <div className="flex gap-3 pt-4">
             <button
+              onClick={() => window.innerWidth < 768 && window.history.back()}
               className="px-6 py-2.5 rounded-lg text-sm font-medium transition-colors text-gray-300"
               style={{
                 backgroundColor: 'transparent',

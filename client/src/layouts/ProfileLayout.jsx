@@ -14,25 +14,40 @@ import {Outlet, useLocation, Link, useNavigate} from "react-router-dom"
 import ProfileInfo from "../components/ProfileInfo.jsx";
 import authStore from "../store/authStore.js";
 
+const initialMenuItems = [
+  { icon: User, label: 'Account preferences', active: true, href: "account-preference" },
+  { icon: Shield, label: 'Sessions', active: false, href: "sessions"},
+  { icon: Eye, label: 'Visibility', active: false },
+  { icon: Database, label: 'Data privacy', active: false },
+  { icon: Megaphone, label: 'Advertising data', active: false },
+  { icon: Bell, label: 'Notifications', active: false },
+];
+
 const ProfileLayout = () => {
   useEffect(() => {
     authStore.getSessions();
     console.log(authStore.sessions)
   }, []);
 
-  const menuItems = [
-    { icon: User, label: 'Account preferences', active: true, href: "account-preference" },
-    { icon: Shield, label: 'Sessions', active: false , href: "sessions"},
-    { icon: Eye, label: 'Visibility', active: false },
-    { icon: Database, label: 'Data privacy', active: false },
-    { icon: Megaphone, label: 'Advertising data', active: false },
-    { icon: Bell, label: 'Notifications', active: false },
-  ];
+
+  const [menuItems, setMenuItems] = useState(initialMenuItems);
+
+  function handleActive(href) {
+    const updatedItems = menuItems.map(item => ({
+      ...item,
+      active: item.href === href
+    }));
+    setMenuItems(updatedItems);
+  }
+
+
+
 
   const {pathname} = useLocation();
   const navigate = useNavigate();
   const isProfileRoot = pathname.includes("/profile") && pathname.length <= "/profile/".length;
-  console.log(isProfileRoot)
+
+
 
 
   return (
@@ -52,17 +67,17 @@ const ProfileLayout = () => {
             <h1 className="text-lg font-medium" style={{ color: 'var(--color-gray-90)' }}>Settings</h1>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-2">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               return (
                 <Link
+
+                  onClick={() => handleActive(item.href)}
                   to={`/profile/${item.href}`}
                   key={index}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${
-                    item.active
-                      ? 'text-white'
-                      : 'hover:bg-gray-700/30'
+                  className={`max-md:!bg-dark-12 max-md:!text-gray-99 flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${
+                    item.active ? 'text-white' : 'hover:bg-gray-700/30'
                   }`}
                   style={{
                     backgroundColor: item.active ? 'var(--color-dark-20)' : 'transparent',
