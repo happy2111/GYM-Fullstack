@@ -12,6 +12,10 @@ const ProfileInfo = ({isProfileRoot}) => {
       <div>
         <h2 className={"font-semibold text-xl"}>{authStore.user?.name}</h2>
         <p className={"text-gray-40"}>{authStore.user?.email}</p>
+        <p className={"text-gray-40"}>#{authStore.user?.google_id}</p>
+        <p className={"text-gray-40"}>#{authStore.user?.telegram_id}</p>
+
+
       </div>
 
     </section>
