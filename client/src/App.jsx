@@ -18,7 +18,6 @@ import NavLayout from "./layouts/NavLayout.jsx";
 import ProfileLayout from "./layouts/ProfileLayout.jsx";
 import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
-import { retrieveLaunchParams } from "@telegram-apps/sdk";
 
 
 
@@ -37,22 +36,12 @@ const ProtectedRoute = observer(({children}) => {
 
 
 const App = observer(() => {
-
   useEffect(() => {
-    const { initDataRaw, initData } = retrieveLaunchParams();
-    alert(initDataRaw);
-    alert(initData.user);
     const tg = window.Telegram.WebApp;
     tg.ready();
 
-    console.log("InitData:", tg.initData);
-    console.log("User:", tg.initDataUnsafe?.user);
-
-    if (tg.initDataUnsafe?.user) {
-      alert(`Привет, ${tg.initDataUnsafe.user.first_name}!`);
-    } else {
-      alert("Нет данных от Telegram");
-    }
+    console.log("Full initDataUnsafe:", tg.initDataUnsafe);
+    alert(JSON.stringify(tg.initDataUnsafe, null, 2));
   }, []);
 
 
