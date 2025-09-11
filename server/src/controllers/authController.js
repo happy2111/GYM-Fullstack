@@ -2,6 +2,8 @@ const authService = require('../services/authService');
 const tokenService = require('../services/tokenService');
 const { getClientInfo } = require('../utils/deviceParser');
 const logger = require('../utils/logger');
+const crypto = require('crypto');
+const buildCheckString = require("../utils/buildCheckString");
 
 class AuthController {
   async register(req, res) {
@@ -340,24 +342,23 @@ class AuthController {
     try {
       const initData = req.body;
 
+      if (!initData || !initData.user) {
+        return res.status(400).json({ message: 'Telegram user data is missing' });
+      }
+
       // 1. Проверка hash
-      const { hash, ...data } = initData;
-
-      const dataCheckString = Object.keys(data)
-        .sort()
-        .map(key => {
-          if (typeof data[key] === 'object') return `${key}=${JSON.stringify(data[key])}`;
-          return `${key}=${data[key]}`;
-        })
-        .join('\n');
-
       const secretKey = crypto.createHash('sha256').update(process.env.BOT_TOKEN).digest();
+      const dataCheckString = buildCheckString(initData);
       const hmac = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
 
-      if (hmac !== hash) {
+      const hmacBuffer = Buffer.from(hmac, 'hex');
+      const hashBuffer = Buffer.from(initData.hash, 'hex');
+
+      if (hmacBuffer.length !== hashBuffer.length || !crypto.timingSafeEqual(hmacBuffer, hashBuffer)) {
         return res.status(403).json({ message: 'Telegram data hash verification failed' });
       }
 
+      // 2. Создаем или обновляем пользователя
       const user = await authService.createOrUpdateTelegramUser({
         telegramId: initData.user.id,
         firstName: initData.user.first_name,
@@ -366,33 +367,37 @@ class AuthController {
         username: initData.user.username || null,
       });
 
+      // 3. Генерируем токены
       const accessToken = tokenService.generateAccessToken({
         userId: user.id,
         role: user.role,
-        method: "telegram"
+        method: 'telegram'
       });
 
       const refreshToken = tokenService.generateRefreshToken();
       const clientInfo = getClientInfo(req);
       const refreshExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
-      // Удаляем все старые refresh токены для telegram
-      await tokenService.deleteAllRefreshTokens(user.id, "telegram");
+      // 4. Удаляем все старые refresh-токены для этого пользователя и метода
+      await tokenService.deleteAllRefreshTokens(user.id, 'telegram');
 
-      // Сохраняем только новый
-      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, "telegram");
+      // 5. Сохраняем новый refresh-токен
+      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, 'telegram');
 
-      res.cookie("refreshToken", refreshToken, tokenService.getCookieOptions(true));
+      // 6. Отправляем refresh-token в HttpOnly cookie
+      res.cookie('refreshToken', refreshToken, tokenService.getCookieOptions(true));
+
       logger.info(`User telegram login: ${user.id}`);
 
+      // 7. Отправляем access-token и публичные данные пользователя
       res.json({
-        message: "Telegram login success",
+        message: 'Telegram login success',
         accessToken,
         user: authService.getUserPublicData(user),
       });
     } catch (err) {
-      logger.error("Telegram login failed:", err);
-      res.status(500).json({ error: "Failed to process Telegram user" });
+      logger.error('Telegram login failed:', err);
+      res.status(500).json({ error: 'Failed to process Telegram user' });
     }
   }
 
