@@ -3,7 +3,7 @@ const tokenService = require('../services/tokenService');
 const { getClientInfo } = require('../utils/deviceParser');
 const logger = require('../utils/logger');
 const crypto = require('crypto');
-const buildCheckString = require("../utils/buildCheckString");
+const { buildCheckString } = require('../utils/buildCheckString');
 
 class AuthController {
   async register(req, res) {
