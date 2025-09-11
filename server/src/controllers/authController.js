@@ -3,7 +3,7 @@ const tokenService = require('../services/tokenService');
 const { getClientInfo } = require('../utils/deviceParser');
 const logger = require('../utils/logger');
 const crypto = require('crypto');
-const { buildCheckString } = require('../utils/buildCheckString');
+const buildCheckString = require('../utils/buildCheckString');
 
 class AuthController {
   async register(req, res) {
@@ -350,6 +350,7 @@ class AuthController {
       const secretKey = crypto.createHash('sha256').update(process.env.BOT_TOKEN).digest();
       const dataCheckString = buildCheckString(initData);
       const hmac = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+
 
       const hmacBuffer = Buffer.from(hmac, 'hex');
       const hashBuffer = Buffer.from(initData.hash, 'hex');
