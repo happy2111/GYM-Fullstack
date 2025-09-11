@@ -227,13 +227,7 @@ class AuthStore {
         throw new Error("Нет данных Telegram пользователя");
       }
 
-      const response = await authService.telegramAuth({
-        telegramId: initData.user.id,
-        firstName: initData.user.first_name,
-        lastName: initData.user.last_name,
-        photoUrl: initData.user.photo_url || null,
-        username: initData.user.username || null,
-      });
+      const response = await authService.telegramAuth(initData);
 
       runInAction(() => {
         this.user = response.user;

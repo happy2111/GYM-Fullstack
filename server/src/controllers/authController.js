@@ -338,7 +338,33 @@ class AuthController {
 
   async telegram(req, res) {
     try {
-      const user = await authService.createOrUpdateTelegramUser(req.body);
+      const initData = req.body;
+
+      // 1. Проверка hash
+      const { hash, ...data } = initData;
+
+      const dataCheckString = Object.keys(data)
+        .sort()
+        .map(key => {
+          if (typeof data[key] === 'object') return `${key}=${JSON.stringify(data[key])}`;
+          return `${key}=${data[key]}`;
+        })
+        .join('\n');
+
+      const secretKey = crypto.createHash('sha256').update(process.env.BOT_TOKEN).digest();
+      const hmac = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+
+      if (hmac !== hash) {
+        return res.status(403).json({ message: 'Telegram data hash verification failed' });
+      }
+
+      const user = await authService.createOrUpdateTelegramUser({
+        telegramId: initData.user.id,
+        firstName: initData.user.first_name,
+        lastName: initData.user.last_name,
+        photoUrl: initData.user.photo_url || null,
+        username: initData.user.username || null,
+      });
 
       const accessToken = tokenService.generateAccessToken({
         userId: user.id,
