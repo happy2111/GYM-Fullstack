@@ -227,6 +227,8 @@ class AuthStore {
         throw new Error("Нет данных Telegram пользователя");
       }
 
+      console.log("Telegram initData:", initData);
+
       const response = await authService.telegramAuth(initData);
 
       runInAction(() => {
