@@ -48,12 +48,13 @@ class AuthService {
   }
 
   async telegramAuth(initData) {
+    console.log("Telegram initData telegramAuth:", initData);
     const response = await api.post("/auth/telegram", initData, {
-      withCredentials: true, // чтобы сервер мог выставить httpOnly refresh cookie
+      withCredentials: true,
     });
 
-    console.log("Telegram auth response:", response.data);
-    console.log("Telegram initData:", initData);
+    console.log("Telegram auth response:", response);
+
     return response.data;
   }
 
