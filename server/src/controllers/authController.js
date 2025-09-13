@@ -365,7 +365,8 @@ class AuthController {
         return res.status(500).json({ message: 'Server misconfiguration: BOT_TOKEN is missing' });
       }
 
-      const secretKey = crypto.createHash('sha256').update(botToken).digest();
+
+      const secretKey = crypto.createHmac('sha256', 'WebAppData').update(botToken).digest();
 
       // Попытка №1: если пришёл сырой initData — проверяем по нему (надежнее всего)
       let verified = false;
@@ -396,6 +397,7 @@ class AuthController {
         }
       }
 
+
       // Попытка №2: если сырого initData нет (или не совпало) — проверяем из объекта без сортировки вложенных ключей
       if (!verified) {
         providedHash = providedHash || initData.hash;
@@ -414,9 +416,11 @@ class AuthController {
         }
       }
 
+
       if (!verified) {
         return res.status(403).json({ message: 'Telegram data hash verification failed' });
       }
+
 
       // 2. Создаем или обновляем пользователя
       let userData = initData.user;
