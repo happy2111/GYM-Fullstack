@@ -340,32 +340,108 @@ class AuthController {
 
   async telegram(req, res) {
     try {
-      const initData = req.body;
+      // ПОДДЕРЖКА "сырого" initData (рекомендуется отправлять с клиента как строку):
+      // - body.initDataRaw ИЛИ body.init_data ИЛИ заголовок x-telegram-init-data
+      // - ЛИБО весь body является строкой (если клиент прислал строку напрямую)
+      const rawInitData =
+        (typeof req.body === 'string' && req.body) ||
+        (typeof req.body.initDataRaw === 'string' && req.body.initDataRaw) ||
+        (typeof req.body.init_data === 'string' && req.body.init_data) ||
+        (typeof req.headers['x-telegram-init-data'] === 'string' && req.headers['x-telegram-init-data']) ||
+        null;
 
-      if (!initData || !initData.user) {
+      // Если body строка — не воспринимаем его как объект initData
+      const initData = typeof req.body === 'object' && req.body !== null ? req.body : {};
+
+      // Проверка, что у нас есть user (если клиент прислал объектом)
+      if (!rawInitData && (!initData || !initData.user)) {
         return res.status(400).json({ message: 'Telegram user data is missing' });
       }
 
       // 1. Проверка hash
-      const secretKey = crypto.createHash('sha256').update(process.env.BOT_TOKEN).digest();
-      const dataCheckString = buildCheckString(initData);
-      const hmac = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+      const botToken = process.env.BOT_TOKEN;
+      if (!botToken) {
+        logger.error('BOT_TOKEN is not set in environment');
+        return res.status(500).json({ message: 'Server misconfiguration: BOT_TOKEN is missing' });
+      }
 
+      const secretKey = crypto.createHash('sha256').update(botToken).digest();
 
-      const hmacBuffer = Buffer.from(hmac, 'hex');
-      const hashBuffer = Buffer.from(initData.hash, 'hex');
+      // Попытка №1: если пришёл сырой initData — проверяем по нему (надежнее всего)
+      let verified = false;
+      let providedHash = null;
 
-      if (hmacBuffer.length !== hashBuffer.length || !crypto.timingSafeEqual(hmacBuffer, hashBuffer)) {
+      if (rawInitData) {
+        const params = new URLSearchParams(rawInitData);
+        providedHash = params.get('hash');
+
+        const pairs = [];
+        const keys = [];
+        for (const [k] of params.entries()) {
+          if (k === 'hash') continue;
+          keys.push(k);
+        }
+        keys.sort();
+        for (const k of keys) {
+          pairs.push(`${k}=${params.get(k)}`);
+        }
+        const dataCheckString = pairs.join('\n');
+
+        const hmac = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+        const hmacBuffer = Buffer.from(hmac, 'hex');
+        const hashBuffer = Buffer.from(providedHash || '', 'hex');
+
+        if (providedHash && hmacBuffer.length === hashBuffer.length && crypto.timingSafeEqual(hmacBuffer, hashBuffer)) {
+          verified = true;
+        }
+      }
+
+      // Попытка №2: если сырого initData нет (или не совпало) — проверяем из объекта без сортировки вложенных ключей
+      if (!verified) {
+        providedHash = providedHash || initData.hash;
+        if (!providedHash) {
+          return res.status(400).json({ message: 'Telegram hash is missing' });
+        }
+
+        const dataCheckString = buildCheckString(initData);
+        const hmac = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+
+        const hmacBuffer = Buffer.from(hmac, 'hex');
+        const hashBuffer = Buffer.from(providedHash, 'hex');
+
+        if (hmacBuffer.length === hashBuffer.length && crypto.timingSafeEqual(hmacBuffer, hashBuffer)) {
+          verified = true;
+        }
+      }
+
+      if (!verified) {
         return res.status(403).json({ message: 'Telegram data hash verification failed' });
       }
 
       // 2. Создаем или обновляем пользователя
+      let userData = initData.user;
+      if (!userData && rawInitData) {
+        const params = new URLSearchParams(rawInitData);
+        const userStr = params.get('user');
+        if (userStr) {
+          try {
+            userData = JSON.parse(userStr);
+          } catch (e) {
+            logger.warn('Failed to parse user from raw initData:', e);
+          }
+        }
+      }
+
+      if (!userData) {
+        return res.status(400).json({ message: 'Telegram user data is missing' });
+      }
+
       const user = await authService.createOrUpdateTelegramUser({
-        telegramId: initData.user.id,
-        firstName: initData.user.first_name,
-        lastName: initData.user.last_name,
-        photoUrl: initData.user.photo_url || null,
-        username: initData.user.username || null,
+        telegramId: userData.id,
+        firstName: userData.first_name,
+        lastName: userData.last_name,
+        photoUrl: userData.photo_url || null,
+        username: userData.username || null,
       });
 
       // 3. Генерируем токены
@@ -401,6 +477,8 @@ class AuthController {
       res.status(500).json({ error: 'Failed to process Telegram user' });
     }
   }
+
+
 
 
 }

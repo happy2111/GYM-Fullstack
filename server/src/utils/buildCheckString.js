@@ -9,12 +9,11 @@ function stableStringify(obj) {
   }
   return JSON.stringify(sorted);
 }
-
 // Формируем data_check_string по правилам Telegram:
 // - исключаем hash
-// - сортируем ключи
+// - сортируем ключи по алфавиту
 // - пары в виде "key=value"
-// - если value — объект, используем JSON.stringify со стабильной сортировкой ключей
+// - если value — объект, используем JSON.stringify БЕЗ переупорядочивания ключей
 function buildCheckString(initData) {
   const data = { ...initData };
   delete data.hash;
@@ -25,7 +24,7 @@ function buildCheckString(initData) {
       const value = data[key];
       const serialized =
         value !== null && typeof value === 'object'
-          ? stableStringify(value)
+          ? JSON.stringify(value) // важно: без стабильной сортировки ключей
           : String(value);
       return `${key}=${serialized}`;
     });
@@ -35,5 +34,4 @@ function buildCheckString(initData) {
 
 // Совместимость с разными стилями импорта
 module.exports = buildCheckString;
-// Позволяет также: const { buildCheckString } = require(...)
 module.exports.buildCheckString = buildCheckString;

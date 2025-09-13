@@ -49,7 +49,8 @@ class AuthService {
 
   async telegramAuth(initData) {
     console.log("Telegram initData telegramAuth:", initData);
-    const response = await api.post("/auth/telegram", initData, {
+    // ВАЖНО: передаём как { initDataRaw: <string> }, чтобы сервер распознал "сырой" initData
+    const response = await api.post("/auth/telegram", { initDataRaw: initData }, {
       withCredentials: true,
     });
 
@@ -57,6 +58,9 @@ class AuthService {
 
     return response.data;
   }
+
+
+
 
 }
 

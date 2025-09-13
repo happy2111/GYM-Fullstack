@@ -229,7 +229,7 @@ class AuthStore {
 
       console.log("Telegram initData:", initData);
 
-      const response = await authService.telegramAuth(initData);
+      const response = await authService.telegramAuth(window.Telegram.WebApp.initData);
 
       runInAction(() => {
         this.user = response.user;
