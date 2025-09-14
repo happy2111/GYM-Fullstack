@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const authController = require('../controllers/authController');
 const { authMiddleware, optionalAuth } = require('../middleware/auth');
-const { validate, schemas } = require('../middleware/validation');
+const { validate, schemas, authSchemas} = require('../middleware/validation');
 const rateLimit = require('express-rate-limit');
 
 const router = express.Router();
@@ -24,13 +24,13 @@ const strictAuthLimiter = rateLimit({
 // Public routes (no auth required)
 router.post('/register',
   strictAuthLimiter,
-  validate(schemas.register),
+  validate(authSchemas.register),
   authController.register
 );
 
 router.post('/login',
   strictAuthLimiter,
-  validate(schemas.login),
+  validate(authSchemas.login),
   authController.login
 );
 
@@ -58,7 +58,7 @@ router.get('/me', authMiddleware, authController.getMe);
 
 router.put('/profile',
   authMiddleware,
-  validate(schemas.updateProfile),
+  validate(authSchemas.updateProfile),
   authController.updateProfile
 );
 

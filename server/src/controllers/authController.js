@@ -189,10 +189,6 @@ class AuthController {
     }
   }
 
-  async googleAuth(req, res, next) {
-    // This is handled by passport middleware
-  }
-
   async googleCallback(req, res) {
     try {
       const user = req.user;
@@ -481,9 +477,6 @@ class AuthController {
       res.status(500).json({ error: 'Failed to process Telegram user' });
     }
   }
-
-
-
 
 }
 

@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS visits (
 -- Payments
 -- ===============================
 CREATE TABLE IF NOT EXISTS payments (
-                                        id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     membership_id uuid REFERENCES memberships(id) ON DELETE SET NULL,
     amount numeric(10,2) NOT NULL,

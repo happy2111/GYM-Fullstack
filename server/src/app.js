@@ -9,6 +9,7 @@ const passport = require('passport');
 const authRoutes = require('./routes/auth');
 const membershipRoutes = require('./routes/membershipRoutes');
 const visitRoutes = require('./routes/visitRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const logger = require('./utils/logger');
 require('./services/googleAuth'); // Initialize Google OAuth strategy
@@ -57,8 +58,9 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/auth', authRoutes);
-app.use('/memberships', membershipRoutes);
+app.use("/memberships", membershipRoutes);
 app.use('/visits', visitRoutes);
+app.use("/payment", paymentRoutes)
 
 // Health check
 app.get('/health', (req, res) => {

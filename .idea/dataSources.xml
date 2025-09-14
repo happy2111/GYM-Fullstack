@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="PostgreSQL (CloudSQL Proxy)" uuid="cce78810-cf92-44b5-9eb7-a2813587a928">
+      <driver-ref>postgresql.cloud_sql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://neondb_owner:npg_FHuGzSYx0V3Q@ep-patient-sun-a2befxzx-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require&amp;channel_binding=require</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>
