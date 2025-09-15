@@ -1,5 +1,6 @@
 const visitService = require('../services/visitService');
 const logger = require('../utils/logger');
+const tariffService = require('../services/tariffService');
 
 class VisitController {
   /**

@@ -9,8 +9,7 @@ import {observer} from 'mobx-react-lite';
 import AuthLayout from './layouts/AuthLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Profile from './layouts/ProfileLayout.jsx';
-import Home from './pages/Home';
+import Home from './pages/home/Home.jsx';
 import authStore from './store/authStore';
 import {Toaster} from "react-hot-toast";
 import GoogleAuthCallBack from "./pages/GoogleAuthCallBack.jsx";
@@ -19,6 +18,7 @@ import ProfileLayout from "./layouts/ProfileLayout.jsx";
 import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
 import api from "./http/index.js";
+import Payments from "./pages/profile/Payments.jsx";
 
 
 
@@ -90,6 +90,7 @@ const App = observer(() => {
                 element={<AccountPreference />}
               />
               <Route path={"sessions"} element={<Sessions/>}/>
+              <Route path={"payments"} element={<Payments/>}/>
             </Route>
 
           </Route>

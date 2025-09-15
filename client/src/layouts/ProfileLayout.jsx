@@ -9,6 +9,7 @@ import {
   Bell,
   ArrowLeft,
   LogOut,
+  BanknoteArrowUp
 } from 'lucide-react';
 import {Outlet, useLocation, Link, useNavigate} from "react-router-dom"
 import ProfileInfo from "../components/ProfileInfo.jsx";
@@ -17,16 +18,17 @@ import authStore from "../store/authStore.js";
 const initialMenuItems = [
   { icon: User, label: 'Account preferences', active: true, href: "account-preference" },
   { icon: Shield, label: 'Sessions', active: false, href: "sessions"},
-  { icon: Eye, label: 'Visibility', active: false },
-  { icon: Database, label: 'Data privacy', active: false },
-  { icon: Megaphone, label: 'Advertising data', active: false },
-  { icon: Bell, label: 'Notifications', active: false },
+  { icon: BanknoteArrowUp, label: 'Payments', active: false, href: "payments"},
+  // { icon: Eye, label: 'Visibility', active: false },
+  // { icon: Database, label: 'Data privacy', active: false },
+  // { icon: Megaphone, label: 'Advertising data', active: false },
+  // { icon: Bell, label: 'Notifications', active: false },
 ];
 
 const ProfileLayout = () => {
   useEffect(() => {
     authStore.getSessions();
-    console.log(authStore.sessions)
+    authStore.getPayments();
   }, []);
 
 

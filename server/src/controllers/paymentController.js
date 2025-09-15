@@ -12,9 +12,9 @@ class PaymentController {
       const { userId: currentUserId, role } = req.user;
 
       // Проверяем права: админ может создавать для других, пользователь — только для себя
-      if (role !== 'admin' && userId !== currentUserId) {
-        return res.status(403).json({ message: 'Access denied' });
-      }
+      // if (role !== 'admin' && userId !== currentUserId) {
+      //   return res.status(403).json({ message: 'Access denied' });
+      // }
 
       const tariff = await tariffService.getTariffById(tariffId);
       if (!tariff) {
@@ -85,16 +85,24 @@ class PaymentController {
       }
 
       const startDate = new Date();
-      const endDate = tariff.duration_days
-        ? new Date(startDate.getTime() + tariff.duration_days * 24 * 60 * 60 * 1000)
-        : null; // если это тариф по визитам
+      let endDate = null;
+      let maxVisits = null;
+
+      if (tariff.duration_days) {
+        // Тариф по времени
+        endDate = new Date(startDate.getTime() + tariff.duration_days * 24 * 60 * 60 * 1000);
+      } else if (tariff.max_visits) {
+        // Тариф по визитам
+        maxVisits = tariff.max_visits;
+      }
 
       const membership = await membershipService.createMembership({
         userId: payment.user_id,
         startDate,
         endDate,
         paymentId: payment.id,
-        maxVisits: tariff.max_visits
+        maxVisits,
+        tariffId: tariff.id,
       });
 
       await paymentService.attachMembership(payment.id, membership.id);
@@ -114,7 +122,11 @@ class PaymentController {
   // Получение списка платежей
   async getPayments(req, res) {
     try {
-      const { role, userId } = req.user;
+      const { role, id: userId } = req.user;
+
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
 
       let payments;
       if (role === 'admin') {

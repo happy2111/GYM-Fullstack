@@ -303,17 +303,20 @@ class VisitService {
       }
 
       // Проверяем активность абонемента (аналогично QR методу)
+      // Проверяем активность абонемента
       const now = new Date();
-      const endDate = new Date(membership.end_date);
 
+    // Проверка по статусу
       if (membership.status !== 'active') {
         throw new Error(`Membership is ${membership.status}`);
       }
 
-      if (now > endDate) {
+    // Проверка по сроку действия (если он есть)
+      if (membership.end_date && now > new Date(membership.end_date)) {
         throw new Error('Membership has expired');
       }
 
+    // Проверка по лимиту визитов (если он есть)
       if (membership.max_visits && membership.used_visits >= membership.max_visits) {
         throw new Error('Visit limit exceeded');
       }
