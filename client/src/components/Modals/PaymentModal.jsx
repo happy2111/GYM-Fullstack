@@ -41,8 +41,8 @@ const PaymentModal = ({ isOpen, onClose, tariff, onPaymentSubmit }) => {
   if (!isOpen || !tariff) return null;
 
   return (
-    <div className="fixed inset-0 z-50 md:flex items-center justify-center md:p-4">
-      <div className="bg-dark-15 z-20 md:rounded-2xl w-full md:max-w-md max-h-[100vh] max-md:h-dvh p-6 relative animate-scale-in overflow-y-auto">
+    <div className="fixed  inset-0 z-50 md:flex items-center justify-center md:p-4">
+      <div className="bg-dark-15 z-20 md:rounded-2xl w-full md:max-w-md max-h-[100vh] max-md:h-dvh p-6 max-md:pt-30 relative animate-scale-in overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
