@@ -1,5 +1,5 @@
+import React, { useEffect, useRef, useState } from "react";
 import QrScannerHtml5 from "../components/QrScannerHtml5.jsx";
-import { useState } from "react";
 import { QrCode, CheckCircle } from "lucide-react";
 
 const ScanQrCodePage = () => {
