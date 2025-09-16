@@ -16,7 +16,11 @@ const QrScannerHtml5 = ({ onScanned }) => {
         const allCameras = await Html5Qrcode.getCameras();
         setCameras(allCameras);
         if (allCameras.length > 0) {
-          setSelectedCam(allCameras[0].id); // первая по умолчанию
+          // выбираем заднюю камеру если найдена
+          const backCam = allCameras.find(cam =>
+            cam.label.toLowerCase().includes("back")
+          );
+          setSelectedCam(backCam ? backCam.id : allCameras[0].id);
         }
       } catch (err) {
         console.error("Ошибка доступа к камере:", err);
@@ -29,19 +33,29 @@ const QrScannerHtml5 = ({ onScanned }) => {
 
   useEffect(() => {
     if (!selectedCam) return;
+
     const html5QrCode = new Html5Qrcode(qrRegionId);
     html5QrCodeRef.current = html5QrCode;
 
     html5QrCode
       .start(
         selectedCam,
-        { fps: 10, qrbox: 250 },
+        {
+          fps: 10,
+          qrbox: (viewfinderWidth, viewfinderHeight) => {
+            const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+            return { width: minEdge * 0.7, height: minEdge * 0.7 }; // динамический квадрат
+          }
+        },
         decodedText => {
-          console.log("QR decoded:", decodedText);
-          alert(JSON.stringify(decodedText))
-          html5QrCode.pause();
+          console.log("✅ QR decoded:", decodedText);
+          alert(JSON.stringify(decodedText, null, 2))
           onScanned?.(decodedText);
-          setTimeout(() => html5QrCode.resume(), 1500);
+        },
+        errorMessage => {
+          // будет спамить часто — лучше в debug
+          console.debug("QR scan error:", errorMessage);
+          alert(JSON.stringify(errorMessage, null, 2))
         }
       )
       .catch(err => console.error("Ошибка запуска сканера:", err));
