@@ -10,59 +10,61 @@ class VisitService {
    * Формат: base64(userId:membershipId:timestamp:hash)
    */
   generateQRData(userId, membershipId) {
-    const timestamp = Date.now();
-    const secret = process.env.QR_SECRET || 'gym-secret-key';
+    const timestamp = Math.floor(Date.now() / 1000); // секунды вместо миллисекунд
+    const secret = process.env.QR_SECRET || "gym-secret-key";
 
-    // Создаем хеш для защиты от подделки
+    // Хеш для защиты от подделки
     const dataToHash = `${userId}:${membershipId}:${timestamp}`;
     const hash = crypto
-      .createHmac('sha256', secret)
+      .createHmac("sha256", secret)
       .update(dataToHash)
-      .digest('hex')
-      .substring(0, 16); // Берем первые 16 символов
+      .digest("hex")
+      .substring(0, 8); // короткий hash
 
-    const qrData = `${userId}:${membershipId}:${timestamp}:${hash}`;
-    return Buffer.from(qrData).toString('base64');
+    // 🚀 Без base64, просто строка
+    return `${userId}:${membershipId}:${timestamp}:${hash}`;
   }
 
   /**
    * Парсинг и валидация QR-кода
    */
-  parseQRData(qrCode) {
+    parseQRData(qrCode) {
     try {
-      const decoded = Buffer.from(qrCode, 'base64').toString('utf-8');
-      const [userId, membershipId, timestamp, hash] = decoded.split(':');
+      // 🚀 base64 больше не нужен
+      const [userId, membershipId, timestamp, hash] = qrCode.split(":");
 
       if (!userId || !membershipId || !timestamp || !hash) {
-        throw new Error('Invalid QR format');
+        throw new Error("Invalid QR format");
       }
 
-      // Проверяем время действия QR (например, 5 минут)
-      const qrAge = Date.now() - parseInt(timestamp);
-      const maxAge = 5 * 60 * 1000; // 5 минут
+      // Проверка времени действия (5 минут)
+      const qrAge = Math.floor(Date.now() / 1000) - parseInt(timestamp, 10);
+      const maxAge = 5 * 60; // 5 минут в секундах
 
       if (qrAge > maxAge) {
-        throw new Error('QR code expired');
+        throw new Error("QR code expired");
       }
 
-      // Проверяем хеш
-      const secret = process.env.QR_SECRET || 'gym-secret-key';
+      // Проверка подписи
+      const secret = process.env.QR_SECRET || "gym-secret-key";
       const dataToHash = `${userId}:${membershipId}:${timestamp}`;
       const expectedHash = crypto
-        .createHmac('sha256', secret)
+        .createHmac("sha256", secret)
         .update(dataToHash)
-        .digest('hex')
-        .substring(0, 16);
+        .digest("hex")
+        .substring(0, 8);
 
       if (hash !== expectedHash) {
-        throw new Error('Invalid QR signature');
+        throw new Error("Invalid QR signature");
       }
 
-      return { userId, membershipId, timestamp: parseInt(timestamp) };
+      return { userId, membershipId, timestamp: parseInt(timestamp, 10) };
     } catch (error) {
       throw new Error(`Invalid QR code: ${error.message}`);
     }
   }
+
+
 
   /**
    * Валидация QR-кода без создания посещения (предпросмотр)
