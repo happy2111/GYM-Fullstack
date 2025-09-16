@@ -3,32 +3,34 @@ import {
   Settings,
   User,
   Shield,
-  Eye,
-  Database,
-  Megaphone,
-  Bell,
   ArrowLeft,
   LogOut,
-  BanknoteArrowUp
+  BanknoteArrowUp,
+  History
 } from 'lucide-react';
 import {Outlet, useLocation, Link, useNavigate} from "react-router-dom"
 import ProfileInfo from "../components/ProfileInfo.jsx";
 import authStore from "../store/authStore.js";
+import membershipStore from "../store/membershipStore.js";
+import {observer} from "mobx-react-lite";
 
 const initialMenuItems = [
   { icon: User, label: 'Account preferences', active: true, href: "account-preference" },
   { icon: Shield, label: 'Sessions', active: false, href: "sessions"},
   { icon: BanknoteArrowUp, label: 'Payments', active: false, href: "payments"},
+  { icon: History, label: 'Memberships', active: false, href: "membership-history"},
+
   // { icon: Eye, label: 'Visibility', active: false },
   // { icon: Database, label: 'Data privacy', active: false },
   // { icon: Megaphone, label: 'Advertising data', active: false },
   // { icon: Bell, label: 'Notifications', active: false },
 ];
 
-const ProfileLayout = () => {
+const ProfileLayout = observer(() => {
   useEffect(() => {
     authStore.getSessions();
     authStore.getPayments();
+    membershipStore.getAllMemberships();
   }, []);
 
 
@@ -140,6 +142,6 @@ const ProfileLayout = () => {
       `}</style>
     </div>
   );
-};
+});
 
 export default ProfileLayout;

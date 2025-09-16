@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Button from "./Button.jsx";
 import {useLocation} from "react-router-dom";
-import {ShoppingCart, Menu, User, Sidebar} from "lucide-react"
+import {Menu, User} from "lucide-react"
 import authStore from "../store/authStore";
 import {observer} from "mobx-react-lite";
 
 const Navbar = observer(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
 
   const location = useLocation();
 
@@ -24,8 +23,8 @@ const Navbar = observer(() => {
               border={location.pathname === "/" ? false : true}
             />
             <Button
-              text={"Products"}
-              href={"/products"}
+              text={"Packages"}
+              href={"/packages"}
               isTransparent={location.pathname === "/products" ? false : true}
               border={location.pathname === "/products" ? false : true}
             />

@@ -20,6 +20,7 @@ import Sessions from "./pages/profile/Sessions.jsx";
 import api from "./http/index.js";
 import Payments from "./pages/profile/Payments.jsx";
 import PricingPackages from "./pages/home/PricingPackages.jsx";
+import MembershipHistory from "./pages/profile/MembershipHistory.jsx";
 
 
 
@@ -114,6 +115,7 @@ const App = observer(() => {
               />
               <Route path={"sessions"} element={<Sessions/>}/>
               <Route path={"payments"} element={<Payments/>}/>
+              <Route path={"membership-history"} element={<MembershipHistory/>}/>
             </Route>
 
           </Route>

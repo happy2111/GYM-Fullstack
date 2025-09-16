@@ -3,29 +3,12 @@ import { CreditCard, DollarSign, Clock, CheckCircle, XCircle, AlertCircle, Calen
 import authStore from "../../store/authStore.js";
 import api from "../../http/index.js";
 import toast from "react-hot-toast";
+import {observer} from "mobx-react-lite";
 
-const Payments = () => {
-  // const [payments, setPayments] = useState([]);
+const Payments = observer(() => {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('all'); // all, pending, completed, failed
   const { payments } = authStore;
-  // useEffect(() => {
-  //   fetchPayments();
-  // }, []);
-  //
-  // const fetchPayments = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await api.get('/payments/user'); // Предполагаемый эндпоинт
-  //     setPayments(res.data);
-  //   } catch (error) {
-  //     console.error('Failed to fetch payments:', error);
-  //     toast.error("Failed to load payments");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const getPaymentMethodIcon = (method) => {
     const methodLower = method.toLowerCase();
     switch (methodLower) {
@@ -359,6 +342,6 @@ const Payments = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Payments;

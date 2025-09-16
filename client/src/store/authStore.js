@@ -146,7 +146,6 @@ class AuthStore {
         this.payments = response.payments;
         this.isLoading = false;
       });
-      console.log(response);
       return response;
     }catch (error) {
       runInAction(() => {

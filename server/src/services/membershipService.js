@@ -175,6 +175,7 @@ class MembershipService {
     }
   }
 
+
   // Обновление абонемента
   async updateMembership(membershipId, updateData) {
     const allowedFields = ['type', 'start_date', 'end_date', 'status', 'price', 'payment_id', 'max_visits', 'used_visits'];
@@ -256,6 +257,21 @@ class MembershipService {
       throw error;
     }
   }
+
+async getAllUserMemberships(userId)  {
+    const query = `
+      SELECT * FROM memberships 
+      WHERE user_id = $1
+      ORDER BY created_at DESC
+    `;
+    try {
+      const result = await pool.query(query, [userId]);
+      return result.rows;
+    } catch (error) {
+      logger.error('Error getting all user memberships:', error);
+      throw error;
+    }
+}
 
   // Проверка доступа к абонементу (пользователь может видеть только свои абонементы)
   async checkMembershipAccess(membershipId, userId, userRole) {

@@ -1,5 +1,7 @@
 const membershipService = require('../services/membershipService');
 const logger = require('../utils/logger');
+const paymentService = require('../services/paymentService');
+const tariffService = require('../services/tariffService');
 
 class MembershipController {
   // Создание нового абонемента
@@ -144,6 +146,32 @@ class MembershipController {
       });
     } catch (error) {
       logger.error('Get user memberships error:', error);
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async getAllUserMemberships(req, res) {
+    try {
+      const { id } = req.user;
+      const memberships = await membershipService.getAllUserMemberships(id);
+
+      const membershipsWithPayments = await Promise.all(
+        memberships.map(async (m) => {
+          const payment = await paymentService.getPaymentById(m.payment_id);
+          const tariff = await tariffService.getTariffById(m.tariff_id)
+          logger.info(`Payment found for membership ${m.id}: ${payment.id}`);
+          return {
+            ...m,
+            method: payment.method,
+            amount: payment.amount,
+            tariff
+          };
+        })
+      );
+
+      res.json(membershipsWithPayments);
+    } catch (error) {
+      logger.error('Get all user memberships error:', error);
       res.status(500).json({ message: error.message });
     }
   }

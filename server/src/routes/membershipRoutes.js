@@ -32,6 +32,13 @@ router.get('/me/active',
   membershipController.getMyActiveMembership
 );
 
+router.get('/me/all/',
+  authMiddleware,
+  membershipLimiter,
+  membershipController.getAllUserMemberships
+)
+
+
 // Получить мою статистику по абонементам
 router.get('/me/stats',
   authMiddleware,

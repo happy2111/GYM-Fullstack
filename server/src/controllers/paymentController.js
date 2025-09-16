@@ -89,10 +89,10 @@ class PaymentController {
       let maxVisits = null;
 
       if (tariff.duration_days) {
-        // Тариф по времени
         endDate = new Date(startDate.getTime() + tariff.duration_days * 24 * 60 * 60 * 1000);
-      } else if (tariff.max_visits) {
-        // Тариф по визитам
+      }
+
+      if (tariff.max_visits) {
         maxVisits = tariff.max_visits;
       }
 
