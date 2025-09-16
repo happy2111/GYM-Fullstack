@@ -3,7 +3,7 @@ import {observer} from 'mobx-react-lite';
 import {Eye, EyeOff, Mail, Lock} from 'lucide-react';
 import authStore from '../store/authStore';
 import toast from "react-hot-toast";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const Login = observer(() => {
   const [form, setForm] = useState({
@@ -14,6 +14,7 @@ const Login = observer(() => {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     try {
       setLoading(true)
@@ -23,6 +24,7 @@ const Login = observer(() => {
         email: "",
         password: ""
       })
+      navigate('/')
     } catch (err) {
       console.log(err)
       setError({

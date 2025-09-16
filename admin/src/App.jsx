@@ -19,6 +19,7 @@ import ProfileLayout from "./layouts/ProfileLayout.jsx";
 import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
 import api from "./http/index.js";
+import ScanQrCodePage from "./pages/ScanQrCodePage.jsx";
 
 
 
@@ -39,11 +40,25 @@ const ProtectedRoute = observer(({children}) => {
 const App = observer(() => {
   useEffect(() => {
     const TelegramLogin = async () => {
+      if (!window.Telegram || !window.Telegram.WebApp) {
+        console.log("Обычный браузер: Telegram WebApp не найден");
+        return;
+      }
+
+      const tg = window.Telegram.WebApp;
+      console.log("initDataUnsafe:", tg.initDataUnsafe);
+
+      if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
+        console.log("Нет данных Telegram пользователя (браузер или тест без Telegram)");
+        return;
+      }
+
       try {
+        console.log(`Window Telegram: ${window.Telegram} `)
+        console.log(`Telegram WebApp: ${window.Telegram.WebApp} `)
 
         await authStore.telegramLogin();
         console.log("Telegram login successful");
-
       } catch (err) {
         console.error("Ошибка сети при отправке данных Telegram:", err);
       }
@@ -82,6 +97,9 @@ const App = observer(() => {
                 <Home />
               }
             />
+
+            <Route path={"scan-qr"} element={<ProtectedRoute><ScanQrCodePage/></ProtectedRoute>}/>
+
 
             <Route path={"profile"} element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
               <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />

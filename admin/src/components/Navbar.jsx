@@ -24,10 +24,10 @@ const Navbar = observer(() => {
               border={location.pathname === "/" ? false : true}
             />
             <Button
-              text={"Products"}
-              href={"/products"}
-              isTransparent={location.pathname === "/products" ? false : true}
-              border={location.pathname === "/products" ? false : true}
+              text={"Scan QR Code"}
+              href={"/scan-qr"}
+              isTransparent={location.pathname === "/scan-qr" ? false : true}
+              border={location.pathname === "/scan-qr" ? false : true}
             />
           </div>
           <div className="md:hidden flex items-center space-x-4">

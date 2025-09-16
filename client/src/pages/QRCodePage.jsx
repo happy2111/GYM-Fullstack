@@ -66,7 +66,7 @@ const QRCodePage = () => {
 
   if (loading && !qrData) {
     return (
-      <div className="min-h-screen bg-dark-06 p-4">
+      <div className="min-h-screen bg-dark-06 p-4 pt-25 pb-30">
         <div className="max-w-md mx-auto">
           <div className="bg-dark-10 rounded-3xl shadow-2xl border border-dark-12 p-8">
             <div className="text-center">
@@ -93,7 +93,7 @@ const QRCodePage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-dark-06 p-4">
+      <div className="min-h-screen bg-dark-06 p-4 pt-25 pb-30">
         <div className="max-w-md mx-auto">
           <div className="bg-dark-10 rounded-3xl shadow-2xl border border-dark-12 p-8">
             <div className="text-center">

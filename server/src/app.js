@@ -37,7 +37,7 @@ app.use(limiter);
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? ['https://gym-fullstack-wine.vercel.app']
-    : ['http://localhost:5173', 'http://localhost:3001', 'https://gym-fullstack-wine.vercel.app'],
+    : ['http://localhost:5173', 'http://localhost:5174', 'https://gym-fullstack-wine.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
