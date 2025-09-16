@@ -53,9 +53,7 @@ const QrScannerHtml5 = ({ onScanned }) => {
           onScanned?.(decodedText);
         },
         errorMessage => {
-          // будет спамить часто — лучше в debug
           console.debug("QR scan error:", errorMessage);
-          // alert(JSON.stringify(errorMessage, null, 2))
         }
       )
       .catch(err => console.error("Ошибка запуска сканера:", err));
@@ -69,7 +67,7 @@ const QrScannerHtml5 = ({ onScanned }) => {
     <div>
       {cameras.length > 1 && (
         <select
-          className="mb-2 border rounded p-2"
+          className="mb-2 w-full bg-brown-60 text-white border rounded p-2"
           value={selectedCam || ""}
           onChange={(e) => setSelectedCam(e.target.value)}
         >

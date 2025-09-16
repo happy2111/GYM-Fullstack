@@ -1,9 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
 import QrScannerHtml5 from "../components/QrScannerHtml5.jsx";
 import { QrCode, CheckCircle } from "lucide-react";
+import visitService from "../services/visitService.js";
 
 const ScanQrCodePage = () => {
   const [result, setResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const scanQrCode = async () => {
+      try {
+        setIsLoading(true);
+        const res = await visitService.scanQR(result);
+        console.log("Scan result:", res);
+        alert(JSON.stringify(res, null, 2))
+      }catch (err) {
+        console.error("Error scanning QR:", err);
+      }finally {
+        setIsLoading(false);
+      }
+    }
+
+    if (result) {
+      scanQrCode();
+    }
+
+  }, [result])
 
   return (
     <div className="min-h-screen bg-dark-06 flex items-center justify-center p-6">

@@ -1,6 +1,6 @@
 const express = require('express');
 const visitController = require('../controllers/visitController');
-const { authMiddleware } = require('../middleware/auth');
+const { authMiddleware, requireRole} = require('../middleware/auth');
 const { validate, validateQuery, visitSchemas } = require('../middleware/validation');
 const rateLimit = require('express-rate-limit');
 
@@ -104,7 +104,12 @@ router.post(
   "/qr",
   authMiddleware,
   visitController.generateQR
-  )
+  );
+
+post.post("/scan",
+  authMiddleware,
+  requireRole(['admin', 'trainer']),
+  visitController.scanQR)
 
 // Получение списка всех посещений (с фильтрами)
 router.get('/',

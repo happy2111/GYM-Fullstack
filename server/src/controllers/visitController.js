@@ -89,15 +89,6 @@ class VisitController {
   async scanQR(req, res) {
     try {
       const { qrCode, notes } = req.body;
-      const adminUserId = req.user.userId;
-      const { role } = req.user;
-
-      // Только админы и тренеры могут сканировать QR
-      if (role !== 'admin' && role !== 'trainer') {
-        return res.status(403).json({
-          message: 'Access denied. Only admins and trainers can scan QR codes'
-        });
-      }
 
       const result = await visitService.createVisitByQR(
         qrCode,
