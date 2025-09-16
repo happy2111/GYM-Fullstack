@@ -19,6 +19,7 @@ import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
 import api from "./http/index.js";
 import Payments from "./pages/profile/Payments.jsx";
+import PricingPackages from "./pages/home/PricingPackages.jsx";
 
 
 
@@ -39,11 +40,25 @@ const ProtectedRoute = observer(({children}) => {
 const App = observer(() => {
   useEffect(() => {
     const TelegramLogin = async () => {
+      if (!window.Telegram || !window.Telegram.WebApp) {
+        console.log("Обычный браузер: Telegram WebApp не найден");
+        return;
+      }
+
+      const tg = window.Telegram.WebApp;
+      console.log("initDataUnsafe:", tg.initDataUnsafe);
+
+      if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
+        console.log("Нет данных Telegram пользователя (браузер или тест без Telegram)");
+        return;
+      }
+
       try {
+        console.log(`Window Telegram: ${window.Telegram} `)
+        console.log(`Telegram WebApp: ${window.Telegram.WebApp} `)
 
         await authStore.telegramLogin();
         console.log("Telegram login successful");
-
       } catch (err) {
         console.error("Ошибка сети при отправке данных Telegram:", err);
       }
@@ -51,6 +66,7 @@ const App = observer(() => {
 
     TelegramLogin();
   }, []);
+
 
 
 
@@ -80,6 +96,13 @@ const App = observer(() => {
               path=""
               element={
                 <Home />
+              }
+            />
+
+            <Route
+              path="packages"
+              element={
+                <PricingPackages />
               }
             />
 

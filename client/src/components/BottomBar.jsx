@@ -14,8 +14,8 @@ const BottomBar = observer(() => {
       icon: Home,
     },
     {
-      name: 'Products',
-      href: '/products',
+      name: 'Packages',
+      href: '/packages',
       icon: Package,
     },
   ];

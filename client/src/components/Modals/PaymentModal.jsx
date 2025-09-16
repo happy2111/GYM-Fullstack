@@ -41,8 +41,8 @@ const PaymentModal = ({ isOpen, onClose, tariff, onPaymentSubmit }) => {
   if (!isOpen || !tariff) return null;
 
   return (
-    <div className="fixed inset-0 bg-dark-06/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-dark-15 rounded-2xl max-w-md w-full p-6 relative animate-scale-in">
+    <div className="fixed inset-0 z-50 md:flex items-center justify-center md:p-4">
+      <div className="bg-dark-15 z-20 md:rounded-2xl w-full md:max-w-md max-h-[100vh] max-md:h-dvh p-6 relative animate-scale-in overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -102,7 +102,7 @@ const PaymentModal = ({ isOpen, onClose, tariff, onPaymentSubmit }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex space-x-3">
+        <div className="flex space-x-3 max-md:mb-20">
           <button
             onClick={onClose}
             className="flex-1 py-3 px-4 bg-dark-25 text-gray-80 rounded-lg font-medium hover:bg-dark-30 transition-colors"
@@ -128,7 +128,10 @@ const PaymentModal = ({ isOpen, onClose, tariff, onPaymentSubmit }) => {
           </button>
         </div>
       </div>
-
+      <div
+        className="absolute inset-0 z-10 bg-dark-06/80 backdrop-blur-sm"
+        onClick={onClose}
+      ></div>
       <style jsx>{`
         .animate-scale-in {
           animation: scaleIn 0.2s ease-out;

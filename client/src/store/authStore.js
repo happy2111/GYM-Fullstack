@@ -240,8 +240,11 @@ class AuthStore {
   async telegramLogin() {
     this.isLoading = true;
     this.error = null;
-
     try {
+      if (!window.Telegram?.WebApp?.initDataUnsafe) {
+        throw new Error("Запуск вне Telegram WebApp");
+      }
+
       const tg = window.Telegram.WebApp;
       tg.ready();
 

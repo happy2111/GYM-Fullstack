@@ -4,6 +4,7 @@ import PaymentModal from '../../components/Modals/PaymentModal';
 import authStore from "../../store/authStore.js";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
+import PricingPackagesSkeletons from '../../components/Skeletons/PricingPackagesSkeleton.jsx';
 
 
 
@@ -17,11 +18,13 @@ const PricingPackages = () => {
   const [selectedTariff, setSelectedTariff] = useState(null);
   const { isAuthenticated } = authStore;
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
 
 
   const getAllTariffs = async () => {
     try {
+      setLoading(true);
       const res = await api.get("/tariffs/all");
 
       const monthly = [];
@@ -39,12 +42,25 @@ const PricingPackages = () => {
       setYearlyTariffs(yearly);
     } catch (e) {
       console.log(e);
+    }finally {
+      setTimeout(
+        () => {
+          setLoading(false);
+        }, 400
+      )
     }
   };
+
+
 
   useEffect(() => {
     getAllTariffs();
   }, []);
+
+
+  if (loading) {
+    return <PricingPackagesSkeletons />;
+  }
 
   const getPeriodText = () => {
     return isYearly ? "per year, billed annually" : "per month, billed monthly";
@@ -80,7 +96,7 @@ const PricingPackages = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-dark-06 text-gray-99 py-8 px-4">
+      <div className="min-h-screen max-md:pt-20 bg-dark-06 text-gray-99 py-8 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
