@@ -6,6 +6,7 @@ const QrScannerHtml5 = ({ onScanned }) => {
   const html5QrCodeRef = useRef(null);
   const [cameras, setCameras] = useState([]);
   const [selectedCam, setSelectedCam] = useState(null);
+  const [isRunning, setIsRunning] = useState(false);
 
   // --- Получение списка камер ---
   useEffect(() => {
@@ -45,21 +46,34 @@ const QrScannerHtml5 = ({ onScanned }) => {
 
     const startScanner = async () => {
       try {
+        setIsRunning(true);
         await html5QrCode.start(
           selectedCam,
           {
             fps: 10,
             qrbox: (vw, vh) => {
               const minEdge = Math.min(vw, vh);
-              const size = Math.max(50, minEdge * 0.7); // минимум 50px
+              const size = Math.max(50, minEdge * 0.7);
               return { width: size, height: size };
             },
           },
           (decodedText) => {
             console.log("✅ QR decoded:", decodedText);
+
+            // авто-пауза после первого успешного сканирования
+            if (isRunning && html5QrCodeRef.current) {
+              html5QrCodeRef.current
+                .stop()
+                .then(() => setIsRunning(false))
+                .catch((err) =>
+                  console.log("Ошибка при остановке (игнор):", err)
+                );
+            }
+
             onScanned?.(decodedText);
           },
           (errorMessage) => {
+            // только отладка, ошибок будет много
             console.debug("QR scan error:", errorMessage);
           }
         );
@@ -71,12 +85,12 @@ const QrScannerHtml5 = ({ onScanned }) => {
     startScanner();
 
     return () => {
-      if (html5QrCodeRef.current) {
+      if (isRunning && html5QrCodeRef.current) {
         html5QrCodeRef.current
           .stop()
-          .then(() => html5QrCodeRef.current.clear())
+          .then(() => setIsRunning(false))
           .catch((err) =>
-            console.log("Error stopping QR scanner (ignored):", err)
+            console.log("Ошибка при остановке сканера (игнор):", err)
           );
       }
     };
