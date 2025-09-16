@@ -147,10 +147,11 @@ const QRCodePage = () => {
             <div className="bg-dark-06 border-4 border-dark-20 rounded-2xl p-6 mb-6 text-center">
               <QRCode
                 size={256}
-                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                level="L"   // самый лёгкий → код получается более простым
                 value={qrData?.qrCode}
-                viewBox={`0 0 256 256`}
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
               />
+
               <p className="text-xs text-gray-70 mt-4 break-all font-mono bg-dark-15 p-2 rounded">
                 {qrData?.qrCode}
               </p>
