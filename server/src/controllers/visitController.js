@@ -9,7 +9,7 @@ class VisitController {
    */
   async generateQR(req, res) {
     try {
-      const { userId } = req.user;
+      const { id: userId } = req.user;
 
       // Проверяем возможность посещения
       const canVisitResult = await visitService.canUserVisit(userId);

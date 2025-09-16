@@ -100,6 +100,12 @@ router.post('/manual',
   visitController.createManualVisit
 );
 
+router.post(
+  "/qr",
+  authMiddleware,
+  visitController.generateQR
+  )
+
 // Получение списка всех посещений (с фильтрами)
 router.get('/',
   authMiddleware,

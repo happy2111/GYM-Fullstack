@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Package, User, LogIn } from 'lucide-react';
+import { Home, Package, User, LogIn, QrCode } from 'lucide-react';
 import authStore from '../store/authStore';
 import { observer } from 'mobx-react-lite';
 
@@ -17,6 +17,11 @@ const BottomBar = observer(() => {
       name: 'Packages',
       href: '/packages',
       icon: Package,
+    },
+    {
+      name: 'Qr Code',
+      href: '/qr',
+      icon: QrCode,
     },
   ];
 

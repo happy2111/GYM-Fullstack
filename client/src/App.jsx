@@ -21,6 +21,7 @@ import api from "./http/index.js";
 import Payments from "./pages/profile/Payments.jsx";
 import PricingPackages from "./pages/home/PricingPackages.jsx";
 import MembershipHistory from "./pages/profile/MembershipHistory.jsx";
+import QRCodePage from "./pages/QRCodePage.jsx";
 
 
 
@@ -106,6 +107,12 @@ const App = observer(() => {
                 <PricingPackages />
               }
             />
+
+            <Route
+              path={"qr"}
+              element={<ProtectedRoute><QRCodePage/></ProtectedRoute>}
+              />
+
 
             <Route path={"profile"} element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
               <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />
