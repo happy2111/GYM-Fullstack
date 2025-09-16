@@ -89,6 +89,9 @@ class VisitController {
   async scanQR(req, res) {
     try {
       const { qrCode, notes } = req.body;
+      const adminUserId = req.user.id;
+
+
 
       const result = await visitService.createVisitByQR(
         qrCode,
