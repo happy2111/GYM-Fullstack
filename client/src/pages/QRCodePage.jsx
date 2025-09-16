@@ -144,7 +144,7 @@ const QRCodePage = () => {
 
           <div className="p-6">
             {/* QR Code Display */}
-            <div className="bg-dark-06 border-4 border-dark-20 rounded-2xl p-6 mb-6 text-center">
+            <div className="bg-white border-4  border-dark-20 rounded-2xl p-6 mb-6 text-center">
               <QRCode
                 size={256}
                 level="L"   // самый лёгкий → код получается более простым
