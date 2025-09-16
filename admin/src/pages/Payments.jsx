@@ -172,7 +172,7 @@ const PaymentsCRUD = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8" style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-97)' }}>
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8 pb-30" style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-97)' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -351,7 +351,8 @@ const PaymentsCRUD = () => {
                 </div>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
+
                 <button
                   onClick={() => openModal(payment)}
                   className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg border transition-colors"
@@ -369,6 +370,17 @@ const PaymentsCRUD = () => {
                   <span>Delete</span>
                 </button>
               </div>
+              <button
+                disabled={payment.status === 'completed'}
+                onClick={() => handleConfirmPayment(payment)}
+                className={`py-2 mt-2 flex items-center justify-center gap-2 rounded-lg  hover:bg-opacity-50 min-w-full hover:scale-104 active:scale-106 duration-150 transition-all ${payment.status === 'completed' ? 'opacity-50 cursor-not-allowed' : 'bg-opacity-0'}`}
+                style={{ backgroundColor: `${payment.status === 'completed' ? 'yellowgreen' : 'var(--color-dark-20)'}` }}
+                // onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-brown-95)'}
+                // onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-dark-20)'}
+              >
+                {isLoading ? <p className="w-4 h-4">...</p> : <Check className="w-4 h-4" />}
+                <span>Confirm</span>
+              </button>
             </div>
           ))}
         </div>
