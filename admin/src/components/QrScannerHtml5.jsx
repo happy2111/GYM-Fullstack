@@ -7,6 +7,7 @@ const QrScannerHtml5 = ({ onScanned }) => {
   const [cameras, setCameras] = useState([]);
   const [selectedCam, setSelectedCam] = useState(null);
 
+  // --- Получение списка камер ---
   useEffect(() => {
     let mounted = true;
 
@@ -14,10 +15,12 @@ const QrScannerHtml5 = ({ onScanned }) => {
       try {
         await navigator.mediaDevices.getUserMedia({ video: true });
         const allCameras = await Html5Qrcode.getCameras();
+
+        if (!mounted) return;
+
         setCameras(allCameras);
         if (allCameras.length > 0) {
-          // выбираем заднюю камеру если найдена
-          const backCam = allCameras.find(cam =>
+          const backCam = allCameras.find((cam) =>
             cam.label.toLowerCase().includes("back")
           );
           setSelectedCam(backCam ? backCam.id : allCameras[0].id);
@@ -27,39 +30,55 @@ const QrScannerHtml5 = ({ onScanned }) => {
       }
     };
 
-    if (mounted) initScanner();
-    return () => { mounted = false; };
+    initScanner();
+    return () => {
+      mounted = false;
+    };
   }, []);
 
+  // --- Запуск сканера ---
   useEffect(() => {
     if (!selectedCam) return;
 
     const html5QrCode = new Html5Qrcode(qrRegionId);
     html5QrCodeRef.current = html5QrCode;
 
-    html5QrCode
-      .start(
-        selectedCam,
-        {
-          fps: 10,
-          qrbox: (viewfinderWidth, viewfinderHeight) => {
-            const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-            return { width: minEdge * 0.7, height: minEdge * 0.7 }; // динамический квадрат
+    const startScanner = async () => {
+      try {
+        await html5QrCode.start(
+          selectedCam,
+          {
+            fps: 10,
+            qrbox: (vw, vh) => {
+              const minEdge = Math.min(vw, vh);
+              const size = Math.max(50, minEdge * 0.7); // минимум 50px
+              return { width: size, height: size };
+            },
+          },
+          (decodedText) => {
+            console.log("✅ QR decoded:", decodedText);
+            onScanned?.(decodedText);
+          },
+          (errorMessage) => {
+            console.debug("QR scan error:", errorMessage);
           }
-        },
-        decodedText => {
-          console.log("✅ QR decoded:", decodedText);
-          alert(JSON.stringify(decodedText, null, 2))
-          onScanned?.(decodedText);
-        },
-        errorMessage => {
-          console.debug("QR scan error:", errorMessage);
-        }
-      )
-      .catch(err => console.error("Ошибка запуска сканера:", err));
+        );
+      } catch (err) {
+        console.error("Ошибка запуска сканера:", err);
+      }
+    };
+
+    startScanner();
 
     return () => {
-      html5QrCode.stop().catch(() => {});
+      if (html5QrCodeRef.current) {
+        html5QrCodeRef.current
+          .stop()
+          .then(() => html5QrCodeRef.current.clear())
+          .catch((err) =>
+            console.log("Error stopping QR scanner (ignored):", err)
+          );
+      }
     };
   }, [selectedCam, onScanned]);
 
@@ -71,7 +90,7 @@ const QrScannerHtml5 = ({ onScanned }) => {
           value={selectedCam || ""}
           onChange={(e) => setSelectedCam(e.target.value)}
         >
-          {cameras.map(cam => (
+          {cameras.map((cam) => (
             <option key={cam.id} value={cam.id}>
               {cam.label || `Камера ${cam.id}`}
             </option>
