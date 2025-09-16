@@ -106,7 +106,7 @@ router.post(
   visitController.generateQR
   );
 
-post.post("/scan",
+router.post("/scan",
   authMiddleware,
   requireRole(['admin', 'trainer']),
   visitController.scanQR)
