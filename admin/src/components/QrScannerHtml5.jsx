@@ -55,7 +55,7 @@ const QrScannerHtml5 = ({ onScanned }) => {
         errorMessage => {
           // будет спамить часто — лучше в debug
           console.debug("QR scan error:", errorMessage);
-          alert(JSON.stringify(errorMessage, null, 2))
+          // alert(JSON.stringify(errorMessage, null, 2))
         }
       )
       .catch(err => console.error("Ошибка запуска сканера:", err));
