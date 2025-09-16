@@ -86,7 +86,6 @@ bot.hears(["🇷🇺 Русский", "🇺🇿 O'zbek", "🇬🇧 English"], as
       caption: msg,
       ...Markup.keyboard([
         [Markup.button.contactRequest("📱 Отправить телефон")],
-        [Markup.button.webApp("🌐 Открыть приложение", process.env.FRONTEND_URL || "https://your-frontend-url.com")]
       ]).resize().oneTime()
     }
   );
@@ -115,8 +114,8 @@ bot.on("contact", async (ctx) => {
     // Показать основные команды после сохранения телефона
     await ctx.reply(messages[lang].chooseAction,
       Markup.keyboard([
-        ["📝 Мой профиль", "🚪 Выйти"],
-        ["💡 Инфо о боте"]
+        ["💡 Инфо о боте"],
+        ["🚪 Выйти"],
       ]).resize()
     );
   } catch (err) {

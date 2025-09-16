@@ -20,6 +20,7 @@ import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
 import api from "./http/index.js";
 import ScanQrCodePage from "./pages/ScanQrCodePage.jsx";
+import Payments from "./pages/Payments.jsx";
 
 
 
@@ -97,10 +98,8 @@ const App = observer(() => {
                 <Home />
               }
             />
-
             <Route path={"scan-qr"} element={<ProtectedRoute><ScanQrCodePage/></ProtectedRoute>}/>
-
-
+            <Route path={"payments"} element={<ProtectedRoute><Payments/></ProtectedRoute>}/>
             <Route path={"profile"} element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
               <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />
               <Route

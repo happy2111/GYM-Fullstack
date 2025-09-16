@@ -68,6 +68,7 @@ class PaymentService {
   async getAllPayments() {
     const query = `SELECT * FROM payments ORDER BY created_at DESC`;
     const result = await pool.query(query);
+    return result.rows;
   }
 
   async getPaymentById(paymentId) {
