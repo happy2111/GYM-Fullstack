@@ -10,7 +10,7 @@ function Avatar({ user }) {
 
   return (
     <div
-      className="min-w-16 h-16 font-semibold text-2xl flex items-center justify-center rounded-full overflow-hidden"
+      className="min-w-16 max-w-16 h-16 font-semibold text-2xl flex items-center justify-center rounded-full overflow-hidden"
       style={{ backgroundColor: "var(--color-dark-15)" }}
     >
       {photoUrl && !error ? (
