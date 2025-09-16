@@ -6,6 +6,7 @@ import { toJS } from "mobx";
 class MembershipStore {
   memberships = []
   isLoading = false;
+  acitiveMemberships = [];
   error = null;
 
   constructor() {
@@ -20,6 +21,15 @@ class MembershipStore {
       const response = await membershipService.getAllMemberships();
 
       runInAction(() => {
+        // сначала очищаем массив активных абонементов
+        this.acitiveMemberships = [];
+
+        response.forEach(membership => {
+          if (membership.status === 'active') {
+            this.acitiveMemberships.push(membership);
+          }
+        });
+
         this.memberships = response;
         this.isLoading = false;
       });

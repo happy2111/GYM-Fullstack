@@ -9,6 +9,10 @@ const Payments = observer(() => {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('all'); // all, pending, completed, failed
   const { payments } = authStore;
+
+  useEffect(() => {
+    authStore.getPayments();
+  }, [])
   const getPaymentMethodIcon = (method) => {
     const methodLower = method.toLowerCase();
     switch (methodLower) {
@@ -186,8 +190,9 @@ const Payments = observer(() => {
                 borderColor: 'var(--color-dark-30)'
               }}
             >
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-4 flex-1">
+
+              <div className="flex max-sm:flex-col items-start justify-between">
+                <div className="flex  items-start gap-4 flex-1">
                   {/* Payment Method Icon */}
                   <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--color-dark-25)' }}>
                     <span className="text-2xl">{getPaymentMethodIcon(payment.method)}</span>
@@ -195,8 +200,8 @@ const Payments = observer(() => {
 
                   {/* Payment Info */}
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <h3 className="text-white font-medium text-lg">
+                    <div className="flex max-sm:flex-col-reverse max-sm:items-start  items-center gap-3 mb-3">
+                      <h3 className="text-white font-medium text-lg text-nowrap ">
                         {formatAmount(payment.amount)} so'm
                       </h3>
                       <span

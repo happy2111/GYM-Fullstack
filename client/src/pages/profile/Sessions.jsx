@@ -4,10 +4,16 @@ import authStore from "../../store/authStore.js";
 import toast from "react-hot-toast";
 const Sessions = () => {
 
+  const { loading } = authStore;
+
+  useEffect(() => {
+    authStore.getSessions();
+  }, [])
+
 
   const [sessions, setSessions] = useState(authStore.sessions);
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const getDeviceIcon = (device) => {
     if (device.toLowerCase().includes('iphone') || device.toLowerCase().includes('android')) {
@@ -74,6 +80,16 @@ const Sessions = () => {
       setLoading(false);
     }
   };
+
+  if (loading && sessions.length === 0) {
+    return (
+      <div className="flex-1 w-full p-8 bg-dark-10 rounded-2xl">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brown-60"></div>
+        </div>
+      </div>
+    );
+  }
 
 
   return (

@@ -29,7 +29,6 @@ const initialMenuItems = [
 const ProfileLayout = observer(() => {
   useEffect(() => {
     authStore.getSessions();
-    authStore.getPayments();
     membershipStore.getAllMemberships();
   }, []);
 
