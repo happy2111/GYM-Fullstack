@@ -8,8 +8,7 @@ const ScanQrCodePage = () => {
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
   const [showCheck, setShowCheck] = useState(false);
-  const beepSound = new Audio("/sounds/beep.mp3"); // положите звуковой файл в public/sounds
-
+  const beepSound = new Audio("/sounds/applepay.mp3"); // положите звуковой файл в public/sounds
 
   useEffect(() => {
     const scanQrCode = async () => {
@@ -25,6 +24,7 @@ const ScanQrCodePage = () => {
       }finally {
         setIsLoading(false);
         setTimeout(() => setShowCheck(false), 1500);
+        setTimeout(() => setResult(null), 3000);
       }
     }
 

@@ -71,7 +71,7 @@ const QrScannerHtml5 = ({ onScanned }) => {
     <div>
       {cameras.length > 1 && (
         <select
-          className="mb-2 h-10 my-2 mx-3 w-full bg-gray-800 text-white border rounded p-2"
+          className="mb-2 h-10 w-full bg-brown-60 text-white border border-brown-65 rounded p-2"
           value={selectedCam || ""}
           onChange={(e) => setSelectedCam(e.target.value)}
         >
