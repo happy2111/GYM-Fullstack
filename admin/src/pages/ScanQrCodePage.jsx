@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import QrScannerHtml5 from "../components/QrScannerHtml5.jsx";
 import { QrCode, CheckCircle } from "lucide-react";
 import visitService from "../services/visitService.js";
+import toast from "react-hot-toast";
 
 const ScanQrCodePage = () => {
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false)
+  const [showCheck, setShowCheck] = useState(false);
+  const beepSound = new Audio("/sounds/beep.mp3"); // положите звуковой файл в public/sounds
 
 
   useEffect(() => {
@@ -13,12 +16,15 @@ const ScanQrCodePage = () => {
       try {
         setIsLoading(true);
         const res = await visitService.scanQR(result);
+        beepSound.play().catch(err => console.error("Error playing sound:", err));
+        setShowCheck(true);
         console.log("Scan result:", res);
-        alert(JSON.stringify(res, null, 2))
+        toast.success("Посещение зарегистрировано");
       }catch (err) {
         console.error("Error scanning QR:", err);
       }finally {
         setIsLoading(false);
+        setTimeout(() => setShowCheck(false), 1500);
       }
     }
 
@@ -43,8 +49,34 @@ const ScanQrCodePage = () => {
         </div>
 
         {/* QR Scanner */}
-        <div className="overflow-hidden rounded-2xl border border-dark-20 mb-6">
-          <QrScannerHtml5 onScanned={(data) => setResult(data)} />
+        <div className="overflow-hidden relative rounded-2xl border border-dark-20 mb-6">
+          {isLoading ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-dark-12">
+              <div className="w-16 h-16 border-t-4 border-brown-60 border-solid rounded-full animate-spin"></div>
+            </div>
+          ): (
+            <>
+              <QrScannerHtml5 onScanned={(data) => setResult(data)} />
+              {showCheck && (
+                <div className={'absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2'}>
+                  <div style={{ width: "100%", maxWidth: 640, margin: "0 auto", background: "#000" }} />
+
+                  {showCheck && (
+                    <div style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      pointerEvents: "none",
+                      animation: "fadeInOut 1.5s ease",
+                    }}>
+                      <CheckCircle className="w-16 h-16 text-green-500" />
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Result */}
