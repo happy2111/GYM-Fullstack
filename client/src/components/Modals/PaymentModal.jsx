@@ -17,26 +17,37 @@ const PaymentModal = ({ isOpen, onClose, tariff, onPaymentSubmit }) => {
 
   const handlePayment = async () => {
     if (!tariff) return;
-
     setIsLoading(true);
+
     try {
-      const paymentData = {
-        userId: user.id, // Здесь должен быть реальный userId
-        amount: parseInt(tariff.price, 10),
-        method: selectedMethod,
-        tariffId: tariff.id
-      };
+      if (selectedMethod === "click" || selectedMethod === "payme") {
+        // 🔹 Отправляем запрос на checkout
+        const { data } = await api.post("/payment/click/checkout", {
+          productId: tariff.id,
+          url: window.location.origin + "/profile", // куда вернёт Click
+          method: selectedMethod,
+        });
 
-      console.log('Payment data:', paymentData);
-
-      await onPaymentSubmit(paymentData);
-      onClose();
+        // 🔹 Редиректим пользователя на страницу оплаты
+        window.location.href = data.url;
+      } else {
+        // 🔹 Например, наличные
+        const paymentData = {
+          userId: user.id,
+          amount: parseInt(tariff.price, 10),
+          method: selectedMethod,
+          tariffId: tariff.id,
+        };
+        await onPaymentSubmit(paymentData);
+        onClose();
+      }
     } catch (error) {
-      console.error('Payment error:', error);
+      console.error("Payment error:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
 
   if (!isOpen || !tariff) return null;
 

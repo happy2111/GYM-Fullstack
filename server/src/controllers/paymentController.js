@@ -38,6 +38,8 @@ class PaymentController {
         });
       }
 
+
+
       // ⚡ Если онлайн — тут у тебя должна быть интеграция (Payme/Click/PayPal).
       // После callback (webhook) нужно будет обновить статус.
 

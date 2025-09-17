@@ -3,8 +3,7 @@ const paymentController = require('../controllers/paymentController');
 const { authMiddleware, optionalAuth, requireRole } = require('../middleware/auth');
 const rateLimit = require('express-rate-limit');
 const {validate, createPaymentSchema, confirmPaymentSchema} = require("../middleware/validation");
-
-
+const clickController = require("../controllers/clickController");
 
 const router = express.Router();
 
@@ -22,6 +21,11 @@ router.post(
   requireRole(['admin', 'trainer']),
   paymentController.confirmPayment
 )
+
+router.post("/click/prepare", clickController.prepare)
+router.post("/click/complete", clickController.complete)
+router.post("/click/checkout", authMiddleware, clickController.checkout)
+
 
 
 router.get(

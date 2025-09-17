@@ -5,7 +5,8 @@ import visitService from "../services/visitService.js";
 
 const ScanQrCodePage = () => {
   const [result, setResult] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+
 
   useEffect(() => {
     const scanQrCode = async () => {

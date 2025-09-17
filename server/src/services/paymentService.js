@@ -4,11 +4,11 @@ const { v4: uuidv4 } = require('uuid');
 
 class PaymentService {
   // 1. Создать платёж (pending)
-  async createPayment({ userId, amount, method, transactionId = null, membershipId = null, tariffId = null }) {
+  async createPayment({ userId, amount, method, transactionId = null, membershipId = null, tariffId = null , merchant_prepare_id}) {
     const id = uuidv4();
     const query = `
-        INSERT INTO payments (id, user_id, membership_id, amount, method, status, transaction_id, tariff_id)
-        VALUES ($1, $2, $3, $4, $5, 'pending', $6, $7)
+        INSERT INTO payments (id, user_id, membership_id, amount, method, status, transaction_id, tariff_id, merchant_prepare_id)
+        VALUES ($1, $2, $3, $4, $5, 'pending', $6, $7, $8)
             RETURNING *;
     `;
 
@@ -20,7 +20,8 @@ class PaymentService {
         amount,
         method,
         transactionId,
-        tariffId
+        tariffId,
+        merchant_prepare_id
       ]);
       return result.rows[0];
     } catch (err) {
@@ -102,6 +103,75 @@ class PaymentService {
       throw err;
     }
   }
+
+  // Проверить, есть ли уже оплаченный платёж для пользователя + тарифа
+  async findPaidPayment(userId, tariffId, provider = 'click') {
+    const query = `
+    SELECT * FROM payments
+    WHERE user_id = $1
+      AND tariff_id = $2
+      AND status = 'completed'
+      AND method = $3
+    LIMIT 1;
+  `;
+    const values = [userId, tariffId, provider];
+
+    try {
+      const result = await pool.query(query, values);
+      return result.rows[0] || null;
+    } catch (err) {
+      logger.error("Error checking paid payment:", err);
+      throw err;
+    }
+  }
+
+  async findByTransactionId(transactionId) {
+    const query = `SELECT * FROM payments WHERE transaction_id = $1`;
+    const result = await pool.query(query, [transactionId]);
+    return result.rows[0] || null;
+  }
+
+  async findByPrepareId(prepareId, provider = 'click') {
+    const query = `
+      SELECT * FROM payments
+      WHERE merchant_prepare_id = $1
+        AND method = $2
+      LIMIT 1;
+    `;
+
+    try {
+      const result = await pool.query(query, [prepareId, provider]);
+      return result.rows[0] || null;
+    } catch (err) {
+      logger.error("Error finding transaction by prepare_id:", err);
+      throw err;
+    }
+  }
+
+  async findByPrepareId(prepareId, provider) {
+    const result = await pool.query(
+      'SELECT * FROM payments WHERE merchant_prepare_id = $1 AND provider = $2',
+      [prepareId, provider]
+    );
+    return result.rows[0];
+  }
+
+
+  async updatePrepare(paymentId, transactionId, prepareId) {
+    const query = `
+    UPDATE payments
+    SET transaction_id = $1,
+        merchant_prepare_id = $2,
+        status = 'pending',
+        updated_at = NOW()
+    WHERE id = $3
+    RETURNING *;
+  `;
+    const result = await pool.query(query, [transactionId, prepareId, paymentId]);
+    return result.rows[0];
+  }
+
+
 }
 
 

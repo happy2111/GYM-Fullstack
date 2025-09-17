@@ -4,6 +4,7 @@ import {Eye, EyeOff, Mail, Lock} from 'lucide-react';
 import authStore from '../store/authStore';
 import toast from "react-hot-toast";
 import {Link, useNavigate} from 'react-router-dom';
+import Helmet from "react-helmet";
 
 const Login = observer(() => {
   const [form, setForm] = useState({
@@ -76,6 +77,14 @@ const Login = observer(() => {
   }, [form.email])
 
   return (
+    <>
+      <Helmet>
+        <title>Login</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </Helmet>
     <section className={"min-h-screen flex items-center justify-center p-4"}>
       <div className={"w-full max-w-md p-8 rounded-2xl shadow-2xl bg-dark-12 border border-dark-15"}>
         <div className="text-center mb-8">
@@ -274,7 +283,7 @@ const Login = observer(() => {
         </p>
 
       </div>
-    </section>
+    </section></>
   )
 });
 
