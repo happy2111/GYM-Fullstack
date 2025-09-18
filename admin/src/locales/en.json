@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "title": "Helps for your",
+    "subtitle": "ideal body fitness",
+    "description": "Motivate users with benefits and positive reinforcement, and offer modifications and progress tracking.",
+    "start_training": "Start Training",
+    "watch_demo": "Watch Demo",
+    "features": {
+      "personalized": "Personalized Workouts",
+      "progress": "Progress Tracking",
+      "community": "Community Support",
+      "expert": "Expert Guidance"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "programs": "Programs",
+    "nutrition": "Nutrition",
+    "community": "Community",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "common": {
+    "get_started": "Get Started",
+    "learn_more": "Learn More",
+    "sign_up": "Sign Up",
+    "sign_in": "Sign In",
+    "try_free": "Try Free",
+    "contact_us": "Contact Us"
+  }
+}

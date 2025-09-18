@@ -11,6 +11,7 @@ class VisitController {
     try {
       const { id: userId } = req.user;
 
+
       // Проверяем возможность посещения
       const canVisitResult = await visitService.canUserVisit(userId);
 

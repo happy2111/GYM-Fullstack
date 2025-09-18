@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "title": "Sizning uchun yordam",
+    "subtitle": "ideal tana fitnesiga",
+    "description": "Foydalanuvchilarni afzalliklar va ijobiy rag'batlantirish bilan motivatsiyalang, o'zgarishlar va progress kuzatishni taklif qiling.",
+    "start_training": "Mashq Qilishni Boshlash",
+    "watch_demo": "Demo Ko'rish",
+    "features": {
+      "personalized": "Shaxsiy Mashqlar",
+      "progress": "Progress Kuzatuvi",
+      "community": "Jamoa Yordami",
+      "expert": "Ekspert Yo'riqnomasi"
+    }
+  },
+  "navigation": {
+    "home": "Bosh sahifa",
+    "programs": "Dasturlar",
+    "nutrition": "Ovqatlanish",
+    "community": "Jamoa",
+    "about": "Biz haqimizda",
+    "contact": "Aloqa"
+  },
+  "common": {
+    "get_started": "Boshlash",
+    "learn_more": "Ko'proq bilish",
+    "sign_up": "Ro'yxatdan o'tish",
+    "sign_in": "Kirish",
+    "try_free": "Bepul sinash",
+    "contact_us": "Biz bilan bog'laning"
+  }
+}

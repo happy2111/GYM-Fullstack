@@ -1,0 +1,207 @@
+{
+  "hero": {
+    "title": "Helps for your",
+    "subtitle": "ideal body fitness",
+    "description": "Motivate users with benefits and positive reinforcement, and offer modifications and progress tracking.",
+    "start_training": "Start Training",
+    "watch_demo": "Watch Demo",
+    "features": {
+      "personalized": "Personalized Workouts",
+      "progress": "Progress Tracking",
+      "community": "Community Support",
+      "expert": "Expert Guidance"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "programs": "Programs",
+    "nutrition": "Nutrition",
+    "community": "Community",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "common": {
+    "get_started": "Get Started",
+    "learn_more": "Learn More",
+    "sign_up": "Sign Up",
+    "sign_in": "Sign In",
+    "try_free": "Try Free",
+    "contact_us": "Contact Us"
+  },
+  "pricing": {
+    "header": {
+      "subtitle": "Pricing",
+      "title": "Our List Packages"
+    },
+    "toggle": {
+      "monthly": "Billed Monthly",
+      "yearly": "Billed Yearly"
+    },
+    "period": {
+      "yearly": "per year, billed annually",
+      "monthly": "per month, billed monthly"
+    },
+    "badge": {
+      "best_offer": "Best Offer"
+    },
+    "button": {
+      "buy_now": "Buy Now",
+      "choose_plan": "Choose Plan",
+      "subscribe": "Subscribe",
+      "get_started": "Get Started"
+    }
+  },
+  "paymentModal": {
+    "title": "Tariff Payment",
+    "method": "Payment Method",
+    "cancel": "Cancel",
+    "pay": "Pay",
+    "processing": "Processing...",
+    "cash": "Cash",
+    "click": "Click"
+  },
+  "profile": {
+    "settings": "Settings",
+    "account_preferences": "Account Preferences",
+    "sessions": "Sessions",
+    "payments": "Payments",
+    "memberships": "Memberships",
+    "logout": "Log out",
+    "back": "Back"
+  },
+  "sessions": {
+    "title": "Device Sessions",
+    "description": "Manage your active sessions across all devices. You can sign out of specific devices or all devices at once.",
+    "sign_out_all": "Sign out of all other devices",
+    "signing_out": "Signing out...",
+    "current": "Current session",
+    "ip": "IP",
+    "last_active": "Last active",
+    "expires": "Expires",
+    "delete_success": "Session deleted successfully",
+    "no_active_title": "No active sessions",
+    "no_active_description": "You don't have any active sessions on other devices.",
+    "security_notice": "Security Notice",
+    "security_notice_text": "If you notice any unfamiliar devices or locations, sign out immediately and change your password. Sessions automatically expire after 30 days of inactivity.",
+    "ago": {
+      "days": "{{count}} day ago",
+      "days_plural": "{{count}} days ago",
+      "hours": "{{count}} hour ago",
+      "hours_plural": "{{count}} hours ago",
+      "minutes": "{{count}} minute ago",
+      "minutes_plural": "{{count}} minutes ago",
+      "now": "Just now"
+    }
+  },
+  "payments": {
+    "title": "Payment History",
+    "description": "View and manage all your gym membership payments and transactions.",
+    "filters": {
+      "all": "All Payments",
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "method": "Method",
+    "created": "Created",
+    "updated": "Updated",
+    "transaction": "Transaction",
+    "tariff": "Tariff ID",
+    "membership": "Membership",
+    "refund": "Refund",
+    "details": "Details",
+    "empty_all": "No payments found",
+    "empty_all_desc": "You haven't made any payments yet.",
+    "empty_filter": "No {{status}} payments",
+    "empty_filter_desc": "You don't have any {{status}} payments.",
+    "summary": {
+      "title": "Payment Summary",
+      "total": "Total Payments",
+      "amount": "Total Amount",
+      "rate": "Success Rate"
+    },
+    "refund_success": "Refund request submitted successfully",
+    "refund_error": "Failed to process refund request"
+  },
+  "account_preferences": "Account preferences",
+  "full_name": "Full Name",
+  "email": "Email",
+  "phone": "Phone",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "other": "Other",
+  "prefer_not_to_say": "Prefer not to say",
+  "birth_day": "Birth Day",
+  "change": "Change",
+  "remove": "Remove",
+  "cancel": "Cancel",
+  "update": "Update",
+  "update_success": "Update successful",
+  "update_failed": "Update failed",
+  "myMemberships": "My Memberships",
+  "refresh": "Refresh",
+
+  "description": "View and manage all your gym memberships, track remaining days, and renew expired memberships.",
+
+  "allMemberships": "All Memberships",
+  "active": "Active",
+  "expired": "Expired",
+  "cancelled": "Cancelled",
+
+  "status": {
+    "active": "Active",
+    "expired": "Expired",
+    "cancelled": "Cancelled"
+  },
+
+  "code": "CODE",
+  "daysRemaining": "Days remaining",
+  "days": "days",
+  "visitsUsed": "Visits Used",
+  "unlimited": "Unlimited",
+  "visitsRemaining": "visits remaining",
+  "noVisitsRemaining": "No visits remaining",
+  "unlimitedAccess": "∞ Unlimited access",
+
+  "startDate": "Start Date",
+  "endDate": "End Date",
+
+  "totalPaid": "Total Paid",
+  "paymentMethod": "Payment Method",
+  "purchasedOn": "Purchased on",
+
+  "includedFeatures": "Included Features:",
+  "moreFeatures": "more features",
+
+  "renewMembership": "Renew Membership",
+  "manage": "Manage",
+  "details": "Details",
+  "browseMemberships": "Browse Memberships",
+
+  "noMembershipsFound": "No memberships found",
+  "noMembershipsFoundFilter": "memberships",
+  "noMembershipsText": "You haven't purchased any memberships yet.",
+  "noMembershipsFilterText": "You don't have any memberships.",
+
+  "membershipSummary": "Membership Summary",
+  "totalMemberships": "Total Memberships",
+  "totalVisits": "Total Visits",
+  "thisMonth": "This Month",
+
+  "paymentMethods": {
+    "cash": "Cash",
+    "payme": "Payme",
+    "click": "Click",
+    "uzcard": "UzCard",
+    "humo": "Humo",
+    "unknown": "Unknown"
+  },
+
+  "loading": "Loading...",
+  "refreshSuccess": "Refreshed successfully",
+  "refreshError": "Failed to refresh memberships",
+  "renewSuccess": "Redirecting to renewal...",
+  "renewError": "Failed to renew membership"
+
+}

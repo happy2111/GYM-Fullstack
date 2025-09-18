@@ -1,0 +1,207 @@
+{
+  "hero": {
+    "title": "Sizning uchun yordam",
+    "subtitle": "ideal tana fitnesiga",
+    "description": "Foydalanuvchilarni afzalliklar va ijobiy rag'batlantirish bilan motivatsiyalang, o'zgarishlar va progress kuzatishni taklif qiling.",
+    "start_training": "Mashq Qilishni Boshlash",
+    "watch_demo": "Demo Ko'rish",
+    "features": {
+      "personalized": "Shaxsiy Mashqlar",
+      "progress": "Progress Kuzatuvi",
+      "community": "Jamoa Yordami",
+      "expert": "Ekspert Yo'riqnomasi"
+    }
+  },
+  "navigation": {
+    "home": "Bosh sahifa",
+    "programs": "Dasturlar",
+    "nutrition": "Ovqatlanish",
+    "community": "Jamoa",
+    "about": "Biz haqimizda",
+    "contact": "Aloqa"
+  },
+  "common": {
+    "get_started": "Boshlash",
+    "learn_more": "Ko'proq bilish",
+    "sign_up": "Ro'yxatdan o'tish",
+    "sign_in": "Kirish",
+    "try_free": "Bepul sinash",
+    "contact_us": "Biz bilan bog'laning"
+  },
+  "pricing": {
+    "header": {
+      "subtitle": "Narxlar",
+      "title": "Bizning tariflar ro'yxati"
+    },
+    "toggle": {
+      "monthly": "Oylik to'lov",
+      "yearly": "Yillik to'lov"
+    },
+    "period": {
+      "yearly": "yiliga, har yili to'lanadi",
+      "monthly": "oyiga, har oy to'lanadi"
+    },
+    "badge": {
+      "best_offer": "Eng yaxshi taklif"
+    },
+    "button": {
+      "buy_now": "Xarid qilish",
+      "choose_plan": "Tarifni tanlash",
+      "subscribe": "Obuna bo‘lish",
+      "get_started": "Boshlash"
+    }
+  },
+  "paymentModal": {
+    "title": "Tarif to‘lovi",
+    "method": "To‘lov usuli",
+    "cancel": "Bekor qilish",
+    "pay": "To‘lash",
+    "processing": "Qayta ishlanmoqda...",
+    "cash": "Naqd pul",
+    "click": "Click"
+  },
+  "profile" : {
+    "settings": "Sozlamalar",
+    "account_preferences": "Hisob sozlamalari",
+    "sessions": "Sessiyalar",
+    "payments": "To‘lovlar",
+    "memberships": "Abonementlar",
+    "logout": "Chiqish",
+    "back": "Orqaga"
+  },
+  "sessions": {
+    "title": "Qurilma sessiyalari",
+    "description": "Faol sessiyalarni barcha qurilmalarda boshqaring. Siz alohida qurilmalardan yoki barcha qurilmalardan chiqishingiz mumkin.",
+    "sign_out_all": "Boshqa barcha qurilmalardan chiqish",
+    "signing_out": "Chiqilmoqda...",
+    "current": "Joriy sessiya",
+    "ip": "IP",
+    "last_active": "Oxirgi faol",
+    "expires": "Tugash vaqti",
+    "delete_success": "Sessiya muvaffaqiyatli o‘chirildi",
+    "no_active_title": "Faol sessiyalar yo‘q",
+    "no_active_description": "Sizda boshqa qurilmalarda faol sessiyalar yo‘q.",
+    "security_notice": "Xavfsizlik eslatmasi",
+    "security_notice_text": "Agar notanish qurilma yoki joylashuvni sezsangiz, darhol tizimdan chiqing va parolingizni o‘zgartiring. Sessiyalar 30 kun faol bo‘lmaganidan keyin avtomatik tugaydi.",
+    "ago": {
+      "days": "{{count}} kun oldin",
+      "days_plural": "{{count}} kun oldin",
+      "hours": "{{count}} soat oldin",
+      "hours_plural": "{{count}} soat oldin",
+      "minutes": "{{count}} daqiqa oldin",
+      "minutes_plural": "{{count}} daqiqa oldin",
+      "now": "Hozirgina"
+    }
+  },
+  "payments": {
+    "title": "To'lov tarixi",
+    "description": "Barcha a'zolik to'lovlaringiz va tranzaksiyalaringizni ko'ring va boshqaring.",
+    "filters": {
+      "all": "Barcha to'lovlar",
+      "completed": "Muvaffaqiyatli",
+      "pending": "Kutilmoqda",
+      "failed": "Muvaffaqiyatsiz"
+    },
+    "method": "To'lov usuli",
+    "created": "Yaratilgan",
+    "updated": "Yangilangan",
+    "transaction": "Tranzaksiya",
+    "tariff": "Tarif",
+    "membership": "A'zolik",
+    "refund": "Qaytarish",
+    "details": "Tafsilotlar",
+    "empty_all": "To'lovlar topilmadi",
+    "empty_all_desc": "Siz hali hech qanday to'lov qilmagansiz.",
+    "empty_filter": "{{status}} to'lovlar yo'q",
+    "empty_filter_desc": "Sizda {{status}} to'lovlar yo'q.",
+    "summary": {
+      "title": "To'lovlar statistikasi",
+      "total": "Jami to'lovlar",
+      "amount": "Umumiy summa",
+      "rate": "Muvaffaqiyat darajasi"
+    },
+    "refund_success": "Qaytarish so'rovi muvaffaqiyatli yuborildi",
+    "refund_error": "Qaytarish so'rovini bajarib bo‘lmadi"
+  },
+  "account_preferences": "Hisob sozlamalari",
+  "full_name": "To‘liq ism",
+  "email": "Elektron pochta",
+  "phone": "Telefon",
+  "gender": "Jinsi",
+  "male": "Erkak",
+  "female": "Ayol",
+  "other": "Boshqa",
+  "prefer_not_to_say": "Aytishni xohlamayman",
+  "birth_day": "Tug‘ilgan kun",
+  "change": "O‘zgartirish",
+  "remove": "O‘chirish",
+  "cancel": "Bekor qilish",
+  "update": "Yangilash",
+  "update_success": "Muvaffaqiyatli yangilandi",
+  "update_failed": "Yangilashda xatolik",
+  "myMemberships": "Mening A'zoliklarim",
+  "refresh": "Yangilash",
+
+  "description": "Barcha sport zali a'zoliklaringizni ko'ring va boshqaring, qolgan kunlarni kuzating va muddati tugagan a'zoliklarni yangilang.",
+
+  "allMemberships": "Barcha A'zoliklar",
+  "active": "Faol",
+  "expired": "Muddati Tugagan",
+  "cancelled": "Bekor Qilingan",
+
+  "status": {
+    "active": "Faol",
+    "expired": "Muddati Tugagan",
+    "cancelled": "Bekor Qilingan"
+  },
+
+  "code": "KOD",
+  "daysRemaining": "Qolgan kunlar",
+  "days": "kun",
+  "visitsUsed": "Foydalanilgan Tashriflar",
+  "unlimited": "Cheksiz",
+  "visitsRemaining": "tashriflar qoldi",
+  "noVisitsRemaining": "Tashriflar qolmadi",
+  "unlimitedAccess": "∞ Cheksiz kirish",
+
+  "startDate": "Boshlash Sanasi",
+  "endDate": "Tugash Sanasi",
+
+  "totalPaid": "Jami To'langan",
+  "paymentMethod": "To'lov Usuli",
+  "purchasedOn": "Sotib olingan sana",
+
+  "includedFeatures": "Kiritilgan Xususiyatlar:",
+  "moreFeatures": "ta boshqa xususiyat",
+
+  "renewMembership": "A'zolikni Yangilash",
+  "manage": "Boshqarish",
+  "details": "Tafsilotlar",
+  "browseMemberships": "A'zoliklarni Ko'rish",
+
+  "noMembershipsFound": "A'zoliklar topilmadi",
+  "noMembershipsFoundFilter": "a'zoliklar yo'q",
+  "noMembershipsText": "Siz hali hech qanday a'zolik sotib olmadingiz.",
+  "noMembershipsFilterText": "Sizda hech qanday a'zolik yo'q.",
+
+  "membershipSummary": "A'zolik Xulosasi",
+  "totalMemberships": "Jami A'zoliklar",
+  "totalVisits": "Jami Tashriflar",
+  "thisMonth": "Bu Oy",
+
+  "paymentMethods": {
+    "cash": "Naqd",
+    "payme": "Payme",
+    "click": "Click",
+    "uzcard": "UzCard",
+    "humo": "Humo",
+    "unknown": "Noma'lum"
+  },
+
+  "loading": "Yuklanmoqda...",
+  "refreshSuccess": "Yangilanish muvaffaqiyatli",
+  "refreshError": "A'zoliklarni yangilashda xatolik",
+  "renewSuccess": "Yangilashga yo'naltirilmoqda...",
+  "renewError": "A'zolikni yangilashda xatolik"
+
+}

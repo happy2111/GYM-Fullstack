@@ -11,7 +11,7 @@ const QRCodePage = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    generateQR();
+    loadQR();
   }, []);
 
   useEffect(() => {
@@ -23,12 +23,49 @@ const QRCodePage = () => {
     }
   }, [timeLeft, qrData]);
 
-  const generateQR = async () => {
+  const loadQR = async () => {
     try {
       setLoading(true);
       setError(null);
+
+      // проверяем localStorage
+      const saved = localStorage.getItem("qrData");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const now = Date.now();
+
+        if (parsed.expiresAt > now) {
+          // QR ещё жив → используем его
+          setQrData(parsed);
+          setTimeLeft(Math.floor((parsed.expiresAt - now) / 1000));
+          setLoading(false);
+          return;
+        } else {
+          // удаляем просроченный
+          localStorage.removeItem("qrData");
+        }
+      }
+
+      // если нет валидного QR → генерируем новый
+      await generateQR();
+    } catch (err) {
+      setError("Ошибка загрузки QR-кода");
+      setLoading(false);
+    }
+  };
+
+  const generateQR = async () => {
+    try {
+      setError(null);
       const data = await visitService.generateQR();
-      setQrData(data);
+
+      const expiresAt = Date.now() + data.expiresIn * 1000;
+      const qrWithExpiry = { ...data, expiresAt };
+
+      // сохраняем в localStorage
+      localStorage.setItem("qrData", JSON.stringify(qrWithExpiry));
+
+      setQrData(qrWithExpiry);
       setTimeLeft(data.expiresIn);
     } catch (err) {
       setError(err.response?.data?.message || 'Ошибка генерации QR-кода');
@@ -42,6 +79,7 @@ const QRCodePage = () => {
     await generateQR();
     setRefreshing(false);
   };
+
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);

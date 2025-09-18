@@ -5,8 +5,7 @@ import authStore from "../../store/authStore.js";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
 import PricingPackagesSkeletons from '../../components/Skeletons/PricingPackagesSkeleton.jsx';
-
-
+import {useTranslation} from "react-i18next";
 
 
 
@@ -19,6 +18,7 @@ const PricingPackages = () => {
   const { isAuthenticated } = authStore;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const {t} = useTranslation();
 
 
 
@@ -63,7 +63,9 @@ const PricingPackages = () => {
   }
 
   const getPeriodText = () => {
-    return isYearly ? "per year, billed annually" : "per month, billed monthly";
+    return isYearly
+      ? t("pricing.period.yearly")
+      : t("pricing.period.monthly");
   };
 
   const handleRegisterClick = (tariff) => {
@@ -100,11 +102,14 @@ const PricingPackages = () => {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
+            {/* Subtitle */}
             <p className="text-brown-70 text-sm font-medium mb-4 tracking-wider uppercase">
-              Pricing
+              {t("pricing.header.subtitle")}
             </p>
+
+            {/* Title */}
             <h1 className="text-4xl md:text-5xl font-bold mb-8">
-              Our List Packages
+              {t("pricing.header.title")}
             </h1>
 
             {/* Toggle Buttons */}
@@ -117,7 +122,7 @@ const PricingPackages = () => {
                     : "text-gray-80 hover:text-gray-99"
                 }`}
               >
-                Billed Monthly
+                {t("pricing.toggle.monthly")}
               </button>
               <button
                 onClick={() => setIsYearly(true)}
@@ -127,7 +132,7 @@ const PricingPackages = () => {
                     : "text-gray-80 hover:text-gray-99"
                 }`}
               >
-                Billed Yearly
+                {t("pricing.toggle.yearly")}
               </button>
             </div>
           </div>
@@ -146,7 +151,7 @@ const PricingPackages = () => {
                 {/* Best Offer Badge */}
                 {pkg.is_best_offer && (
                   <div className="absolute -top-3 -right-3 bg-dark-12 text-gray-99 px-3 py-1 rounded-full text-xs font-medium transform rotate-12">
-                    Best Offer
+                    {t("pricing.badge.best_offer")}
                   </div>
                 )}
 
@@ -221,7 +226,7 @@ const PricingPackages = () => {
                       : "bg-brown-60 text-gray-99 hover:bg-brown-65"
                   }`}
                 >
-                  Register Now
+                  {t('pricing.button.buy_now')}
                 </button>
               </div>
             ))}

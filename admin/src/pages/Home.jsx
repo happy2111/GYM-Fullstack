@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
+import HeroSection from "./home/Hero.jsx";
 
 const Home = () => {
   return (
     <div>
-      home
+      <HeroSection/>
       <Link to={"/profile"}>Profile</Link>
     </div>
   );

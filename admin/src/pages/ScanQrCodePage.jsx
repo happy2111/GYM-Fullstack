@@ -35,7 +35,7 @@ const ScanQrCodePage = () => {
   }, [result])
 
   return (
-    <div className="min-h-screen bg-dark-06 flex items-center justify-center p-6">
+    <div className="min-h-screen !pb-30 bg-dark-06 flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-dark-10 rounded-3xl shadow-2xl border border-dark-12 p-6">
         {/* Header */}
         <div className="text-center mb-6">

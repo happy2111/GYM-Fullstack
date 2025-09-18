@@ -1,0 +1,207 @@
+{
+  "hero": {
+    "title": "Помощь для вашего",
+    "subtitle": "идеального тела и фитнеса",
+    "description": "Мотивируйте пользователей преимуществами и положительным подкреплением, предлагайте модификации и отслеживание прогресса.",
+    "start_training": "Начать Тренировки",
+    "watch_demo": "Смотреть Демо",
+    "features": {
+      "personalized": "Персональные Тренировки",
+      "progress": "Отслеживание Прогресса",
+      "community": "Поддержка Сообщества",
+      "expert": "Экспертное Руководство"
+    }
+  },
+  "navigation": {
+    "home": "Главная",
+    "programs": "Программы",
+    "nutrition": "Питание",
+    "community": "Сообщество",
+    "about": "О нас",
+    "contact": "Контакты"
+  },
+  "common": {
+    "get_started": "Начать",
+    "learn_more": "Узнать больше",
+    "sign_up": "Регистрация",
+    "sign_in": "Войти",
+    "try_free": "Попробовать бесплатно",
+    "contact_us": "Связаться с нами"
+  },
+  "pricing": {
+    "header": {
+      "subtitle": "Цены",
+      "title": "Наши тарифные пакеты"
+    },
+    "toggle": {
+      "monthly": "Ежемесячная оплата",
+      "yearly": "Ежегодная оплата"
+    },
+    "period": {
+      "yearly": "в год, оплата ежегодно",
+      "monthly": "в месяц, оплата ежемесячно"
+    },
+    "badge": {
+      "best_offer": "Лучшее предложение"
+    },
+    "button": {
+      "buy_now": "Купить сейчас",
+      "choose_plan": "Выбрать тариф",
+      "subscribe": "Подписаться",
+      "get_started": "Начать"
+    }
+  },
+  "paymentModal": {
+    "title": "Оплата тарифа",
+    "method": "Способ оплаты",
+    "cancel": "Отмена",
+    "pay": "Оплатить",
+    "processing": "Обработка...",
+    "cash": "Наличные",
+    "click": "Click"
+  },
+  "profile": {
+    "settings": "Настройки",
+    "account_preferences": "Настройки аккаунта",
+    "sessions": "Сессии",
+    "payments": "Платежи",
+    "memberships": "Абонементы",
+    "logout": "Выйти",
+    "back": "Назад"
+  },
+  "sessions": {
+    "title": "Сессии устройств",
+    "description": "Управляйте активными сессиями на всех устройствах. Вы можете выйти из отдельных устройств или сразу из всех.",
+    "sign_out_all": "Выйти со всех других устройств",
+    "signing_out": "Выход...",
+    "current": "Текущая сессия",
+    "ip": "IP",
+    "last_active": "Последняя активность",
+    "expires": "Истекает",
+    "delete_success": "Сессия успешно удалена",
+    "no_active_title": "Нет активных сессий",
+    "no_active_description": "У вас нет активных сессий на других устройствах.",
+    "security_notice": "Уведомление о безопасности",
+    "security_notice_text": "Если вы заметили незнакомые устройства или местоположения, немедленно выйдите и смените пароль. Сессии автоматически истекают через 30 дней бездействия.",
+    "ago": {
+      "days": "{{count}} день назад",
+      "days_plural": "{{count}} дней назад",
+      "hours": "{{count}} час назад",
+      "hours_plural": "{{count}} часов назад",
+      "minutes": "{{count}} минуту назад",
+      "minutes_plural": "{{count}} минут назад",
+      "now": "Только что"
+    }
+  },
+  "payments": {
+    "title": "История платежей",
+    "description": "Просматривайте и управляйте всеми своими платежами и транзакциями за абонементы.",
+    "filters": {
+      "all": "Все платежи",
+      "completed": "Завершённые",
+      "pending": "В ожидании",
+      "failed": "Неудачные"
+    },
+    "method": "Метод",
+    "created": "Создано",
+    "updated": "Обновлено",
+    "transaction": "Транзакция",
+    "tariff": "Тариф",
+    "membership": "Абонемент",
+    "refund": "Возврат",
+    "details": "Детали",
+    "empty_all": "Платежей не найдено",
+    "empty_all_desc": "Вы ещё не совершали платежей.",
+    "empty_filter": "Нет {{status}} платежей",
+    "empty_filter_desc": "У вас нет {{status}} платежей.",
+    "summary": {
+      "title": "Сводка платежей",
+      "total": "Всего платежей",
+      "amount": "Общая сумма",
+      "rate": "Процент успеха"
+    },
+    "refund_success": "Запрос на возврат успешно отправлен",
+    "refund_error": "Не удалось обработать запрос на возврат"
+  },
+  "account_preferences": "Настройки аккаунта",
+  "full_name": "Полное имя",
+  "email": "Эл. почта",
+  "phone": "Телефон",
+  "gender": "Пол",
+  "male": "Мужской",
+  "female": "Женский",
+  "other": "Другой",
+  "prefer_not_to_say": "Предпочитаю не указывать",
+  "birth_day": "Дата рождения",
+  "change": "Изменить",
+  "remove": "Удалить",
+  "cancel": "Отмена",
+  "update": "Обновить",
+  "update_success": "Успешно обновлено",
+  "update_failed": "Ошибка обновления",
+  "myMemberships": "Мои Абонементы",
+  "refresh": "Обновить",
+
+  "description": "Просматривайте и управляйте всеми абонементами тренажерного зала, отслеживайте оставшиеся дни и продлевайте истекшие абонементы.",
+
+  "allMemberships": "Все Абонементы",
+  "active": "Активные",
+  "expired": "Истекшие",
+  "cancelled": "Отмененные",
+
+  "status": {
+    "active": "Активный",
+    "expired": "Истекший",
+    "cancelled": "Отмененный"
+  },
+
+  "code": "КОД",
+  "daysRemaining": "Дней осталось",
+  "days": "дней",
+  "visitsUsed": "Использованные Посещения",
+  "unlimited": "Неограничено",
+  "visitsRemaining": "посещений осталось",
+  "noVisitsRemaining": "Посещений не осталось",
+  "unlimitedAccess": "∞ Неограниченный доступ",
+
+  "startDate": "Дата Начала",
+  "endDate": "Дата Окончания",
+
+  "totalPaid": "Общая Сумма",
+  "paymentMethod": "Способ Оплаты",
+  "purchasedOn": "Приобретено",
+
+  "includedFeatures": "Включенные Функции:",
+  "moreFeatures": "еще функций",
+
+  "renewMembership": "Продлить Абонемент",
+  "manage": "Управлять",
+  "details": "Подробности",
+  "browseMemberships": "Просмотреть Абонементы",
+
+  "noMembershipsFound": "Абонементы не найдены",
+  "noMembershipsFoundFilter": "абонементов нет",
+  "noMembershipsText": "Вы еще не приобрели ни одного абонемента.",
+  "noMembershipsFilterText": "У вас нет абонементов.",
+
+  "membershipSummary": "Сводка Абонементов",
+  "totalMemberships": "Всего Абонементов",
+  "totalVisits": "Всего Посещений",
+  "thisMonth": "В Этом Месяце",
+
+  "paymentMethods": {
+    "cash": "Наличные",
+    "payme": "Payme",
+    "click": "Click",
+    "uzcard": "UzCard",
+    "humo": "Humo",
+    "unknown": "Неизвестно"
+  },
+
+  "loading": "Загрузка...",
+  "refreshSuccess": "Обновление успешно",
+  "refreshError": "Ошибка при обновлении абонементов",
+  "renewSuccess": "Перенаправление на продление...",
+  "renewError": "Ошибка при продлении абонемента"
+
+}

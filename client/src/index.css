@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body {
+  @apply bg-dark-06 ;
+}
+
 @theme {
   --color-dark-06: #0F0F0F;
   --color-dark-10: #1A1A1A;

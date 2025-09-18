@@ -22,6 +22,9 @@ import Payments from "./pages/profile/Payments.jsx";
 import PricingPackages from "./pages/home/PricingPackages.jsx";
 import MembershipHistory from "./pages/profile/MembershipHistory.jsx";
 import QRCodePage from "./pages/QRCodePage.jsx";
+import {useTranslation} from "react-i18next";
+import i18n from "./i18n.js";
+
 
 
 
@@ -67,6 +70,12 @@ const App = observer(() => {
     };
 
     TelegramLogin();
+  }, []);
+
+  useEffect(() => {
+    if (window.Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
+      i18n.changeLanguage(window.Telegram.WebApp.initDataUnsafe.user.language_code);
+    }
   }, []);
 
 

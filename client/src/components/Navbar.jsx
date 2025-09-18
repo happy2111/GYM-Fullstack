@@ -5,19 +5,23 @@ import {useLocation} from "react-router-dom";
 import {Menu, User} from "lucide-react"
 import authStore from "../store/authStore";
 import {observer} from "mobx-react-lite";
+import LanguageSwitcher from "./LanguageSwitcher.jsx";
+import {useTranslation} from "react-i18next";
 
 const Navbar = observer(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const location = useLocation();
 
+  const {t, i18n} = useTranslation();
+
   return (
-    <nav className="max-md:hidden bg-dark-06 h-[90px] flex items-center sticky top-0 z-50 ">
-      <div className="container h-[90px] flex items-center overflow-hidden rounded-3xl ">
+    <nav className=" bg-dark-06/70 backdrop-blur h-[90px] flex items-center sticky w-full top-0 z-50 ">
+      <div className="container h-[90px] flex items-center rounded-3xl ">
         <div className="flex items-center   border-dashed w-full justify-between h-full">
           <div className={"flex gap-2 max-md:hidden"}>
             <Button
-              text={"Home"}
+              text={t("navigation.home")}
               href={"/"}
               isTransparent={location.pathname === "/" ? false : true}
               border={location.pathname === "/" ? false : true}
@@ -35,29 +39,28 @@ const Navbar = observer(() => {
               border={location.pathname === "/qr" ? false : true}
             />
           </div>
-          <div className="md:hidden flex items-center space-x-4">
-            <Button
-              text={""}
-              isTransparent={false}
-              CustomIcon={Menu}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            />
-          </div>
 
           <Link
             to="/"
-            className="md:absolute left-1/2 md:-translate-x-1/2 space-x-2"
+            className="md:absolute left-1/2 md:-translate-x-1/2 "
           >
-            <span className="text-2xl font-bold font-roboto text-white ">VeloPro</span>
+            <span className="text-2xl  font-roboto text-white font-bold"><span className={" text-brown-60"}>Bull</span>Fit</span>
           </Link>
 
-          <div className={"flex gap-2 max-md:hidden"}>
+
+
+          <div className={"flex items-center gap-2 max-md:hidden"}>
+            <LanguageSwitcher/>
+
             {authStore.isAuthenticated ? (
-              <Button
-                isTransparent={false}
-                href={"/profile"}
-                CustomIcon={User}
-              />
+              <span>
+                <Button
+                  isTransparent={false}
+                  href={"/profile"}
+                  CustomIcon={User}
+                />
+              </span>
+
             ) : (
               <>
                 <Button
@@ -74,22 +77,26 @@ const Navbar = observer(() => {
               </>
             )}
 
+
+
           </div>
 
-          {/* Mobile меню */}
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="md:hidden flex items-center space-x-4 ">
+            <LanguageSwitcher/>
 
 
-            {authStore.isAuthenticated && (
-              <div className="relative">
-                <Button
-                  isTransparent={false}
-                  href={"/profile"}
-                  CustomIcon={User}
-                />
 
-              </div>
-            )}
+            {/*{authStore.isAuthenticated && (*/}
+            {/*  <div className="relative w-[49px] ">*/}
+            {/*    <Button*/}
+            {/*      className={""}*/}
+            {/*      isTransparent={false}*/}
+            {/*      href={"/profile"}*/}
+            {/*      CustomIcon={User}*/}
+            {/*    />*/}
+
+            {/*  </div>*/}
+            {/*)}*/}
           </div>
         </div>
       </div>

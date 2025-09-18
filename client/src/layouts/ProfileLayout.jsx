@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import {
   Settings,
   User,
@@ -13,27 +13,32 @@ import ProfileInfo from "../components/ProfileInfo.jsx";
 import authStore from "../store/authStore.js";
 import membershipStore from "../store/membershipStore.js";
 import {observer} from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 
-const initialMenuItems = [
-  { icon: User, label: 'Account preferences', active: true, href: "account-preference" },
-  { icon: Shield, label: 'Sessions', active: false, href: "sessions"},
-  { icon: BanknoteArrowUp, label: 'Payments', active: false, href: "payments"},
-  { icon: History, label: 'Memberships', active: false, href: "membership-history"},
 
-  // { icon: Eye, label: 'Visibility', active: false },
-  // { icon: Database, label: 'Data privacy', active: false },
-  // { icon: Megaphone, label: 'Advertising data', active: false },
-  // { icon: Bell, label: 'Notifications', active: false },
-];
 
 const ProfileLayout = observer(() => {
+
+  const { t, i18n } = useTranslation();
+
+  const initialMenuItems = useMemo(() => [
+    { icon: User, label: t("profile.account_preferences"), active: true, href: "account-preference" },
+    { icon: Shield, label: t("profile.sessions"), active: false, href: "sessions" },
+    { icon: BanknoteArrowUp, label: t("profile.payments"), active: false, href: "payments" },
+    { icon: History, label: t("profile.memberships"), active: false, href: "membership-history" },
+  ], [i18n.language, t]);
+
+
   useEffect(() => {
-    authStore.getSessions();
     membershipStore.getAllMemberships();
   }, []);
 
 
   const [menuItems, setMenuItems] = useState(initialMenuItems);
+
+  useEffect(() => {
+    setMenuItems(initialMenuItems);
+  }, [initialMenuItems]);
 
   function handleActive(href) {
     const updatedItems = menuItems.map(item => ({
