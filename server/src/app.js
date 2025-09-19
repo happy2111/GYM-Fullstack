@@ -36,8 +36,22 @@ app.use(limiter);
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://gym-fullstack-wine.vercel.app', 'https://gym-fullstack-k5z5.vercel.app']
-    : ['http://localhost:5173', 'http://localhost:5174', 'http://192.168.1.148:5173', 'https://gym-fullstack-wine.vercel.app', 'https://gym-fullstack-k5z5.vercel.app'],
+    ? [
+      'https://gym-fullstack-wine.vercel.app',
+      "https://admin.bullfit.uz",
+      "https://www.bullfit.uz",
+      "https://bullfit.uz"
+    ]
+    : [
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://192.168.1.148:5173',
+      'https://gym-fullstack-wine.vercel.app',
+      'https://gym-fullstack-k5z5.vercel.app',
+      "https://admin.bullfit.uz",
+      "https://www.bullfit.uz",
+      "https://bullfit.uz"
+    ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
