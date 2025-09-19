@@ -7,8 +7,6 @@ const Home = () => {
     <div>
       <HeroSection/>
       <PricingPackages/>
-      home
-      <Link to={"/profile"}>Profile</Link>
     </div>
   );
 };

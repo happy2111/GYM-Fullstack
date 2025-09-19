@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 const NavLayout = () => {
   const [isTelegram, setIsTelegram] = useState(false)
   useEffect(() => {
-    if (window.Telegram?.WebApp?.user) {
+    if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
       setIsTelegram(true);
       console.log("Platform:", window.Telegram.WebApp.platform);
     }
