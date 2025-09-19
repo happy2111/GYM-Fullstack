@@ -59,7 +59,7 @@ const ProfileLayout = observer(() => {
 
 
   return (
-    <div className={`min-h-screen max-md:pt-30 pb-32`} style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-90)' }}>
+    <div className={`min-h-screen`} style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-90)' }}>
       <div className={"container"}>
         <ProfileInfo isProfileRoot={isProfileRoot}/>
       </div>

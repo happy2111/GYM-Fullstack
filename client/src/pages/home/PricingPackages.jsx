@@ -98,7 +98,7 @@ const PricingPackages = () => {
 
   return (
     <>
-      <div className="min-h-screen max-md:pt-20 pb-30 bg-dark-06 text-gray-99 py-8 px-4">
+      <div className="min-h-screen bg-dark-06 text-gray-99 py-8 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">

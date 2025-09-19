@@ -40,7 +40,9 @@ app.use(cors({
       'https://gym-fullstack-wine.vercel.app',
       "https://admin.bullfit.uz",
       "https://www.bullfit.uz",
-      "https://bullfit.uz"
+      "https://bullfit.uz",
+      'http://localhost:5173',
+      'http://localhost:5174',
     ]
     : [
       'http://localhost:5173',
