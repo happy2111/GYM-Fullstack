@@ -46,7 +46,7 @@ const App = observer(() => {
   useEffect(() => {
     const TelegramLogin = async () => {
       if (!window.Telegram || !window.Telegram.WebApp) {
-        console.log("Обычный браузер: Telegram WebApp не найден");
+          console.log("Обычный браузер: Telegram WebApp не найден");
         return;
       }
 

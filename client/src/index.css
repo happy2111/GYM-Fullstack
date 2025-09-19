@@ -4,6 +4,10 @@ body {
   @apply bg-dark-06 ;
 }
 
+[data-telegram="true"] {
+  margin-top: 60px; /* отступ для navbar */
+}
+
 @theme {
   --color-dark-06: #0F0F0F;
   --color-dark-10: #1A1A1A;
