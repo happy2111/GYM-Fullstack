@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -43,6 +43,8 @@ const ProtectedRoute = observer(({children}) => {
 
 
 const App = observer(() => {
+  const [isTelegram, setIsTelegram] = useState(true)
+
   useEffect(() => {
     const TelegramLogin = async () => {
       if (!window.Telegram || !window.Telegram.WebApp) {
@@ -75,17 +77,37 @@ const App = observer(() => {
   useEffect(() => {
     if (window.Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
       i18n.changeLanguage(window.Telegram.WebApp.initDataUnsafe.user.language_code);
+      setIsTelegram(true);
+      console.log("Platform:", window.Telegram.WebApp.platform);
     }
   }, []);
-
-
 
 
 
   return (
     <Router>
       {/*<AuthLayout>*/}
-        <Toaster />
+        <Toaster
+          toastOptions={{
+            // Define default options
+            className: '',
+            duration: 3000,
+            removeDelay: 1000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+              marginTop: `${isTelegram ? '70px' : '0px'}`
+            },
+
+            // Default options for specific types
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: 'green',
+                secondary: 'black',
+              },
+            },
+          }}/>
         <Routes>
           {/* Public Routes */}
           <Route

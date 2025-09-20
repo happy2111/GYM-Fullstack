@@ -118,7 +118,7 @@ const Payments = observer(() => {
             <div key={payment.id} className="p-6 rounded-lg border hover:border-brown-70 transition-colors"
                  style={{ backgroundColor: "var(--color-dark-15)", borderColor: "var(--color-dark-30)" }}>
               <div className="flex max-sm:flex-col justify-between gap-4">
-                <div className="p-2 h-15 w-15 flex items-center justify-center rounded-lg bg-dark-25 text-2xl">
+                <div className="p-2 h-15 w-15 flex items-center justify-center rounded-lg max-md:mx-auto bg-dark-25 text-2xl">
                   <img
                     src={getPaymentMethodIcon(payment.method)}
                     alt=""
