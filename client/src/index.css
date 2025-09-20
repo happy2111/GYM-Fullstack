@@ -5,7 +5,7 @@ body {
 }
 
 [data-telegram="true"] {
-  margin-top: 60px; /* отступ для navbar */
+  margin-top: 40px; /* отступ для navbar */
 }
 
 @theme {
