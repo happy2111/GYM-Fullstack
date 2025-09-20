@@ -5,7 +5,7 @@ import authStore from '../store/authStore';
 
 const AuthLayout = observer(({ children }) => {
   const location = useLocation();
-  const { isAuthenticated } = authStore;
+  const { isAuthenticated , user} = authStore;
 
   if (location.pathname === '/auth/google/callback') {
     return <>{children}</>;
@@ -20,6 +20,12 @@ const AuthLayout = observer(({ children }) => {
   if (!isAuthenticated && location.pathname !== '/login' && location.pathname !== '/register') {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
+
+  if (!isAuthenticated && user.role !== 'admin') {
+    return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+
 
   return (
     <div className="min-h-screen bg-gray-50">

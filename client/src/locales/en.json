@@ -73,7 +73,34 @@
     "payments": "Payments",
     "memberships": "Memberships",
     "logout": "Log out",
-    "back": "Back"
+    "back": "Back",
+    "myMemberships": "My Memberships",
+    "description": "View and manage all your gym memberships, track remaining days, and renew expired memberships.",
+    "allMemberships": "All Memberships",
+    "active": "Active",
+    "expired": "Expired",
+    "cancelled": "Cancelled",
+    "code": "CODE",
+    "daysRemaining": "Days remaining",
+    "days": "days",
+    "visitsUsed": "Visits Used",
+    "unlimited": "Unlimited",
+    "visitsRemaining": "visits remaining",
+    "noVisitsRemaining": "No visits remaining",
+    "unlimitedAccess": "∞ Unlimited access",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "totalPaid": "Total Paid",
+    "includedFeatures": "Included Features:",
+    "moreFeatures": "more features",
+    "paymentMethods": {
+      "unknown": "Unknown"
+    },
+    "noMembershipsFound": "No memberships found",
+    "noMembershipsFoundFilter": "No {{filter}} memberships",
+    "noMembershipsText": "You haven't purchased any memberships yet.",
+    "noMembershipsFilterText": "You don't have any {{filter}} memberships.",
+    "browseMemberships": "Browse Memberships"
   },
   "sessions": {
     "title": "Device Sessions",
@@ -194,6 +221,8 @@
   "totalMemberships": "Total Memberships",
   "totalVisits": "Total Visits",
   "thisMonth": "This Month",
+
+
 
   "paymentMethods": {
     "cash": "Cash",

@@ -5,6 +5,8 @@ import api from "../../http/index.js";
 import toast from "react-hot-toast";
 import membershipStore from "../../store/membershipStore.js";
 import {observer} from "mobx-react-lite";
+import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 
 const MembershipHistory = observer(() => {
   const [loading, setLoading] = useState(false);
@@ -125,11 +127,11 @@ const MembershipHistory = observer(() => {
     if (!method) return '💰';
     switch (method.toLowerCase()) {
       case 'cash':
-        return '💵';
+        return 'https://marifat.uz/storage/posts/1730719027i_(13)256.webp';
       case 'payme':
         return '💳';
       case 'click':
-        return '📱';
+        return 'https://click.uz/click/images/logo.svg';
       case 'uzcard':
         return '🏦';
       case 'humo':
@@ -214,7 +216,7 @@ const MembershipHistory = observer(() => {
   const fetchMemberships = async () => {
     setLoading(true);
     try {
-      await membershipStore.fetchMemberships();
+      await membershipStore.getAllMemberships();
     } catch (error) {
       toast.error("Failed to refresh memberships");
     } finally {
@@ -232,14 +234,18 @@ const MembershipHistory = observer(() => {
     );
   }
 
+  const {t}  = useTranslation()
+  const navigate = useNavigate()
+
   return (
     <div className="flex-1 w-full p-8 bg-dark-10 rounded-2xl">
       <div className="max-w-6xl">
+
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-2">
             <Package className="w-5 h-5" style={{ color: 'var(--color-gray-70)' }} />
-            <h1 className="text-xl font-medium text-white">My Memberships</h1>
+            <h1 className="text-xl font-medium text-white">{t("profile.myMemberships")}</h1>
           </div>
           <button
             onClick={fetchMemberships}
@@ -251,23 +257,23 @@ const MembershipHistory = observer(() => {
             }}
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
+            {t("refresh")}
           </button>
         </div>
 
         {/* Description & Filters */}
         <div className="mb-8">
           <p className="text-gray-300 mb-6">
-            View and manage all your gym memberships, track remaining days, and renew expired memberships.
+            {t("profile.description")}
           </p>
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap gap-2">
             {[
-              { key: 'all', label: 'All Memberships' },
-              { key: 'active', label: 'Active' },
-              { key: 'expired', label: 'Expired' },
-              { key: 'cancelled', label: 'Cancelled' }
+              { key: 'all', label: t("profile.allMemberships") },
+              { key: 'active', label: t("profile.active") },
+              { key: 'expired', label: t("profile.expired") },
+              { key: 'cancelled', label: t("profile.cancelled") }
             ].map(({ key, label }) => (
               <button
                 key={key}
@@ -313,29 +319,31 @@ const MembershipHistory = observer(() => {
                   <div>
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-white font-semibold text-lg">
-                        {membership?.tariff?.name || 'Loading...'}
+                        {membership?.tariff?.name || t("loading")}
                       </h3>
                       {actualStatus === 'active' && <Star className="w-4 h-4 text-yellow-500" />}
                     </div>
-                    <p className="text-gray-400 text-sm">CODE: #{membership?.tariff?.code}</p>
+                    <p className="text-gray-400 text-sm">
+                      {t("profile.code")}: #{membership?.tariff?.code}
+                    </p>
                   </div>
                   <span
                     className="px-3 py-1 rounded-full text-xs font-medium border flex items-center gap-1"
                     style={getStatusColor(actualStatus)}
                   >
                     {getStatusIcon(actualStatus)}
-                    {actualStatus.charAt(0).toUpperCase() + actualStatus.slice(1)}
+                    {t(`status.${actualStatus}`)}
                   </span>
                 </div>
 
-                {/* Progress Bar (only for active memberships) */}
+                {/* Progress Bar */}
                 {actualStatus === 'active' && (
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-400">Days remaining</span>
+                      <span className="text-sm text-gray-400">{t("profile.daysRemaining")}</span>
                       <span className="text-sm font-medium text-white">
-                        {remainingDays} / {totalDays} days
-                      </span>
+                {remainingDays} / {totalDays} {t("profile.days")}
+              </span>
                     </div>
                     <div className="w-full bg-dark-25 rounded-full h-2">
                       <div
@@ -353,16 +361,15 @@ const MembershipHistory = observer(() => {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <Target className="w-4 h-4 text-brown-60" />
-                      <span className="text-sm text-gray-400">Visits Used</span>
+                      <span className="text-sm text-gray-400">{t("profile.visitsUsed")}</span>
                     </div>
                     <span className="text-sm font-medium text-white">
                       {membership.used_visits || 0}
-                      {membership.max_visits ? ` / ${membership.max_visits}` : ' (Unlimited)'}
+                      {membership.max_visits ? ` / ${membership.max_visits}` : ` (${t("profile.unlimited")})`}
                     </span>
                   </div>
 
                   {membership.max_visits ? (
-                    // Limited visits - show progress bar
                     <div className="w-full bg-dark-30 rounded-full h-2">
                       <div
                         className={`h-2 rounded-full transition-all duration-300 ${
@@ -378,47 +385,39 @@ const MembershipHistory = observer(() => {
                       ></div>
                     </div>
                   ) : (
-                    // Unlimited visits - show unlimited indicator
                     <div className="w-full bg-dark-30 rounded-full h-2">
                       <div className="bg-gradient-to-r from-brown-60 via-yellow-500 to-brown-60 h-2 rounded-full animate-pulse"></div>
                     </div>
                   )}
 
-                  {/* Visit status text */}
                   <div className="mt-2 text-xs text-gray-500">
                     {membership.max_visits ? (
-                      <>
-                        {membership.max_visits - (membership.used_visits || 0) > 0 ? (
-                          <span className="text-green-400">
-                            {membership.max_visits - (membership.used_visits || 0)} visits remaining
-                          </span>
-                        ) : (
-                          <span className="text-red-400">
-                            No visits remaining
-                          </span>
-                        )}
-                      </>
+                      membership.max_visits - (membership.used_visits || 0) > 0 ? (
+                        <span className="text-green-400">
+                  {membership.max_visits - (membership.used_visits || 0)} {t("profile.visitsRemaining")}
+                </span>
+                      ) : (
+                        <span className="text-red-400">{t("profile.noVisitsRemaining")}</span>
+                      )
                     ) : (
-                      <span className="text-brown-60">
-                        ∞ Unlimited access
-                      </span>
+                      <span className="text-brown-60">{t("profile.unlimitedAccess")}</span>
                     )}
                   </div>
                 </div>
 
-                {/* Membership Details */}
+                {/* Membership Dates */}
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
                     <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
                       <Calendar className="w-4 h-4" />
-                      <span>Start Date</span>
+                      <span>{t("profile.startDate")}</span>
                     </div>
                     <p className="text-white font-medium">{formatDate(membership.start_date)}</p>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
                       <Clock className="w-4 h-4" />
-                      <span>End Date</span>
+                      <span>{t("profile.endDate")}</span>
                     </div>
                     <p className="text-white font-medium">{formatDate(membership.end_date)}</p>
                   </div>
@@ -426,26 +425,31 @@ const MembershipHistory = observer(() => {
 
 
 
-                {/* Price & Payment */}
+                {/* Payment Info */}
                 <div className="flex items-center justify-between mb-4 p-3 rounded-lg" style={{ backgroundColor: 'var(--color-dark-25)' }}>
                   <div>
-                    <p className="text-gray-400 text-sm">Total Paid</p>
-                    <p className="text-white font-bold text-lg">
-                      {formatAmount(membership?.amount || '0')} so'm
-                    </p>
+                    <p className="text-gray-400 text-sm">{t("profile.totalPaid")}</p>
+                    <p className="text-white font-bold text-lg">{formatAmount(membership?.amount || '0')} so'm</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl">{getPaymentMethodIcon(membership?.method)}</span>
-                    <span className="text-sm text-gray-400 capitalize">
-                      {membership?.method || 'Unknown'}
-                    </span>
+                    <span className="text-2xl"><img
+                      className={"h-13"}
+                      src={getPaymentMethodIcon(membership?.method)}
+                      alt=""
+                      width=""
+                      height=""
+                      loading="lazy"
+                    /></span>
+                    <span className="text-sm text-gray-400 capitalize">{membership?.method == "cash" && membership?.method}</span>
+
+
                   </div>
                 </div>
 
                 {/* Features */}
                 {membership?.tariff?.features && (
                   <div className="mb-4">
-                    <p className="text-gray-400 text-sm mb-2">Included Features:</p>
+                    <p className="text-gray-400 text-sm mb-2">{t("profile.includedFeatures")}</p>
                     <div className="space-y-1">
                       {membership?.tariff.features.slice(0, 3).map((feature, index) => (
                         <div key={index} className="flex items-center gap-2">
@@ -455,7 +459,7 @@ const MembershipHistory = observer(() => {
                       ))}
                       {membership?.tariff.features.length > 3 && (
                         <p className="text-xs text-gray-500 ml-3.5">
-                          +{tariff.features.length - 3} more features
+                          +{tariff.features.length - 3} {t("profile.moreFeatures")}
                         </p>
                       )}
                     </div>
@@ -466,7 +470,7 @@ const MembershipHistory = observer(() => {
                 <div className="mb-4">
                   <div className="flex items-center gap-2 text-xs text-gray-500">
                     <CreditCard className="w-3 h-3" />
-                    <span>Purchased on {formatDate(membership.created_at)}</span>
+                    <span>{t("purchasedOn")} {formatDate(membership.created_at)}</span>
                   </div>
                 </div>
 
@@ -481,7 +485,7 @@ const MembershipHistory = observer(() => {
                         color: 'white'
                       }}
                     >
-                      Renew Membership
+                      {t("profile.renewMembership")}
                     </button>
                   )}
 
@@ -494,7 +498,7 @@ const MembershipHistory = observer(() => {
                         border: `1px solid var(--color-dark-30)`
                       }}
                     >
-                      Manage
+                      {t("manage")}
                     </button>
                   )}
 
@@ -506,7 +510,7 @@ const MembershipHistory = observer(() => {
                       border: `1px solid var(--color-dark-30)`
                     }}
                   >
-                    Details
+                    {t("details")}
                   </button>
                 </div>
               </div>
@@ -521,25 +525,28 @@ const MembershipHistory = observer(() => {
               <Package className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="text-lg font-medium text-white mb-2">
-              {filter === 'all' ? 'No memberships found' : `No ${filter} memberships`}
+              {filter === 'all'
+                ? t('profile.noMembershipsFound')
+                : t('profile.noMembershipsFoundFilter', { filter })}
             </h3>
             <p className="text-gray-400 mb-4">
               {filter === 'all'
-                ? "You haven't purchased any memberships yet."
-                : `You don't have any ${filter} memberships.`
-              }
+                ? t('profile.noMembershipsText')
+                : t('profile.noMembershipsFilterText', { filter })}
             </p>
             <button
+              onClick={() => navigate("/packages")}
               className="px-6 py-3 rounded-lg font-medium transition-colors"
               style={{
                 backgroundColor: 'var(--color-brown-60)',
                 color: 'white'
               }}
             >
-              Browse Memberships
+              {t('profile.browseMemberships')}
             </button>
           </div>
         )}
+
 
         {/* Summary Card */}
         {memberships.length > 0 && (
@@ -550,26 +557,26 @@ const MembershipHistory = observer(() => {
               borderLeftColor: 'var(--color-brown-70)'
             }}
           >
-            <h4 className="text-white font-medium mb-4">Membership Summary</h4>
+            <h4 className="text-white font-medium mb-4">{t("membershipSummary")}</h4>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
               <div>
-                <p className="text-gray-400">Total Memberships</p>
+                <p className="text-gray-400">{t("totalMemberships")}</p>
                 <p className="text-white font-medium">{memberships.length}</p>
               </div>
               <div>
-                <p className="text-gray-400">Active</p>
+                <p className="text-gray-400">{t("totalVisits")}</p>
                 <p className="text-green-400 font-medium">
                   {memberships.filter(m => getMembershipStatus(m) === 'active').length}
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">Total Visits</p>
+                <p className="text-gray-400">{t("membershipSummary")}</p>
                 <p className="text-white font-medium">
                   {memberships.reduce((sum, m) => sum + (m.used_visits || 0), 0)}
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">This Month</p>
+                <p className="text-gray-400">{t("membershipSummary")}</p>
                 <p className="text-white font-medium">
                   {memberships.filter(m => {
                     const created = new Date(m.created_at);

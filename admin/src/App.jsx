@@ -73,7 +73,7 @@ const App = observer(() => {
 
   return (
     <Router>
-      {/*<AuthLayout>*/}
+      <AuthLayout>
         <Toaster />
         <Routes>
           {/* Public Routes */}
@@ -126,7 +126,7 @@ const App = observer(() => {
 
 
         </Routes>
-      {/*</AuthLayout>*/}
+      </AuthLayout>
     </Router>
   );
 });
