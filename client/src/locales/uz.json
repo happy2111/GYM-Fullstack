@@ -202,6 +202,7 @@
   "refreshSuccess": "Yangilanish muvaffaqiyatli",
   "refreshError": "A'zoliklarni yangilashda xatolik",
   "renewSuccess": "Yangilashga yo'naltirilmoqda...",
-  "renewError": "A'zolikni yangilashda xatolik"
+  "renewError": "A'zolikni yangilashda xatolik",
+  "language" : "Ilova Tili"
 
 }

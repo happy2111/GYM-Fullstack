@@ -16,7 +16,7 @@ const Navbar = observer(() => {
   const {t, i18n} = useTranslation();
 
   return (
-    <nav className=" bg-dark-06/70 backdrop-blur h-[90px] flex items-center sticky w-full top-0 z-50 ">
+    <nav className=" bg-dark-06/70 backdrop-blur h-[90px] max-md:h-[60px] flex items-center sticky w-full top-0 z-50 ">
       <div className="container h-[90px] flex items-center rounded-3xl ">
         <div className="flex items-center   border-dashed w-full justify-between h-full">
           <div className={"flex gap-2 max-md:hidden"}>
@@ -39,6 +39,7 @@ const Navbar = observer(() => {
               border={location.pathname === "/qr" ? false : true}
             />
           </div>
+          <div className={'w-[49px]'}></div>
 
           <Link
             to="/"
@@ -81,8 +82,8 @@ const Navbar = observer(() => {
 
           </div>
 
-          <div className="md:hidden flex items-center space-x-4 ">
-            <LanguageSwitcher/>
+          <div className="md:hidden flex items-center space-x-4 max-md:w-[49px]">
+            {/*<LanguageSwitcher/>*/}
 
 
 

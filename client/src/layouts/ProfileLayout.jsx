@@ -6,7 +6,8 @@ import {
   ArrowLeft,
   LogOut,
   BanknoteArrowUp,
-  History
+  History,
+  Languages
 } from 'lucide-react';
 import {Outlet, useLocation, Link, useNavigate} from "react-router-dom"
 import ProfileInfo from "../components/ProfileInfo.jsx";
@@ -75,7 +76,7 @@ const ProfileLayout = observer(() => {
             <h1 className="text-lg font-medium" style={{ color: 'var(--color-gray-90)' }}>Settings</h1>
           </div>
 
-          <nav className="space-y-2">
+          <nav className="space-y-2 mb-8">
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               return (
@@ -106,6 +107,35 @@ const ProfileLayout = observer(() => {
               <span className="text-sm">Log out</span>
             </button>
           </nav>
+
+          <hr className={'border-dark-20'}/>
+
+          <div>
+            <div className="flex items-center gap-2 my-8">
+              <Languages className="w-5 h-5" style={{ color: 'var(--color-gray-70)' }} />
+              <h1 className="text-lg font-medium" style={{ color: 'var(--color-gray-90)' }}>{t('language')}</h1>
+            </div>
+
+            <div className="">
+              <div className="flex space-x-2">
+                {['en', 'ru', 'uz'].map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => i18n.changeLanguage(lang)}
+                    className={`px-3 py-1 grow-1 h-[49px] rounded-lg text-sm font-medium transition-all duration-300 ${
+                      i18n.language === lang
+                        ? 'bg-brown-60 text-white'
+                        : 'bg-dark-15 text-gray-70 hover:text-brown-70 hover:bg-dark-20'
+                    }`}
+                  >
+                    {lang.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+
         </div>
 
         {/*Button*/}
