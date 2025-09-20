@@ -9,7 +9,6 @@ import {observer} from 'mobx-react-lite';
 import AuthLayout from './layouts/AuthLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Profile from './layouts/ProfileLayout.jsx';
 import Home from './pages/Home';
 import authStore from './store/authStore';
 import {Toaster} from "react-hot-toast";
@@ -18,27 +17,22 @@ import NavLayout from "./layouts/NavLayout.jsx";
 import ProfileLayout from "./layouts/ProfileLayout.jsx";
 import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
-import api from "./http/index.js";
 import ScanQrCodePage from "./pages/ScanQrCodePage.jsx";
 import Payments from "./pages/Payments.jsx";
+import AdminRoute from "./Routes/AdminRoute.jsx";
 
 
 
-// Protected Route Component
-const ProtectedRoute = observer(({children}) => {
-  if (!authStore.isAuthenticated) {
-    return <Navigate
-      to="/login"
-      replace
-    />;
-  }
-  return children;
-});
 
 
 
 
 const App = observer(() => {
+
+  useEffect(() => {
+    authStore.initializeAuth();
+  }, []);
+
   useEffect(() => {
     const TelegramLogin = async () => {
       if (!window.Telegram || !window.Telegram.WebApp) {
@@ -73,34 +67,19 @@ const App = observer(() => {
 
   return (
     <Router>
-      <AuthLayout>
         <Toaster />
         <Routes>
           {/* Public Routes */}
-          <Route
-            path="/login"
-            element={<Login />}
-          />
-          <Route
-            path="/register"
-            element={<Register />}
-          />
-          <Route
-            path={"/auth/google/callback"}
-            element={<GoogleAuthCallBack />}
-          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path={"/auth/google/callback"} element={<GoogleAuthCallBack />} />
 
-          {/* Protected Routes */}
-          <Route path={"/"} element={<NavLayout/>}>
-            <Route
-              path=""
-              element={
-                <Home />
-              }
-            />
-            <Route path={"scan-qr"} element={<ProtectedRoute><ScanQrCodePage/></ProtectedRoute>}/>
-            <Route path={"payments"} element={<ProtectedRoute><Payments/></ProtectedRoute>}/>
-            <Route path={"profile"} element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
+          {/* Admin-only Protected Routes */}
+          <Route path="/" element={<AuthLayout><AdminRoute><NavLayout/></AdminRoute></AuthLayout>}>
+            <Route index element={<Home />} />
+            <Route path="scan-qr" element={<ScanQrCodePage />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="profile" element={<ProfileLayout />}>
               <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />
               <Route
                 path="account-preference"
@@ -110,12 +89,6 @@ const App = observer(() => {
             </Route>
 
           </Route>
-
-
-
-
-
-          {/* Fallback */}
           <Route
             path="*"
             element={<Navigate
@@ -123,10 +96,7 @@ const App = observer(() => {
               replace
             />}
           />
-
-
         </Routes>
-      </AuthLayout>
     </Router>
   );
 });

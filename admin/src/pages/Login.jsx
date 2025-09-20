@@ -3,7 +3,7 @@ import {observer} from 'mobx-react-lite';
 import {Eye, EyeOff, Mail, Lock} from 'lucide-react';
 import authStore from '../store/authStore';
 import toast from "react-hot-toast";
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, Navigate} from 'react-router-dom';
 import Helmet from "react-helmet";
 
 const Login = observer(() => {
@@ -16,26 +16,30 @@ const Login = observer(() => {
   const [showPassword, setShowPassword] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const navigate = useNavigate();
+
   const handleSubmit = async () => {
     try {
-      setLoading(true)
-      const res = await authStore.login(form)
-      toast.success("Login successful")
-      setForm({
-        email: "",
-        password: ""
-      })
-      navigate('/')
+      setLoading(true);
+      const response = await authStore.login(form);
+      if (response.user.role !== "admin") {
+        authStore.logout();
+        toast.error("Access denied. Admins only.");
+        return;
+      }
+      toast.success("Login successful");
+      setForm({ email: "", password: "" });
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true }); // ✅ нормальный редирект
     } catch (err) {
-      console.log(err)
+      console.log(err);
       setError({
         ...error,
-        global: err.response?.data?.message || 'Login failed'
-      })
+        global: err.response?.data?.message || "Login failed",
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleChange = (e) => {
     const {name, value} = e.target;

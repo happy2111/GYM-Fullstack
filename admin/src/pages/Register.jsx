@@ -62,6 +62,14 @@ const Register = () => {
         toast.error("An account with this email already exists")
         return
       } else {
+
+
+        if (res.user.role !== "admin") {
+          authStore.logout();
+          toast.error("Access denied. Admins only.");
+          return;
+        }
+
         setIsChecked(true)
         toast.success("Email not exist")
       }
