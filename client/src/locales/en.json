@@ -17,8 +17,14 @@
     "programs": "Programs",
     "nutrition": "Nutrition",
     "community": "Community",
-    "about": "About",
-    "contact": "Contact"
+    "about": "About Us",
+    "contact": "Contact",
+    "packages": "Packages",
+    "profile": "Profile",
+    "qr": "QR Code",
+    "sessions": "Sessions",
+    "payments": "Payments",
+    "membership": "Membership"
   },
   "common": {
     "get_started": "Get Started",
@@ -203,6 +209,30 @@
   "refreshError": "Failed to refresh memberships",
   "renewSuccess": "Redirecting to renewal...",
   "renewError": "Failed to renew membership",
-  "language" : "Application language"
+  "language" : "Application language",
+  "footer": {
+    "brand_description": "Transform your body and mind with our personalized fitness programs. Your journey to a healthier lifestyle starts here.",
+    "quick_links": "Quick Links",
+    "programs": "Programs",
+    "support": "Support & Contact",
+    "follow_us": "Follow Us",
+    "newsletter_title": "Stay Updated",
+    "newsletter_description": "Get fitness tips, workout plans and exclusive offers",
+    "email_placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "contact_us": "Contact Us",
+    "help_center": "Help Center",
+    "privacy_policy": "Privacy Policy",
+    "terms_service": "Terms of Service",
+    "copyright": "© 2024 Fitness App. All rights reserved.",
+    "made_with": "Made with ❤️ for fitness enthusiasts",
+    "stats": {
+      "active_users": "Active Users",
+      "workouts": "Workouts",
+      "success_rate": "Success Rate",
+      "rating": "Rating"
+    }
+  }
+
 
 }

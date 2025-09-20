@@ -18,7 +18,13 @@
     "nutrition": "Ovqatlanish",
     "community": "Jamoa",
     "about": "Biz haqimizda",
-    "contact": "Aloqa"
+    "contact": "Aloqa",
+    "packages": "Paketlar",
+    "profile": "Profil",
+    "qr": "QR Kod",
+    "sessions": "Sessiyalar",
+    "payments": "To'lovlar",
+    "membership": "A'zolik"
   },
   "common": {
     "get_started": "Boshlash",
@@ -203,6 +209,32 @@
   "refreshError": "A'zoliklarni yangilashda xatolik",
   "renewSuccess": "Yangilashga yo'naltirilmoqda...",
   "renewError": "A'zolikni yangilashda xatolik",
-  "language" : "Ilova Tili"
+  "language" : "Ilova Tili",
+  "footer": {
+    "brand_description": "Shaxsiylashtirilgan fitness dasturlarimiz bilan tanangiz va ongni o'zgartiring. Sog'lom turmush tarziga sayohatingiz shu yerdan boshlanadi.",
+    "quick_links": "Tezkor havolalar",
+    "programs": "Dasturlar",
+    "support": "Yordam va aloqa",
+    "follow_us": "Bizni kuzatib boring",
+    "newsletter_title": "Yangiliklardan xabardor bo'ling",
+    "newsletter_description": "Fitness bo'yicha maslahatlar, mashg'ulot rejalari va maxsus takliflarni oling",
+    "email_placeholder": "Email manzilingizni kiriting",
+    "subscribe": "Obuna bo'lish",
+    "contact_us": "Biz bilan bog'laning",
+    "help_center": "Yordam markazi",
+    "privacy_policy": "Maxfiylik siyosati",
+    "terms_service": "Xizmat ko'rsatish shartlari",
+    "copyright": "© 2024 Fitness App. Barcha huquqlar himoyalangan.",
+    "made_with": "Fitness ixlosmandlari uchun ❤️ bilan yaratilgan",
+    "stats": {
+      "active_users": "Faol foydalanuvchilar",
+      "workouts": "Mashg'ulotlar",
+      "success_rate": "Muvaffaqiyat darajasi",
+      "rating": "Reyting"
+    }
+
+
+  }
+
 
 }
