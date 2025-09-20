@@ -18,7 +18,13 @@
     "nutrition": "Питание",
     "community": "Сообщество",
     "about": "О нас",
-    "contact": "Контакты"
+    "contact": "Контакты",
+    "packages": "Пакеты",
+    "profile": "Профиль",
+    "qr": "QR Код",
+    "sessions": "Сессии",
+    "payments": "Платежи",
+    "membership": "Абонемент"
   },
   "common": {
     "get_started": "Начать",
@@ -27,5 +33,335 @@
     "sign_in": "Войти",
     "try_free": "Попробовать бесплатно",
     "contact_us": "Связаться с нами"
-  }
+  },
+  "pricing": {
+    "header": {
+      "subtitle": "Цены",
+      "title": "Наши тарифные пакеты"
+    },
+    "toggle": {
+      "monthly": "Ежемесячная оплата",
+      "yearly": "Ежегодная оплата"
+    },
+    "period": {
+      "yearly": "в год, оплата ежегодно",
+      "monthly": "в месяц, оплата ежемесячно"
+    },
+    "badge": {
+      "best_offer": "Лучшее предложение"
+    },
+    "button": {
+      "buy_now": "Купить сейчас",
+      "choose_plan": "Выбрать тариф",
+      "subscribe": "Подписаться",
+      "get_started": "Начать"
+    }
+  },
+  "paymentModal": {
+    "title": "Оплата тарифа",
+    "method": "Способ оплаты",
+    "cancel": "Отмена",
+    "pay": "Оплатить",
+    "processing": "Обработка...",
+    "cash": "Наличные",
+    "click": "Click"
+  },
+  "profile": {
+    "settings": "Настройки",
+    "account_preferences": "Настройки аккаунта",
+    "sessions": "Сессии",
+    "payments": "Платежи",
+    "memberships": "Абонементы",
+    "logout": "Выйти",
+    "back": "Назад",
+    "myMemberships": "Мои абонементы",
+    "description": "Просматривайте и управляйте всеми вашими абонементами, отслеживайте оставшиеся дни и продлевайте истёкшие абонементы.",
+    "allMemberships": "Все абонементы",
+    "active": "Активные",
+    "expired": "Истёкшие",
+    "cancelled": "Отменённые",
+    "code": "КОД",
+    "daysRemaining": "Осталось дней",
+    "days": "дней",
+    "visitsUsed": "Использовано посещений",
+    "unlimited": "Без ограничений",
+    "visitsRemaining": "Осталось посещений",
+    "noVisitsRemaining": "Осталось посещений нет",
+    "unlimitedAccess": "∞ Неограниченный доступ",
+    "startDate": "Дата начала",
+    "endDate": "Дата окончания",
+    "totalPaid": "Итого оплачено",
+    "includedFeatures": "Включенные функции:",
+    "moreFeatures": "Другие функции",
+    "paymentMethods": {
+      "unknown": "Неизвестно"
+    },
+    "noMembershipsFound": "Не найдено членств",
+    "noMembershipsFoundFilter": "Нет {{filter}} членств",
+    "noMembershipsText": "Вы ещё не приобрели ни одного членства",
+    "noMembershipsFilterText": "У вас нет {{filter}} членств",
+    "browseMemberships": "Просмотр членств"
+  },
+  "sessions": {
+    "title": "Сессии устройств",
+    "description": "Управляйте активными сессиями на всех устройствах. Вы можете выйти из отдельных устройств или сразу из всех.",
+    "sign_out_all": "Выйти со всех других устройств",
+    "signing_out": "Выход...",
+    "current": "Текущая сессия",
+    "ip": "IP",
+    "last_active": "Последняя активность",
+    "expires": "Истекает",
+    "delete_success": "Сессия успешно удалена",
+    "no_active_title": "Нет активных сессий",
+    "no_active_description": "У вас нет активных сессий на других устройствах.",
+    "security_notice": "Уведомление о безопасности",
+    "security_notice_text": "Если вы заметили незнакомые устройства или местоположения, немедленно выйдите и смените пароль. Сессии автоматически истекают через 30 дней бездействия.",
+    "ago": {
+      "days": "{{count}} день назад",
+      "days_plural": "{{count}} дней назад",
+      "hours": "{{count}} час назад",
+      "hours_plural": "{{count}} часов назад",
+      "minutes": "{{count}} минуту назад",
+      "minutes_plural": "{{count}} минут назад",
+      "now": "Только что"
+    }
+  },
+  "payments": {
+    "title": "История платежей",
+    "description": "Просматривайте и управляйте всеми своими платежами и транзакциями за абонементы.",
+    "filters": {
+      "all": "Все платежи",
+      "completed": "Завершённые",
+      "pending": "В ожидании",
+      "failed": "Неудачные"
+    },
+    "method": "Метод",
+    "created": "Создано",
+    "updated": "Обновлено",
+    "transaction": "Транзакция",
+    "tariff": "Тариф",
+    "membership": "Абонемент",
+    "refund": "Возврат",
+    "details": "Детали",
+    "empty_all": "Платежей не найдено",
+    "empty_all_desc": "Вы ещё не совершали платежей.",
+    "empty_filter": "Нет {{status}} платежей",
+    "empty_filter_desc": "У вас нет {{status}} платежей.",
+    "summary": {
+      "title": "Сводка платежей",
+      "total": "Всего платежей",
+      "amount": "Общая сумма",
+      "rate": "Процент успеха"
+    },
+    "refund_success": "Запрос на возврат успешно отправлен",
+    "refund_error": "Не удалось обработать запрос на возврат"
+  },
+  "account_preferences": "Настройки аккаунта",
+  "full_name": "Полное имя",
+  "email": "Эл. почта",
+  "phone": "Телефон",
+  "gender": "Пол",
+  "male": "Мужской",
+  "female": "Женский",
+  "other": "Другой",
+  "prefer_not_to_say": "Предпочитаю не указывать",
+  "birth_day": "Дата рождения",
+  "change": "Изменить",
+  "remove": "Удалить",
+  "cancel": "Отмена",
+  "update": "Обновить",
+  "update_success": "Успешно обновлено",
+  "update_failed": "Ошибка обновления",
+  "myMemberships": "Мои Абонементы",
+  "refresh": "Обновить",
+
+  "description": "Просматривайте и управляйте всеми абонементами тренажерного зала, отслеживайте оставшиеся дни и продлевайте истекшие абонементы.",
+
+  "allMemberships": "Все Абонементы",
+  "active": "Активные",
+  "expired": "Истекшие",
+  "cancelled": "Отмененные",
+
+  "status": {
+    "active": "Активный",
+    "expired": "Истекший",
+    "cancelled": "Отмененный"
+  },
+
+  "code": "КОД",
+  "daysRemaining": "Дней осталось",
+  "days": "дней",
+  "visitsUsed": "Использованные Посещения",
+  "unlimited": "Неограничено",
+  "visitsRemaining": "посещений осталось",
+  "noVisitsRemaining": "Посещений не осталось",
+  "unlimitedAccess": "∞ Неограниченный доступ",
+
+  "startDate": "Дата Начала",
+  "endDate": "Дата Окончания",
+
+  "totalPaid": "Общая Сумма",
+  "paymentMethod": "Способ Оплаты",
+  "purchasedOn": "Приобретено",
+
+  "includedFeatures": "Включенные Функции:",
+  "moreFeatures": "еще функций",
+
+  "renewMembership": "Продлить Абонемент",
+  "manage": "Управлять",
+  "details": "Подробности",
+  "browseMemberships": "Просмотреть Абонементы",
+
+  "noMembershipsFound": "Абонементы не найдены",
+  "noMembershipsFoundFilter": "абонементов нет",
+  "noMembershipsText": "Вы еще не приобрели ни одного абонемента.",
+  "noMembershipsFilterText": "У вас нет абонементов.",
+
+  "membershipSummary": "Сводка Абонементов",
+  "totalMemberships": "Всего Абонементов",
+  "totalVisits": "Всего Посещений",
+  "thisMonth": "В Этом Месяце",
+
+  "paymentMethods": {
+    "cash": "Наличные",
+    "payme": "Payme",
+    "click": "Click",
+    "uzcard": "UzCard",
+    "humo": "Humo",
+    "unknown": "Неизвестно"
+  },
+
+  "loading": "Загрузка...",
+  "refreshSuccess": "Обновление успешно",
+  "refreshError": "Ошибка при обновлении абонементов",
+  "renewSuccess": "Перенаправление на продление...",
+  "renewError": "Ошибка при продлении абонемента",
+  "language" : "Язык приложения",
+  "footer": {
+    "brand_description": "Преобразите тело и разум с нашими персонализированными фитнес-программами. Ваш путь к здоровому образу жизни начинается здесь.",
+    "quick_links": "Быстрые ссылки",
+    "programs": "Программы",
+    "support": "Поддержка и контакты",
+    "follow_us": "Подписывайтесь на нас",
+    "newsletter_title": "Будьте в курсе",
+    "newsletter_description": "Получайте фитнес-советы, планы тренировок и эксклюзивные предложения",
+    "email_placeholder": "Введите ваш email",
+    "subscribe": "Подписаться",
+    "contact_us": "Свяжитесь с нами",
+    "help_center": "Центр помощи",
+    "privacy_policy": "Политика конфиденциальности",
+    "terms_service": "Условия использования",
+    "copyright": "© 2024 Fitness App. Все права защищены.",
+    "made_with": "Сделано с ❤️ для любителей фитнеса",
+    "stats": {
+      "active_users": "Активные пользователи",
+      "workouts": "Тренировки",
+      "success_rate": "Уровень успеха",
+      "rating": "Рейтинг"
+    }
+  },
+  "usersManagement": "Управление пользователями",
+  "manageAllUsers": "Управление всеми пользователями системы",
+
+  "searchAndFilters": {
+    "searchPlaceholder": "Поиск по имени, email или телефону...",
+    "allRoles": "Все роли",
+    "allStatuses": "Все статусы",
+    "addUser": "Добавить пользователя"
+  },
+
+  "tableHeaders": {
+    "user": "Пользователь",
+    "contact": "Контакты",
+    "role": "Роль",
+    "status": "Статус",
+    "joined": "Дата регистрации",
+    "actions": "Действия"
+  },
+
+  "roles": {
+    "admin": "Администратор",
+    "client": "Клиент",
+    "manager": "Менеджер"
+  },
+
+  "statuses": {
+    "verified": "Подтверждён",
+    "unverified": "Не подтверждён"
+  },
+
+  "actions": {
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "view": "Просмотреть",
+    "verify": "Подтвердить"
+  },
+
+  "modal": {
+    "editUser": "Редактирование пользователя",
+    "createUser": "Создание пользователя",
+    "userDetails": "Детали пользователя"
+  },
+
+  "formFields": {
+    "name": "Имя",
+    "email": "Email",
+    "phone": "Телефон",
+    "password": "Пароль",
+    "dateOfBirth": "Дата рождения",
+    "gender": "Пол",
+    "telegramId": "Telegram ID",
+    "avatarUrl": "URL аватара",
+    "telegramPhotoUrl": "URL фото из Telegram",
+    "googleId": "Google ID"
+  },
+
+  "formPlaceholders": {
+    "enterName": "Введите полное имя",
+    "enterEmail": "Введите адрес email",
+    "enterPhone": "Введите номер телефона",
+    "enterPassword": "Введите пароль",
+    "selectGender": "Выберите пол",
+    "enterTelegramId": "Введите Telegram ID",
+    "enterAvatarUrl": "Введите URL аватара",
+    "enterTelegramPhoto": "Введите URL фото из Telegram",
+    "enterGoogleId": "Введите Google ID"
+  },
+
+  "genders": {
+    "male": "Мужской",
+    "female": "Женский",
+    "other": "Другой"
+  },
+
+  "buttons": {
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "update": "Обновить",
+    "create": "Создать",
+    "updateUser": "Обновить пользователя",
+    "createUser": "Создать пользователя"
+  },
+
+  "emptyState": {
+    "noUsersFound": "Пользователи не найдены",
+    "tryAdjusting": "Попробуйте изменить параметры поиска или добавьте нового пользователя",
+    "addFirstUser": "Добавить первого пользователя"
+  },
+
+  "deleteConfirmation": {
+    "confirmDeletion": "Подтверждение удаления",
+    "deleteUserConfirm": "Вы уверены, что хотите удалить этого пользователя? Это действие необратимо."
+  },
+
+  "messages": {
+    "userCreated": "Пользователь успешно создан",
+    "userUpdated": "Пользователь успешно обновлён",
+    "userDeleted": "Пользователь успешно удалён",
+    "userVerified": "Пользователь успешно подтверждён"
+
+}
+
+
+
 }

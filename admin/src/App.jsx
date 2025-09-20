@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -20,18 +20,13 @@ import Sessions from "./pages/profile/Sessions.jsx";
 import ScanQrCodePage from "./pages/ScanQrCodePage.jsx";
 import Payments from "./pages/Payments.jsx";
 import AdminRoute from "./Routes/AdminRoute.jsx";
-
-
-
-
-
+import MembershipHistory from "./pages/profile/MembershipHistory.jsx"
+import i18n from "./i18n.js";
+import Users from "./pages/Users.jsx";
 
 
 const App = observer(() => {
-
-  useEffect(() => {
-    authStore.initializeAuth();
-  }, []);
+  const [isTelegram, setIsTelegram] = useState(true)
 
   useEffect(() => {
     const TelegramLogin = async () => {
@@ -62,12 +57,37 @@ const App = observer(() => {
     TelegramLogin();
   }, []);
 
-
-
+  useEffect(() => {
+    if (window.Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
+      i18n.changeLanguage(window.Telegram.WebApp.initDataUnsafe.user.language_code);
+      setIsTelegram(true);
+      console.log("Platform:", window.Telegram.WebApp.platform);
+    }
+  }, []);
 
   return (
     <Router>
-        <Toaster />
+      <Toaster
+        toastOptions={{
+          // Define default options
+          className: '',
+          duration: 3000,
+          removeDelay: 1000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+            marginTop: `${isTelegram ? '70px' : '0px'}`
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+        }}/>
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
@@ -79,6 +99,9 @@ const App = observer(() => {
             <Route index element={<Home />} />
             <Route path="scan-qr" element={<ScanQrCodePage />} />
             <Route path="payments" element={<Payments />} />
+            <Route path="users" element={<Users />} />
+
+
             <Route path="profile" element={<ProfileLayout />}>
               <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />
               <Route
@@ -86,6 +109,8 @@ const App = observer(() => {
                 element={<AccountPreference />}
               />
               <Route path={"sessions"} element={<Sessions/>}/>
+              <Route path={"payments"} element={<Payments/>}/>
+              <Route path={"membership-history"} element={<MembershipHistory/>}/>
             </Route>
 
           </Route>

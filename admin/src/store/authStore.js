@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import authService from '../services/authService';
+import paymentService from "../services/paymentService.js";
 
 class AuthStore {
   user = null;
@@ -7,6 +8,7 @@ class AuthStore {
   isLoading = false;
   error = null;
   sessions = [];
+  payments= []
 
 
   constructor() {
@@ -132,6 +134,25 @@ class AuthStore {
       localStorage.setItem('user', JSON.stringify(user));
     }catch (error) {
       console.error(error);
+    }
+  }
+
+  async getPayments() {
+    this.isLoading = true;
+    this.error = null;
+    try {
+      const response = await paymentService.getAllPayments()
+      runInAction(() => {
+        this.payments = response.payments;
+        this.isLoading = false;
+      });
+      return response;
+    }catch (error) {
+      runInAction(() => {
+        this.error = error.response?.data?.message || 'get me failed';
+        this.isLoading = false;
+      });
+      throw error;
     }
   }
 

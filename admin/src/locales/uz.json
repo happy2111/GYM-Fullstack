@@ -18,7 +18,13 @@
     "nutrition": "Ovqatlanish",
     "community": "Jamoa",
     "about": "Biz haqimizda",
-    "contact": "Aloqa"
+    "contact": "Aloqa",
+    "packages": "Paketlar",
+    "profile": "Profil",
+    "qr": "QR Kod",
+    "sessions": "Sessiyalar",
+    "payments": "To'lovlar",
+    "membership": "A'zolik"
   },
   "common": {
     "get_started": "Boshlash",
@@ -27,5 +33,336 @@
     "sign_in": "Kirish",
     "try_free": "Bepul sinash",
     "contact_us": "Biz bilan bog'laning"
+  },
+  "pricing": {
+    "header": {
+      "subtitle": "Narxlar",
+      "title": "Bizning tariflar ro'yxati"
+    },
+    "toggle": {
+      "monthly": "Oylik to'lov",
+      "yearly": "Yillik to'lov"
+    },
+    "period": {
+      "yearly": "yiliga, har yili to'lanadi",
+      "monthly": "oyiga, har oy to'lanadi"
+    },
+    "badge": {
+      "best_offer": "Eng yaxshi taklif"
+    },
+    "button": {
+      "buy_now": "Xarid qilish",
+      "choose_plan": "Tarifni tanlash",
+      "subscribe": "Obuna bo‘lish",
+      "get_started": "Boshlash"
+    }
+  },
+  "paymentModal": {
+    "title": "Tarif to‘lovi",
+    "method": "To‘lov usuli",
+    "cancel": "Bekor qilish",
+    "pay": "To‘lash",
+    "processing": "Qayta ishlanmoqda...",
+    "cash": "Naqd pul",
+    "click": "Click"
+  },
+  "profile" : {
+    "settings": "Sozlamalar",
+    "account_preferences": "Hisob sozlamalari",
+    "sessions": "Sessiyalar",
+    "payments": "To‘lovlar",
+    "memberships": "A'zoliklar",
+    "logout": "Chiqish",
+    "back": "Orqaga",
+    "myMemberships": "Mening a'zoliklarim",
+    "description": "Barcha gym a'zoliklaringizni ko‘ring va boshqaring, qolgan kunlarni kuzatib boring va muddati tugagan a'zoliklarni yangilang.",
+    "allMemberships": "Barcha a'zoliklar",
+    "active": "Faol",
+    "expired": "Muddati tugagan",
+    "cancelled": "Bekor qilingan",
+    "code": "KOD",
+    "daysRemaining": "Qolgan kunlar",
+    "days": "kunlar",
+    "visitsUsed": "Ishlatilgan tashriflar",
+    "unlimited": "Cheksiz",
+    "visitsRemaining": "qolgan tashriflar",
+    "noVisitsRemaining": "Tashriflar qolmadi",
+    "unlimitedAccess": "∞ Cheksiz kirish",
+    "startDate": "Boshlanish sanasi",
+    "endDate": "tugash sanasi",
+    "totalPaid": "Jami to'langan",
+    "includedFeatures": "Qo'shilgan xususiyatlar:",
+    "moreFeatures": "ko'proq xususiyatlar",
+    "to'lov usullari": {
+      "unknown": "Noma'lum"
+    },
+    "noMembershipsFound": "Hech qanday a'zolik topilmadi",
+    "noMembershipsFoundFilter": "{{filter}} a'zolik yo'q",
+    "noMembershipsText": "Siz hali hech qanday a'zolik xarid qilmagansiz.",
+    "noMembershipsFilterText": "Sizda {{filter}} a'zolik yo'q.",
+    "browseMemberships": "A'zoliklarni ko'rib chiqish"
+  },
+  "sessions": {
+    "title": "Qurilma sessiyalari",
+    "description": "Faol sessiyalarni barcha qurilmalarda boshqaring. Siz alohida qurilmalardan yoki barcha qurilmalardan chiqishingiz mumkin.",
+    "sign_out_all": "Boshqa barcha qurilmalardan chiqish",
+    "signing_out": "Chiqilmoqda...",
+    "current": "Joriy sessiya",
+    "ip": "IP",
+    "last_active": "Oxirgi faol",
+    "expires": "Tugash vaqti",
+    "delete_success": "Sessiya muvaffaqiyatli o‘chirildi",
+    "no_active_title": "Faol sessiyalar yo‘q",
+    "no_active_description": "Sizda boshqa qurilmalarda faol sessiyalar yo‘q.",
+    "security_notice": "Xavfsizlik eslatmasi",
+    "security_notice_text": "Agar notanish qurilma yoki joylashuvni sezsangiz, darhol tizimdan chiqing va parolingizni o‘zgartiring. Sessiyalar 30 kun faol bo‘lmaganidan keyin avtomatik tugaydi.",
+    "ago": {
+      "days": "{{count}} kun oldin",
+      "days_plural": "{{count}} kun oldin",
+      "hours": "{{count}} soat oldin",
+      "hours_plural": "{{count}} soat oldin",
+      "minutes": "{{count}} daqiqa oldin",
+      "minutes_plural": "{{count}} daqiqa oldin",
+      "now": "Hozirgina"
+    }
+  },
+  "payments": {
+    "title": "To'lov tarixi",
+    "description": "Barcha a'zolik to'lovlaringiz va tranzaksiyalaringizni ko'ring va boshqaring.",
+    "filters": {
+      "all": "Barcha to'lovlar",
+      "completed": "Muvaffaqiyatli",
+      "pending": "Kutilmoqda",
+      "failed": "Muvaffaqiyatsiz"
+    },
+    "method": "To'lov usuli",
+    "created": "Yaratilgan",
+    "updated": "Yangilangan",
+    "transaction": "Tranzaksiya",
+    "tariff": "Tarif",
+    "membership": "A'zolik",
+    "refund": "Qaytarish",
+    "details": "Tafsilotlar",
+    "empty_all": "To'lovlar topilmadi",
+    "empty_all_desc": "Siz hali hech qanday to'lov qilmagansiz.",
+    "empty_filter": "{{status}} to'lovlar yo'q",
+    "empty_filter_desc": "Sizda {{status}} to'lovlar yo'q.",
+    "summary": {
+      "title": "To'lovlar statistikasi",
+      "total": "Jami to'lovlar",
+      "amount": "Umumiy summa",
+      "rate": "Muvaffaqiyat darajasi"
+    },
+    "refund_success": "Qaytarish so'rovi muvaffaqiyatli yuborildi",
+    "refund_error": "Qaytarish so'rovini bajarib bo‘lmadi"
+  },
+  "account_preferences": "Hisob sozlamalari",
+  "full_name": "To‘liq ism",
+  "email": "Elektron pochta",
+  "phone": "Telefon",
+  "gender": "Jinsi",
+  "male": "Erkak",
+  "female": "Ayol",
+  "other": "Boshqa",
+  "prefer_not_to_say": "Aytishni xohlamayman",
+  "birth_day": "Tug‘ilgan kun",
+  "change": "O‘zgartirish",
+  "remove": "O‘chirish",
+  "cancel": "Bekor qilish",
+  "update": "Yangilash",
+  "update_success": "Muvaffaqiyatli yangilandi",
+  "update_failed": "Yangilashda xatolik",
+  "myMemberships": "Mening A'zoliklarim",
+  "refresh": "Yangilash",
+
+  "description": "Barcha sport zali a'zoliklaringizni ko'ring va boshqaring, qolgan kunlarni kuzating va muddati tugagan a'zoliklarni yangilang.",
+
+  "allMemberships": "Barcha A'zoliklar",
+  "active": "Faol",
+  "expired": "Muddati Tugagan",
+  "cancelled": "Bekor Qilingan",
+
+  "status": {
+    "active": "Faol",
+    "expired": "Muddati Tugagan",
+    "cancelled": "Bekor Qilingan"
+  },
+
+  "code": "KOD",
+  "daysRemaining": "Qolgan kunlar",
+  "days": "kun",
+  "visitsUsed": "Foydalanilgan Tashriflar",
+  "unlimited": "Cheksiz",
+  "visitsRemaining": "tashriflar qoldi",
+  "noVisitsRemaining": "Tashriflar qolmadi",
+  "unlimitedAccess": "∞ Cheksiz kirish",
+
+  "startDate": "Boshlash Sanasi",
+  "endDate": "Tugash Sanasi",
+
+  "totalPaid": "Jami To'langan",
+  "paymentMethod": "To'lov Usuli",
+  "purchasedOn": "Sotib olingan sana",
+
+  "includedFeatures": "Kiritilgan Xususiyatlar:",
+  "moreFeatures": "ta boshqa xususiyat",
+
+  "renewMembership": "A'zolikni Yangilash",
+  "manage": "Boshqarish",
+  "details": "Tafsilotlar",
+  "browseMemberships": "A'zoliklarni Ko'rish",
+
+  "noMembershipsFound": "A'zoliklar topilmadi",
+  "noMembershipsFoundFilter": "a'zoliklar yo'q",
+  "noMembershipsText": "Siz hali hech qanday a'zolik sotib olmadingiz.",
+  "noMembershipsFilterText": "Sizda hech qanday a'zolik yo'q.",
+
+  "membershipSummary": "A'zolik Xulosasi",
+  "totalMemberships": "Jami A'zoliklar",
+  "totalVisits": "Jami Tashriflar",
+  "thisMonth": "Bu Oy",
+
+  "paymentMethods": {
+    "cash": "Naqd",
+    "payme": "Payme",
+    "click": "Click",
+    "uzcard": "UzCard",
+    "humo": "Humo",
+    "unknown": "Noma'lum"
+  },
+
+  "loading": "Yuklanmoqda...",
+  "refreshSuccess": "Yangilanish muvaffaqiyatli",
+  "refreshError": "A'zoliklarni yangilashda xatolik",
+  "renewSuccess": "Yangilashga yo'naltirilmoqda...",
+  "renewError": "A'zolikni yangilashda xatolik",
+  "language" : "Ilova Tili",
+  "footer": {
+    "brand_description": "Shaxsiylashtirilgan fitness dasturlarimiz bilan tanangiz va ongni o'zgartiring. Sog'lom turmush tarziga sayohatingiz shu yerdan boshlanadi.",
+    "quick_links": "Tezkor havolalar",
+    "programs": "Dasturlar",
+    "support": "Yordam va aloqa",
+    "follow_us": "Bizni kuzatib boring",
+    "newsletter_title": "Yangiliklardan xabardor bo'ling",
+    "newsletter_description": "Fitness bo'yicha maslahatlar, mashg'ulot rejalari va maxsus takliflarni oling",
+    "email_placeholder": "Email manzilingizni kiriting",
+    "subscribe": "Obuna bo'lish",
+    "contact_us": "Biz bilan bog'laning",
+    "help_center": "Yordam markazi",
+    "privacy_policy": "Maxfiylik siyosati",
+    "terms_service": "Xizmat ko'rsatish shartlari",
+    "copyright": "© 2024 Fitness App. Barcha huquqlar himoyalangan.",
+    "made_with": "Fitness ixlosmandlari uchun ❤️ bilan yaratilgan",
+    "stats": {
+      "active_users": "Faol foydalanuvchilar",
+      "workouts": "Mashg'ulotlar",
+      "success_rate": "Muvaffaqiyat darajasi",
+      "rating": "Reyting"
+    }
+
+
+  },
+  "usersManagement": "Foydalanuvchilar boshqaruvi",
+  "manageAllUsers": "Tizimdagi barcha foydalanuvchilarni boshqarish",
+
+  "searchAndFilters": {
+    "searchPlaceholder": "Ism, email yoki telefon orqali qidirish...",
+    "allRoles": "Barcha rollar",
+    "allStatuses": "Barcha holatlar",
+    "addUser": "Foydalanuvchi qo‘shish"
+  },
+
+  "tableHeaders": {
+    "user": "Foydalanuvchi",
+    "contact": "Aloqa",
+    "role": "Rol",
+    "status": "Holat",
+    "joined": "Ro‘yxatdan o‘tgan sana",
+    "actions": "Harakatlar"
+  },
+
+  "roles": {
+    "admin": "Administrator",
+    "client": "Mijoz",
+    "manager": "Menejer"
+  },
+
+  "statuses": {
+    "verified": "Tasdiqlangan",
+    "unverified": "Tasdiqlanmagan"
+  },
+
+  "actions": {
+    "edit": "Tahrirlash",
+    "delete": "O‘chirish",
+    "view": "Ko‘rish",
+    "verify": "Tasdiqlash"
+  },
+
+  "modal": {
+    "editUser": "Foydalanuvchini tahrirlash",
+    "createUser": "Foydalanuvchi yaratish",
+    "userDetails": "Foydalanuvchi ma’lumotlari"
+  },
+
+  "formFields": {
+    "name": "Ism",
+    "email": "Email",
+    "phone": "Telefon",
+    "password": "Parol",
+    "dateOfBirth": "Tug‘ilgan sana",
+    "gender": "Jinsi",
+    "telegramId": "Telegram ID",
+    "avatarUrl": "Avatar URL",
+    "telegramPhotoUrl": "Telegram fotosi URL",
+    "googleId": "Google ID"
+  },
+
+  "formPlaceholders": {
+    "enterName": "To‘liq ismni kiriting",
+    "enterEmail": "Email manzilini kiriting",
+    "enterPhone": "Telefon raqamini kiriting",
+    "enterPassword": "Parolni kiriting",
+    "selectGender": "Jinsni tanlang",
+    "enterTelegramId": "Telegram ID kiriting",
+    "enterAvatarUrl": "Avatar URL kiriting",
+    "enterTelegramPhoto": "Telegram fotosi URL kiriting",
+    "enterGoogleId": "Google ID kiriting"
+  },
+
+  "genders": {
+    "male": "Erkak",
+    "female": "Ayol",
+    "other": "Boshqa"
+  },
+
+  "buttons": {
+    "cancel": "Bekor qilish",
+    "save": "Saqlash",
+    "update": "Yangilash",
+    "create": "Yaratish",
+    "updateUser": "Foydalanuvchini yangilash",
+    "createUser": "Foydalanuvchi yaratish"
+  },
+
+  "emptyState": {
+    "noUsersFound": "Foydalanuvchilar topilmadi",
+    "tryAdjusting": "Qidiruv parametrlarini o‘zgartiring yoki yangi foydalanuvchi qo‘shing",
+    "addFirstUser": "Birinchi foydalanuvchini qo‘shish"
+  },
+
+  "deleteConfirmation": {
+    "confirmDeletion": "O‘chirishni tasdiqlash",
+    "deleteUserConfirm": "Haqiqatan ham bu foydalanuvchini o‘chirmoqchimisiz? Bu amalni qaytarib bo‘lmaydi."
+  },
+
+  "messages": {
+    "userCreated": "Foydalanuvchi muvaffaqiyatli yaratildi",
+    "userUpdated": "Foydalanuvchi muvaffaqiyatli yangilandi",
+    "userDeleted": "Foydalanuvchi muvaffaqiyatli o‘chirildi",
+    "userVerified": "Foydalanuvchi muvaffaqiyatli tasdiqlandi"
   }
+
+
+
 }

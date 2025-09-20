@@ -6,9 +6,6 @@ const PaymentsCRUD = () => {
   const [payments, setPayments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-
-  }, [])
   const getPayments = async () => {
     try {
       const response = await paymentService.getAllPayments()

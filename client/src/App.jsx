@@ -43,7 +43,7 @@ const ProtectedRoute = observer(({children}) => {
 
 
 const App = observer(() => {
-  const [isTelegram, setIsTelegram] = useState(true)
+  const [isTelegram, setIsTelegram] = useState(false)
 
   useEffect(() => {
     const TelegramLogin = async () => {

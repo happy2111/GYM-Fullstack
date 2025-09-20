@@ -13,15 +13,21 @@ const Navbar = observer(() => {
   const location = useLocation();
 
   return (
-    <nav className="max-md:hidden bg-dark-06 h-[90px] flex items-center sticky top-0 z-50 ">
+    <nav className=" bg-dark-06 h-[90px] flex items-center sticky top-0 z-50 ">
       <div className="container h-[90px] flex items-center overflow-hidden rounded-3xl ">
         <div className="flex items-center   border-dashed w-full justify-between h-full">
           <div className={"flex gap-2 max-md:hidden"}>
             <Button
-              text={"Home"}
+              text={"Dashboard"}
               href={"/"}
               isTransparent={location.pathname === "/" ? false : true}
               border={location.pathname === "/" ? false : true}
+            />
+            <Button
+              text={"Users"}
+              href={"/users"}
+              isTransparent={location.pathname === "/users" ? false : true}
+              border={location.pathname === "/users" ? false : true}
             />
             <Button
               text={"Scan QR Code"}
@@ -47,9 +53,9 @@ const Navbar = observer(() => {
 
           <Link
             to="/"
-            className="md:absolute left-1/2 md:-translate-x-1/2 space-x-2"
+            className="md:absolute left-1/2 md:-translate-x-1/2 "
           >
-            <span className="text-2xl font-bold font-roboto text-white ">VeloPro</span>
+            <span className="text-2xl  font-roboto text-white font-bold"><span className={" text-brown-60"}>Bull</span>Fit</span>
           </Link>
 
           <div className={"flex gap-2 max-md:hidden"}>

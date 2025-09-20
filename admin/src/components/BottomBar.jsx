@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Package, User, LogIn, ScanQrCode , BanknoteArrowDown} from 'lucide-react';
+import { Home, LayoutDashboard, Users, LogIn, ScanQrCode , BanknoteArrowDown} from 'lucide-react';
 import authStore from '../store/authStore';
 import { observer } from 'mobx-react-lite';
 
@@ -9,19 +9,24 @@ const BottomBar = observer(() => {
 
   const navItems = [
     {
-      name: 'Home',
+      name: 'Dashboard',
       href: '/',
-      icon: Home,
+      icon: LayoutDashboard,
     },
     {
-      name: 'Products',
-      href: '/scan-qr',
-      icon: ScanQrCode,
+      name: 'Users',
+      href: '/users',
+      icon: Users,
     },
     {
       name: 'Payments',
       href: '/payments',
       icon: BanknoteArrowDown,
+    },
+    {
+      name: 'Qr Scan',
+      href: '/scan-qr',
+      icon: ScanQrCode,
     },
   ];
 
@@ -52,31 +57,31 @@ const BottomBar = observer(() => {
             })}
 
             {/* Auth Section */}
-            {authStore.isAuthenticated ? (
-              <Link
-                to="/profile"
-                className={`flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-xl transition-all duration-200 ${
-                  location.pathname === '/profile'
-                    ? 'bg-brown-60 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
-                }`}
-              >
-                <User size={20} />
-                <span className="text-xs font-medium">Profile</span>
-              </Link>
-            ) : (
-              <Link
-                to="/login"
-                className={`flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-xl transition-all duration-200 ${
-                  location.pathname === '/login' || location.pathname === '/register'
-                    ? 'bg-brown-60 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
-                }`}
-              >
-                <LogIn size={20} />
-                <span className="text-xs font-medium">Login</span>
-              </Link>
-            )}
+            {/*{authStore.isAuthenticated ? (*/}
+            {/*  <Link*/}
+            {/*    to="/profile"*/}
+            {/*    className={`flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-xl transition-all duration-200 ${*/}
+            {/*      location.pathname === '/profile'*/}
+            {/*        ? 'bg-brown-60 text-white'*/}
+            {/*        : 'text-gray-400 hover:text-white hover:bg-gray-700/50'*/}
+            {/*    }`}*/}
+            {/*  >*/}
+            {/*    <User size={20} />*/}
+            {/*    <span className="text-xs font-medium">Profile</span>*/}
+            {/*  </Link>*/}
+            {/*) : (*/}
+            {/*  <Link*/}
+            {/*    to="/login"*/}
+            {/*    className={`flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-xl transition-all duration-200 ${*/}
+            {/*      location.pathname === '/login' || location.pathname === '/register'*/}
+            {/*        ? 'bg-brown-60 text-white'*/}
+            {/*        : 'text-gray-400 hover:text-white hover:bg-gray-700/50'*/}
+            {/*    }`}*/}
+            {/*  >*/}
+            {/*    <LogIn size={20} />*/}
+            {/*    <span className="text-xs font-medium">Login</span>*/}
+            {/*  </Link>*/}
+            {/*)}*/}
           </div>
         </div>
       </nav>

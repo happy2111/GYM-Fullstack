@@ -4,8 +4,9 @@ import HeroSection from "./home/Hero.jsx";
 const Home = () => {
   return (
     <div>
-      <HeroSection/>
-      <Link to={"/profile"}>Profile</Link>
+      dashboard
+      {/*<HeroSection/>*/}
+      {/*<Link to={"/profile"}>Profile</Link>*/}
     </div>
   );
 };

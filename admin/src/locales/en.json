@@ -17,8 +17,14 @@
     "programs": "Programs",
     "nutrition": "Nutrition",
     "community": "Community",
-    "about": "About",
-    "contact": "Contact"
+    "about": "About Us",
+    "contact": "Contact",
+    "packages": "Packages",
+    "profile": "Profile",
+    "qr": "QR Code",
+    "sessions": "Sessions",
+    "payments": "Payments",
+    "membership": "Membership"
   },
   "common": {
     "get_started": "Get Started",
@@ -27,5 +33,337 @@
     "sign_in": "Sign In",
     "try_free": "Try Free",
     "contact_us": "Contact Us"
+  },
+  "pricing": {
+    "header": {
+      "subtitle": "Pricing",
+      "title": "Our List Packages"
+    },
+    "toggle": {
+      "monthly": "Billed Monthly",
+      "yearly": "Billed Yearly"
+    },
+    "period": {
+      "yearly": "per year, billed annually",
+      "monthly": "per month, billed monthly"
+    },
+    "badge": {
+      "best_offer": "Best Offer"
+    },
+    "button": {
+      "buy_now": "Buy Now",
+      "choose_plan": "Choose Plan",
+      "subscribe": "Subscribe",
+      "get_started": "Get Started"
+    }
+  },
+  "paymentModal": {
+    "title": "Tariff Payment",
+    "method": "Payment Method",
+    "cancel": "Cancel",
+    "pay": "Pay",
+    "processing": "Processing...",
+    "cash": "Cash",
+    "click": "Click"
+  },
+  "profile": {
+    "settings": "Settings",
+    "account_preferences": "Account Preferences",
+    "sessions": "Sessions",
+    "payments": "Payments",
+    "memberships": "Memberships",
+    "logout": "Log out",
+    "back": "Back",
+    "myMemberships": "My Memberships",
+    "description": "View and manage all your gym memberships, track remaining days, and renew expired memberships.",
+    "allMemberships": "All Memberships",
+    "active": "Active",
+    "expired": "Expired",
+    "cancelled": "Cancelled",
+    "code": "CODE",
+    "daysRemaining": "Days remaining",
+    "days": "days",
+    "visitsUsed": "Visits Used",
+    "unlimited": "Unlimited",
+    "visitsRemaining": "visits remaining",
+    "noVisitsRemaining": "No visits remaining",
+    "unlimitedAccess": "∞ Unlimited access",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "totalPaid": "Total Paid",
+    "includedFeatures": "Included Features:",
+    "moreFeatures": "more features",
+    "paymentMethods": {
+      "unknown": "Unknown"
+    },
+    "noMembershipsFound": "No memberships found",
+    "noMembershipsFoundFilter": "No {{filter}} memberships",
+    "noMembershipsText": "You haven't purchased any memberships yet.",
+    "noMembershipsFilterText": "You don't have any {{filter}} memberships.",
+    "browseMemberships": "Browse Memberships"
+  },
+  "sessions": {
+    "title": "Device Sessions",
+    "description": "Manage your active sessions across all devices. You can sign out of specific devices or all devices at once.",
+    "sign_out_all": "Sign out of all other devices",
+    "signing_out": "Signing out...",
+    "current": "Current session",
+    "ip": "IP",
+    "last_active": "Last active",
+    "expires": "Expires",
+    "delete_success": "Session deleted successfully",
+    "no_active_title": "No active sessions",
+    "no_active_description": "You don't have any active sessions on other devices.",
+    "security_notice": "Security Notice",
+    "security_notice_text": "If you notice any unfamiliar devices or locations, sign out immediately and change your password. Sessions automatically expire after 30 days of inactivity.",
+    "ago": {
+      "days": "{{count}} day ago",
+      "days_plural": "{{count}} days ago",
+      "hours": "{{count}} hour ago",
+      "hours_plural": "{{count}} hours ago",
+      "minutes": "{{count}} minute ago",
+      "minutes_plural": "{{count}} minutes ago",
+      "now": "Just now"
+    }
+  },
+  "payments": {
+    "title": "Payment History",
+    "description": "View and manage all your gym membership payments and transactions.",
+    "filters": {
+      "all": "All Payments",
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "method": "Method",
+    "created": "Created",
+    "updated": "Updated",
+    "transaction": "Transaction",
+    "tariff": "Tariff ID",
+    "membership": "Membership",
+    "refund": "Refund",
+    "details": "Details",
+    "empty_all": "No payments found",
+    "empty_all_desc": "You haven't made any payments yet.",
+    "empty_filter": "No {{status}} payments",
+    "empty_filter_desc": "You don't have any {{status}} payments.",
+    "summary": {
+      "title": "Payment Summary",
+      "total": "Total Payments",
+      "amount": "Total Amount",
+      "rate": "Success Rate"
+    },
+    "refund_success": "Refund request submitted successfully",
+    "refund_error": "Failed to process refund request"
+  },
+  "account_preferences": "Account preferences",
+  "full_name": "Full Name",
+  "email": "Email",
+  "phone": "Phone",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "other": "Other",
+  "prefer_not_to_say": "Prefer not to say",
+  "birth_day": "Birth Day",
+  "change": "Change",
+  "remove": "Remove",
+  "cancel": "Cancel",
+  "update": "Update",
+  "update_success": "Update successful",
+  "update_failed": "Update failed",
+  "myMemberships": "My Memberships",
+  "refresh": "Refresh",
+
+  "description": "View and manage all your gym memberships, track remaining days, and renew expired memberships.",
+
+  "allMemberships": "All Memberships",
+  "active": "Active",
+  "expired": "Expired",
+  "cancelled": "Cancelled",
+
+  "status": {
+    "active": "Active",
+    "expired": "Expired",
+    "cancelled": "Cancelled"
+  },
+
+  "code": "CODE",
+  "daysRemaining": "Days remaining",
+  "days": "days",
+  "visitsUsed": "Visits Used",
+  "unlimited": "Unlimited",
+  "visitsRemaining": "visits remaining",
+  "noVisitsRemaining": "No visits remaining",
+  "unlimitedAccess": "∞ Unlimited access",
+
+  "startDate": "Start Date",
+  "endDate": "End Date",
+
+  "totalPaid": "Total Paid",
+  "paymentMethod": "Payment Method",
+  "purchasedOn": "Purchased on",
+
+  "includedFeatures": "Included Features:",
+  "moreFeatures": "more features",
+
+  "renewMembership": "Renew Membership",
+  "manage": "Manage",
+  "details": "Details",
+  "browseMemberships": "Browse Memberships",
+
+  "noMembershipsFound": "No memberships found",
+  "noMembershipsFoundFilter": "memberships",
+  "noMembershipsText": "You haven't purchased any memberships yet.",
+  "noMembershipsFilterText": "You don't have any memberships.",
+
+  "membershipSummary": "Membership Summary",
+  "totalMemberships": "Total Memberships",
+  "totalVisits": "Total Visits",
+  "thisMonth": "This Month",
+
+
+
+  "paymentMethods": {
+    "cash": "Cash",
+    "payme": "Payme",
+    "click": "Click",
+    "uzcard": "UzCard",
+    "humo": "Humo",
+    "unknown": "Unknown"
+  },
+
+  "loading": "Loading...",
+  "refreshSuccess": "Refreshed successfully",
+  "refreshError": "Failed to refresh memberships",
+  "renewSuccess": "Redirecting to renewal...",
+  "renewError": "Failed to renew membership",
+  "language" : "Application language",
+  "footer": {
+    "brand_description": "Transform your body and mind with our personalized fitness programs. Your journey to a healthier lifestyle starts here.",
+    "quick_links": "Quick Links",
+    "programs": "Programs",
+    "support": "Support & Contact",
+    "follow_us": "Follow Us",
+    "newsletter_title": "Stay Updated",
+    "newsletter_description": "Get fitness tips, workout plans and exclusive offers",
+    "email_placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "contact_us": "Contact Us",
+    "help_center": "Help Center",
+    "privacy_policy": "Privacy Policy",
+    "terms_service": "Terms of Service",
+    "copyright": "© 2024 Fitness App. All rights reserved.",
+    "made_with": "Made with ❤️ for fitness enthusiasts",
+    "stats": {
+      "active_users": "Active Users",
+      "workouts": "Workouts",
+      "success_rate": "Success Rate",
+      "rating": "Rating"
+    }
+  },
+  "usersManagement": "Users Management",
+  "manageAllUsers": "Manage all system users",
+
+  "searchAndFilters": {
+    "searchPlaceholder": "Search by name, email, or phone...",
+    "allRoles": "All Roles",
+    "allStatuses": "All Statuses",
+    "addUser": "Add User"
+  },
+
+  "tableHeaders": {
+    "user": "User",
+    "contact": "Contact",
+    "role": "Role",
+    "status": "Status",
+    "joined": "Joined",
+    "actions": "Actions"
+  },
+
+  "roles": {
+    "admin": "Admin",
+    "client": "Client",
+    "manager": "Manager"
+  },
+
+  "statuses": {
+    "verified": "Verified",
+    "unverified": "Unverified"
+  },
+
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "verify": "Verify"
+  },
+
+  "modal": {
+    "editUser": "Edit User",
+    "createUser": "Create User",
+    "userDetails": "User Details"
+  },
+
+  "formFields": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "password": "Password",
+    "dateOfBirth": "Date of Birth",
+    "gender": "Gender",
+    "telegramId": "Telegram ID",
+    "avatarUrl": "Avatar URL",
+    "telegramPhotoUrl": "Telegram Photo URL",
+    "googleId": "Google ID"
+  },
+
+  "formPlaceholders": {
+    "enterName": "Enter full name",
+    "enterEmail": "Enter email address",
+    "enterPhone": "Enter phone number",
+    "enterPassword": "Enter password",
+    "selectGender": "Select gender",
+    "enterTelegramId": "Enter Telegram ID",
+    "enterAvatarUrl": "Enter avatar URL",
+    "enterTelegramPhoto": "Enter Telegram photo URL",
+    "enterGoogleId": "Enter Google ID"
+  },
+
+  "genders": {
+    "male": "Male",
+    "female": "Female",
+    "other": "Other"
+  },
+
+  "buttons": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "update": "Update",
+    "create": "Create",
+    "updateUser": "Update User",
+    "createUser": "Create User"
+  },
+
+  "emptyState": {
+    "noUsersFound": "No users found",
+    "tryAdjusting": "Try adjusting your search criteria or add a new user",
+    "addFirstUser": "Add First User"
+  },
+
+  "deleteConfirmation": {
+    "confirmDeletion": "Confirm Deletion",
+    "deleteUserConfirm": "Are you sure you want to delete this user? This action cannot be undone."
+  },
+
+  "messages": {
+    "userCreated": "User created successfully",
+    "userUpdated": "User updated successfully",
+    "userDeleted": "User deleted successfully",
+    "userVerified": "User verified successfully"
   }
+
 }
+
+
+

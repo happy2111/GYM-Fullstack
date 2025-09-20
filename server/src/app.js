@@ -11,6 +11,7 @@ const membershipRoutes = require('./routes/membershipRoutes');
 const visitRoutes = require('./routes/visitRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const tariffRoutes = require('./routes/tariffRoutes');
+const usersRoutes = require('./routes/usersRoutes');
 
 const logger = require('./utils/logger');
 require('./services/googleAuth'); // Initialize Google OAuth strategy
@@ -81,6 +82,7 @@ app.use("/memberships", membershipRoutes);
 app.use('/visits', visitRoutes);
 app.use("/payment", paymentRoutes)
 app.use('/tariffs', tariffRoutes);
+app.use("/users", usersRoutes)
 
 // Health check
 app.get('/health', (req, res) => {

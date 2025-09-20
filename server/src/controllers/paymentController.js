@@ -38,31 +38,6 @@ class PaymentController {
         });
       }
 
-
-
-      // ⚡ Если онлайн — тут у тебя должна быть интеграция (Payme/Click/PayPal).
-      // После callback (webhook) нужно будет обновить статус.
-
-      // if (method === 'payme' || method === 'click') {
-      //   // Тут должна быть интеграция с API Payme/Click
-      //   // Если success → completed сразу
-      //   const payment = await paymentService.createPayment({
-      //     userId,
-      //     amount,
-      //     method,
-      //     status: 'completed'
-      //   });
-      //
-      //   const membership = await membershipService.createMembership({
-      //     userId,
-      //     type: req.body.type,
-      //     startDate: req.body.startDate,
-      //     endDate: req.body.endDate,
-      //     price: payment.amount,
-      //     paymentId: payment.id,
-      //     maxVisits: req.body.maxVisits
-      //   });
-
       res.status(201).json({ payment });
     } catch (error) {
       logger.error('Create payment error:', error);

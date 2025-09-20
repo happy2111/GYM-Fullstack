@@ -7,9 +7,6 @@ const AuthLayout = observer(({ children }) => {
   const location = useLocation();
   const { isAuthenticated,  isLoading} = authStore;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   if (location.pathname === '/auth/google/callback') {
     return <>{children}</>;
