@@ -18,7 +18,16 @@ class UserController {
       const sortBy = allowedSort.includes(req.query.sortBy) ? req.query.sortBy : 'created_at';
       const sortOrder = req.query.sortOrder === 'asc' ? 'ASC' : 'DESC';
 
-      const { users, total } = await userService.getAllUsers(limit, offset, sortBy, sortOrder);
+      // добавляем search
+      const search = req.query.search?.trim() || "";
+
+      const { users, total } = await userService.getAllUsers(
+        limit,
+        offset,
+        sortBy,
+        sortOrder,
+        search
+      );
 
       res.json({
         data: users,
@@ -34,6 +43,7 @@ class UserController {
       res.status(500).json({ message: 'Internal server error' });
     }
   }
+
 }
 
 module.exports = new UserController();

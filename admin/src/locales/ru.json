@@ -32,7 +32,10 @@
     "sign_up": "Регистрация",
     "sign_in": "Войти",
     "try_free": "Попробовать бесплатно",
-    "contact_us": "Связаться с нами"
+    "contact_us": "Связаться с нами",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "cancel": "Отмена"
   },
   "pricing": {
     "header": {
@@ -358,10 +361,105 @@
     "userCreated": "Пользователь успешно создан",
     "userUpdated": "Пользователь успешно обновлён",
     "userDeleted": "Пользователь успешно удалён",
-    "userVerified": "Пользователь успешно подтверждён"
+    "userVerified": "Пользователь успешно подтверждён",
+    "pleaseSelectUserAndMembership": "Выберите пользователя и активное членство",
+    "visitCreatedSuccessfully": "Визит успешно создан!",
+    "errorCreatingVisit": "Ошибка создания посещения",
+    "searchError": "Ошибка поиска пользователя",
+    "membershipError": "Ошибка получения членства"
+  },
+  "visits": {
+    "management": "Управление посещениями",
+    "manageAllVisits": "Управление всеми посещениями спортзала",
+    "searchPlaceholder": "Поиск по пользователю, email или заметкам...",
+    "addManualVisit": "Добавить посещение",
+    "noVisitsFound": "Посещения не найдены",
+    "tryAdjusting": "Попробуйте изменить фильтры поиска",
+    "addFirstVisit": "Добавить первое посещение",
+    "unknownUser": "Неизвестный пользователь",
+    "noMembership": "Без абонемента",
 
-}
+    "checkinMethods": {
+      "qr": "QR-код",
+      "manual": "Ручной",
+      "admin": "Админ"
+    },
 
+    "filters": {
+      "allMethods": "Все способы",
+      "dateFrom": "Дата с",
+      "dateTo": "Дата по",
+      "userName": "Имя пользователя",
+      "userNamePlaceholder": "Поиск по имени...",
+      "membershipId": "ID абонемента",
+      "membershipIdPlaceholder": "Введите ID абонемента",
+      "todayOnly": "Только сегодня",
+      "apply": "Применить",
+      "reset": "Сбросить"
+    },
 
+    "tableHeaders": {
+      "user": "Пользователь",
+      "membership": "Абонемент",
+      "checkinMethod": "Способ входа",
+      "checkinTime": "Время входа",
+      "notes": "Заметки",
+      "actions": "Действия",
+      "tariffCode" : "Код тарифа"
+    },
+
+    "form": {
+      "userId": "ID пользователя",
+      "userIdPlaceholder": "Введите ID пользователя",
+      "userIdHint": "UUID пользователя для создания посещения",
+      "membershipId": "ID абонемента",
+      "membershipIdPlaceholder": "Введите ID абонемента (опционально)",
+      "membershipIdHint": "UUID активного абонемента пользователя",
+      "notes": "Заметки",
+      "notesPlaceholder": "Дополнительные заметки о посещении..."
+    },
+
+    "editVisit": "Редактировать посещение",
+    "createManualVisit": "Создать ручное посещение",
+    "updateVisit": "Обновить посещение",
+    "createVisit": "Создать посещение",
+    "confirmDeletion": "Подтвердить удаление",
+    "deleteVisitConfirm": "Вы уверены, что хотите удалить это посещение? Это действие нельзя отменить."
+  },
+
+  "pagination": {
+    "showing": "Показано",
+    "of": "из",
+    "results": "результатов",
+    "perPage": "на странице"
+  },
+  "createVisit": "Создать визит",
+  "creating": "Создание...",
+
+  "userSearch": {
+    "searchUser": "Поиск пользователя",
+    "searchPlaceholder": "Введите идентификатор, имя, адрес электронной почты или номер телефона...",
+    "searching": "Поиск...",
+    "selectedUser": "Выбранный пользователь",
+    "clearSelection": "Очистить выбор"
+  },
+
+  "memberships": {
+    "selectMembership": "Выбрать членство",
+    "loadingMemberships": "Загрузка членств...",
+    "noActiveMemberships": "У пользователя нет активных членств",
+    "membership": "Членство",
+    "validityPeriod": "Срок действия",
+    "visits": "Посещения",
+    "unlimited": "Без ограничений",
+    "used": "Использовано",
+    "remaining": "Осталось",
+    "membershipExhausted": "Членство исчерпано"
+  },
+
+  "notes": {
+    "notes": "Заметки",
+    "notesPlaceholder": "Дополнительная информация о посещении..."
+  }
 
 }

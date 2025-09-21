@@ -32,7 +32,10 @@
     "sign_up": "Ro'yxatdan o'tish",
     "sign_in": "Kirish",
     "try_free": "Bepul sinash",
-    "contact_us": "Biz bilan bog'laning"
+    "contact_us": "Biz bilan bog'laning",
+    "edit": "Edit",
+    "delete": "O'chirish",
+    "cancel": "Bekor qilish"
   },
   "pricing": {
     "header": {
@@ -360,8 +363,108 @@
     "userCreated": "Foydalanuvchi muvaffaqiyatli yaratildi",
     "userUpdated": "Foydalanuvchi muvaffaqiyatli yangilandi",
     "userDeleted": "Foydalanuvchi muvaffaqiyatli o‘chirildi",
-    "userVerified": "Foydalanuvchi muvaffaqiyatli tasdiqlandi"
+    "userVerified": "Foydalanuvchi muvaffaqiyatli tasdiqlandi",
+    "pleaseSelectUserAndMembership": "Iltimos, foydalanuvchi va faol a'zolikni tanlang",
+    "visitCreatedSuccessfully": "Tashrif muvaffaqiyatli yaratildi!",
+    "errorCreatingVisit": "Tashrif yaratishda xatolik yuz berdi",
+    "searchError": "Foydalanuvchini qidirish xatosi",
+    "membershipError": "A'zolikni olishda xatolik yuz berdi"
+  },
+  "visits": {
+    "management": "Tashriflarni boshqarish",
+    "manageAllVisits": "Barcha sport zaliga tashriflarni boshqarish",
+    "searchPlaceholder": "Foydalanuvchi, elektron pochta yoki eslatmalar bo'yicha qidirish...",
+    "addManualVisit": "Tashrif qo'shish",
+    "noVisitsFound": "Hech qanday tashrif topilmadi",
+    "tryAdjusting": "Qidiruv filtrlarini o'zgartirib ko'ring",
+    "addFirstVisit": "Birinchi tashrifni qo'shing",
+    "unknownUser": "Noma'lum foydalanuvchi",
+    "noMembership": "A'zolik yo'q",
+
+    "checkinMethods": {
+      "qr": "QR kodi",
+      "manual": "Qo'llanma",
+      "admin": "Admin"
+    },
+
+    "filters": {
+      "allMethods": "Barcha usullar",
+      "dateFrom": "Sana",
+      "dateTo": "Sana",
+      "userName": "Foydalanuvchi nomi",
+      "userNamePlaceholder": "Ism bo'yicha qidirish...",
+      "membershipId": "Obuna identifikatori",
+      "membershipIdPlaceholder": "Obuna identifikatorini kiriting",
+      "todayOnly": "Faqat bugun",
+      "apply": "qo'llash",
+      "reset": "Qayta tiklash"
+    },
+
+    "tableHeaders": {
+      "user": "Foydalanuvchi",
+      "membership": "Obuna",
+      "checkinMethod": "Kirish usuli",
+      "checkinTime": "Kirish vaqti",
+      "notes": "Eslatmalar",
+      "actions": "Actions",
+      "tariffCode" : "Tarif kodi"
+    },
+
+    "form": {
+      "userId": "Foydalanuvchi ID",
+      "userIdPlaceholder": "Foydalanuvchi identifikatorini kiriting",
+      "userIdHint": "Tashrif yaratish uchun foydalanuvchining UUID",
+      "membershipId": "Obuna identifikatori",
+      "membershipIdPlaceholder": "A'zolik identifikatorini kiriting (ixtiyoriy)",
+      "membershipIdHint": "Foydalanuvchining faol a'zoligining UUID",
+      "notes": "Eslatmalar",
+      "notesPlaceholder": "Tashrif haqida qo'shimcha eslatmalar..."
+    },
+
+    "editVisit": "Tashrifni tahrirlash",
+    "createManualVisit": "Qo'lda tashrif yaratish",
+    "updateVisit": "Yangilanish tashrifi",
+    "createVisit": "Tashrif yaratish",
+    "confirmDeletion": "O'chirishni tasdiqlang",
+    "deleteVisitConfirm": "Bu tashrifni oʻchirib tashlamoqchimisiz? Bu amalni ortga qaytarib boʻlmaydi."
+  },
+
+  "pagination": {
+    "showing": "Ko'rsatilmoqda",
+    "of": "of",
+    "results": "natijalar",
+    "perPage": "har bir sahifa"
+  },
+  "createVisit": "Tashrif yaratish",
+  "creating": "Yaratilmoqda...",
+
+  "userSearch": {
+    "searchUser": "Foydalanuvchini qidirish",
+    "searchPlaceholder": "ID, ism, email yoki telefonni kiriting...",
+    "searching": "Qidirilmoqda...",
+    "selectedUser": "Tanlangan foydalanuvchi",
+    "clearSelection": "Tanlovni tozalash"
+  },
+
+  "memberships": {
+    "selectMembership": "A'zolikni tanlang",
+    "loadingMemberships": "A'zolar yuklanmoqda...",
+    "noActiveMemberships": "Foydalanuvchining faol a'zoligi yo'q",
+    "membership": "A'zolik",
+    "validityPeriod": "Validity Period",
+    "visits": "Tashriflar",
+    "unlimited": "Cheksiz",
+    "used": "ishlatilgan",
+    "remaining": "Qolgan",
+    "membershipExhausted": "A'zolik tugadi"
+  },
+
+  "notes": {
+    "notes": "Eslatmalar",
+    "notesPlaceholder": "Tashrif haqida qo'shimcha ma'lumot..."
   }
+
+
 
 
 

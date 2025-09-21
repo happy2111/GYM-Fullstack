@@ -92,6 +92,13 @@ router.delete('/:id',
 // ==========================================
 // ОПЕРАЦИИ ДЛЯ РАБОТЫ С ПОЛЬЗОВАТЕЛЯМИ
 // ==========================================
+// Получить активный абонемент конкретного пользователя
+router.get('/user/:userId/active',
+  authMiddleware,
+  requireRole(['admin', 'trainer']),
+  membershipLimiter,
+  membershipController.getActiveMembership
+);
 
 // Получить все абонементы конкретного пользователя
 router.get('/user/:userId',
@@ -100,12 +107,7 @@ router.get('/user/:userId',
   membershipController.getUserMemberships
 );
 
-// Получить активный абонемент конкретного пользователя
-router.get('/user/:userId/active',
-  authMiddleware,
-  membershipLimiter,
-  membershipController.getActiveMembership
-);
+
 
 // ==========================================
 // СПЕЦИАЛЬНЫЕ ОПЕРАЦИИ

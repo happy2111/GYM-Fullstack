@@ -9,10 +9,22 @@ class UsersService {
    * @param {string} params.sortBy - поле сортировки (created_at, name, email)
    * @param {"asc"|"desc"} params.sortOrder - порядок сортировки
    */
-  async getAllUsers({ page = 1, limit = 20, sortBy = "created_at", sortOrder = "desc" } = {}) {
+  async getAllUsers({
+                      page = 1,
+                      limit = 20,
+                      sortBy = "created_at",
+                      sortOrder = "desc",
+                      search = "" // 👈 добавляем параметр
+                    } = {}) {
     try {
       const response = await api.get("/users/all", {
-        params: { page, limit, sortBy, sortOrder },
+        params: {
+          page,
+          limit,
+          sortBy,
+          sortOrder,
+          ...(search && { search }) // 👈 добавляем в запрос только если не пусто
+        },
       });
 
       return {

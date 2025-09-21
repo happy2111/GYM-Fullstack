@@ -210,7 +210,7 @@ class VisitController {
   }
 
   /**
-   * Получение списка посещений
+   * Получение списка посещений с пагинацией
    * GET /api/visits
    */
   async getVisits(req, res) {
@@ -225,7 +225,9 @@ class VisitController {
         user_name: userName,
         today,
         page = 1,
-        limit = 20
+        limit = 20,
+        sortBy = 'created_at',
+        sortOrder = 'DESC'
       } = req.query;
 
       const offset = (page - 1) * limit;
@@ -240,21 +242,25 @@ class VisitController {
         offset: parseInt(offset)
       };
 
-      // Если не админ/тренер, показываем только собственные посещения
+      // Ограничение доступа
       if (role === 'admin' || role === 'trainer') {
-        filters.userId = filterUserId; // Может быть undefined - покажет все
+        filters.userId = filterUserId;
       } else {
-        filters.userId = userId; // Только свои посещения
+        filters.userId = userId;
       }
+      const allowedSort = ['visited_at', 'checkin_method', 'user_name'];
+      const safeSortBy = allowedSort.includes(sortBy) ? sortBy : 'visited_at';
+      const safeSortOrder = sortOrder.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
-      const visits = await visitService.getVisits(filters);
+      const { visits, total } = await visitService.getVisits(filters, safeSortBy, safeSortOrder);
 
       res.json({
-        visits,
+        data: visits,
         pagination: {
           page: parseInt(page),
           limit: parseInt(limit),
-          total: visits.length
+          total,
+          totalPages: Math.ceil(total / limit)
         }
       });
 
@@ -264,45 +270,18 @@ class VisitController {
     }
   }
 
-  /**
-   * Получение моих посещений
-   * GET /api/visits/me
-   */
-  async getMyVisits(req, res) {
+  async getMyVisits(req, res, next) {
     try {
-      const { userId } = req.user;
-      const {
-        date_from: dateFrom,
-        date_to: dateTo,
-        page = 1,
-        limit = 20
-      } = req.query;
+      const userId = req.user.id;
+      const { page = 1, limit = 20 } = req.query;
 
-      const offset = (page - 1) * limit;
-      const filters = {
-        dateFrom,
-        dateTo,
-        limit: parseInt(limit),
-        offset: parseInt(offset)
-      };
+      const result = await visitService.getUserVisits(userId, { page, limit });
 
-      const visits = await visitService.getUserVisits(userId, filters);
-
-      res.json({
-        visits,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total: visits.length
-        }
-      });
-
+      res.json(result);
     } catch (error) {
-      logger.error('Get my visits error:', error);
-      res.status(500).json({ message: error.message });
+      next(error);
     }
   }
-
   /**
    * Обновление посещения
    * PUT /api/visits/:id
@@ -467,6 +446,7 @@ class VisitController {
       res.status(500).json({ message: error.message });
     }
   }
+
 }
 
 module.exports = new VisitController();

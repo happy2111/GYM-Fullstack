@@ -383,100 +383,91 @@ class VisitService {
     }
   }
 
-  /**
-   * Получение списка посещений с фильтрами
-   */
-  async getVisits(filters = {}) {
-    let query = `
-      SELECT v.*, 
-             u.name as user_name, u.email as user_email,
-             m.type as membership_type, m.status as membership_status,
-             creator.name as created_by_name
-      FROM visits v
-      LEFT JOIN users u ON v.user_id = u.id
-      LEFT JOIN memberships m ON v.membership_id = m.id
-      LEFT JOIN users creator ON v.created_by = creator.id
-      WHERE 1=1
-    `;
-    const params = [];
-    let paramIndex = 1;
 
-    // Фильтр по пользователю
+
+  async getVisits(filters, sortBy = 'visited_at', sortOrder = 'DESC') {
+    const conditions = [];
+    const values = [];
+    let idx = 1;
+
     if (filters.userId) {
-      query += ` AND v.user_id = $${paramIndex}`;
-      params.push(filters.userId);
-      paramIndex++;
+      conditions.push(`v.user_id = $${idx++}`);
+      values.push(filters.userId);
     }
-
-    // Фильтр по абонементу
     if (filters.membershipId) {
-      query += ` AND v.membership_id = $${paramIndex}`;
-      params.push(filters.membershipId);
-      paramIndex++;
+      conditions.push(`v.membership_id = $${idx++}`);
+      values.push(filters.membershipId);
     }
-
-    // Фильтр по методу входа
     if (filters.checkinMethod) {
-      query += ` AND v.checkin_method = $${paramIndex}`;
-      params.push(filters.checkinMethod);
-      paramIndex++;
+      conditions.push(`v.checkin_method = $${idx++}`);
+      values.push(filters.checkinMethod);
     }
-
-    // Фильтр по дате (от)
     if (filters.dateFrom) {
-      query += ` AND v.visited_at >= $${paramIndex}`;
-      params.push(filters.dateFrom);
-      paramIndex++;
+      conditions.push(`v.visited_at >= $${idx++}`);
+      values.push(filters.dateFrom);
     }
-
-    // Фильтр по дате (до)
     if (filters.dateTo) {
-      query += ` AND v.visited_at <= ${paramIndex}`;
-      params.push(filters.dateTo);
-      paramIndex++;
+      conditions.push(`v.visited_at <= $${idx++}`);
+      values.push(filters.dateTo);
     }
-
-    // Поиск по имени пользователя
     if (filters.userName) {
-      query += ` AND u.name ILIKE ${paramIndex}`;
-      params.push(`%${filters.userName}%`);
-      paramIndex++;
+      conditions.push(`LOWER(u.name) LIKE $${idx++}`);
+      values.push(`%${filters.userName.toLowerCase()}%`);
     }
 
-    // Только сегодняшние посещения
-    if (filters.today) {
-      const todayStart = new Date();
-      todayStart.setHours(0, 0, 0, 0);
-      const todayEnd = new Date();
-      todayEnd.setHours(23, 59, 59, 999);
+    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
-      query += ` AND v.visited_at >= ${paramIndex} AND v.visited_at <= ${paramIndex + 1}`;
-      params.push(todayStart, todayEnd);
-      paramIndex += 2;
+    // выбор корректного столбца для сортировки
+    let sortColumn;
+    switch (sortBy) {
+      case 'user_name':
+        sortColumn = 'u.name';
+        break;
+      case 'checkin_method':
+        sortColumn = 'v.checkin_method';
+        break;
+      case 'visited_at':
+      default:
+        sortColumn = 'v.visited_at';
     }
 
-    query += ` ORDER BY v.visited_at DESC`;
+    // основной запрос
+    const query = `
+    SELECT v.*,
+           u.name AS user_name,
+           u.email AS user_email,
+           m.status AS membership_status,
+           t.code AS tariff_code,
+           t.name AS tariff_name
+    FROM visits v
+    JOIN users u ON v.user_id = u.id
+    JOIN memberships m ON v.membership_id = m.id
+    JOIN tariffs t ON m.tariff_id = t.id
+    ${whereClause}
+    ORDER BY ${sortColumn} ${sortOrder}
+    LIMIT $${idx++} OFFSET $${idx++};
+  `;
 
-    // Пагинация
-    if (filters.limit) {
-      query += ` LIMIT ${paramIndex}`;
-      params.push(filters.limit);
-      paramIndex++;
-    }
+    values.push(filters.limit, filters.offset);
 
-    if (filters.offset) {
-      query += ` OFFSET ${paramIndex}`;
-      params.push(filters.offset);
-      paramIndex++;
-    }
+    // запрос на количество строк
+    const countQuery = `
+        SELECT COUNT(*) AS total
+        FROM visits v
+                 JOIN users u ON v.user_id = u.id
+                 JOIN memberships m ON v.membership_id = m.id
+            ${whereClause}
+    `;
 
-    try {
-      const result = await pool.query(query, params);
-      return result.rows;
-    } catch (error) {
-      logger.error('Get visits error:', error);
-      throw error;
-    }
+    const [rows, countResult] = await Promise.all([
+      pool.query(query, values),
+      pool.query(countQuery, values.slice(0, -2)) // убираем limit/offset
+    ]);
+
+    return {
+      visits: rows.rows,
+      total: parseInt(countResult.rows[0].total, 10)
+    };
   }
 
   /**

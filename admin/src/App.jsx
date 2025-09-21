@@ -23,6 +23,7 @@ import AdminRoute from "./Routes/AdminRoute.jsx";
 import MembershipHistory from "./pages/profile/MembershipHistory.jsx"
 import i18n from "./i18n.js";
 import Users from "./pages/Users.jsx";
+import Visits from "./pages/Visits.jsx";
 
 
 const App = observer(() => {
@@ -100,6 +101,7 @@ const App = observer(() => {
             <Route path="scan-qr" element={<ScanQrCodePage />} />
             <Route path="payments" element={<Payments />} />
             <Route path="users" element={<Users />} />
+            <Route path="visits" element={<Visits/>} />
 
 
             <Route path="profile" element={<ProfileLayout />}>

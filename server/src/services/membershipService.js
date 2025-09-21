@@ -241,24 +241,27 @@ class MembershipService {
   }
 
   // Получение активного абонемента пользователя
-  async getActiveMembership(userId) {
+  async getActiveMemberships(userId) {
     const query = `
-      SELECT * FROM memberships 
-      WHERE user_id = $1 AND status = 'active' AND end_date > CURRENT_DATE
-      ORDER BY end_date DESC
-      LIMIT 1
+        SELECT *
+        FROM memberships
+        WHERE user_id = $1
+          AND status = 'active'
+          AND end_date > CURRENT_DATE
+        ORDER BY end_date DESC
     `;
 
     try {
       const result = await pool.query(query, [userId]);
-      return result.rows[0] || null;
+      return result.rows; // 👈 возвращаем массив всех активных
     } catch (error) {
-      logger.error('Error getting active membership:', error);
+      logger.error('Error getting active memberships:', error);
       throw error;
     }
   }
 
-async getAllUserMemberships(userId)  {
+
+  async getAllUserMemberships(userId)  {
     const query = `
       SELECT * FROM memberships 
       WHERE user_id = $1

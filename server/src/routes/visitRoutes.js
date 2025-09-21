@@ -32,31 +32,13 @@ const qrGenerateLimiter = rateLimit({
   message: 'Too many QR generation requests, please try again later'
 });
 
-// ==========================================
-// MIDDLEWARE ДЛЯ РОЛЕЙ
-// ==========================================
 
-// Только админы и тренеры
-const staffOnly = (req, res, next) => {
-  const { role } = req.user;
-  if (role !== 'admin' && role !== 'trainer') {
-    return res.status(403).json({
-      message: 'Access denied. Staff access required'
-    });
-  }
-  next();
-};
+const exportLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 минута
+  max: 5,
+  message: 'Too many export requests, please try again later',
+});
 
-// Только админы
-const adminOnly = (req, res, next) => {
-  const { role } = req.user;
-  if (role !== 'admin') {
-    return res.status(403).json({
-      message: 'Access denied. Admin access required'
-    });
-  }
-  next();
-};
 
 // ==========================================
 // QR CODE МАРШРУТЫ
@@ -72,7 +54,7 @@ router.get('/qr',
 // Сканирование QR-кода (создание посещения)
 router.post('/scan',
   authMiddleware,
-  staffOnly,
+  requireRole(['admin', 'trainer']),
   qrScanLimiter,
   validate(visitSchemas.scanQR),
   visitController.scanQR
@@ -81,7 +63,7 @@ router.post('/scan',
 // Валидация QR-кода без создания посещения
 router.post('/validate-qr',
   authMiddleware,
-  staffOnly,
+  requireRole(['admin', 'trainer']),
   qrScanLimiter,
   validate(visitSchemas.validateQR),
   visitController.validateQR
@@ -94,22 +76,12 @@ router.post('/validate-qr',
 // Ручное создание посещения (только админ)
 router.post('/manual',
   authMiddleware,
-  adminOnly,
+  requireRole(['admin', 'trainer']),
   visitLimiter,
   validate(visitSchemas.createManualVisit),
   visitController.createManualVisit
 );
 
-router.post(
-  "/qr",
-  authMiddleware,
-  visitController.generateQR
-  );
-
-router.post("/scan",
-  authMiddleware,
-  requireRole(['admin', 'trainer']),
-  visitController.scanQR)
 
 // Получение списка всех посещений (с фильтрами)
 router.get('/',
@@ -125,30 +97,6 @@ router.get('/me',
   visitLimiter,
   validateQuery(visitSchemas.getMyVisits),
   visitController.getMyVisits
-);
-
-// Получение посещения по ID
-router.get('/:id',
-  authMiddleware,
-  visitLimiter,
-  visitController.getVisitById
-);
-
-// Обновление посещения (только админ)
-router.put('/:id',
-  authMiddleware,
-  adminOnly,
-  visitLimiter,
-  validate(visitSchemas.updateVisit),
-  visitController.updateVisit
-);
-
-// Удаление посещения (только админ)
-router.delete('/:id',
-  authMiddleware,
-  adminOnly,
-  visitLimiter,
-  visitController.deleteVisit
 );
 
 
@@ -167,11 +115,14 @@ router.get('/stats/general',
 // Сегодняшние посещения (для админ панели)
 router.get('/stats/today',
   authMiddleware,
-  staffOnly,
+  requireRole(['admin', 'trainer']),
   visitLimiter,
   validateQuery(visitSchemas.getTodayVisits),
   visitController.getTodaySummary
 );
+
+
+
 
 // ==========================================
 // ПРОВЕРКИ И ВАЛИДАЦИИ
@@ -179,29 +130,52 @@ router.get('/stats/today',
 
 router.post('/can-visit/:userId',
   authMiddleware,
-  adminOnly,
+  requireRole(['admin', 'trainer']),
   visitLimiter,
   visitController.checkCanVisit
 )
 
 
-// // Проверка возможности посещения для пользователя
-// router.get('/check/:userId',
+// ==========================================
+// ЭКСПОРТ ДАННЫХ
+// ==========================================
+
+
+// router.get('/export',
 //   authMiddleware,
-//   visitLimiter,
-//   visitController.checkUserCanVisit
-// );
-//
-// // Проверка собственной возможности посещения
-// router.get('/check-me/eligibility',
-//   authMiddleware,
-//   visitLimiter,
-//   visitController.checkMyVisitEligibility
+//   requireRole(['admin']),
+//   visitController.exportVisits
 // );
 
+
 // ==========================================
-// ВАЛИДАЦИЯ UUID ПАРАМЕТРОВ
+// РАБОТА С ID
 // ==========================================
+
+router.get('/:id',
+  authMiddleware,
+  visitLimiter,
+  visitController.getVisitById
+);
+
+// Обновление посещения (только админ)
+router.put('/:id',
+  authMiddleware,
+  requireRole(['admin']),
+  visitLimiter,
+  validate(visitSchemas.updateVisit),
+  visitController.updateVisit
+);
+
+// Удаление посещения (только админ)
+router.delete('/:id',
+  authMiddleware,
+  requireRole(['admin']),
+  visitLimiter,
+  visitController.deleteVisit
+);
+
+
 
 // Middleware для валидации UUID параметров
 const validateUuidParam = (paramName) => {
@@ -242,6 +216,9 @@ router.use((error, req, res, next) => {
   }
   next(error);
 });
+
+
+
 
 // Middleware для обработки несуществующих маршрутов
 router.use('*', (req, res) => {

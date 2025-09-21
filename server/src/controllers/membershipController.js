@@ -268,16 +268,9 @@ class MembershipController {
   async getActiveMembership(req, res) {
     try {
       const { userId: targetUserId } = req.params;
-      const { userId, role } = req.user;
+      const { id: userId, role } = req.user;
 
-      // Проверяем права доступа
-      if (role !== 'admin' && targetUserId !== userId) {
-        return res.status(403).json({
-          message: 'Access denied. You can only view your own active membership'
-        });
-      }
-
-      const activeMembership = await membershipService.getActiveMembership(targetUserId);
+      const activeMembership = await membershipService.getActiveMemberships(targetUserId);
 
       if (!activeMembership) {
         return res.status(404).json({
@@ -285,7 +278,7 @@ class MembershipController {
         });
       }
 
-      res.json({ membership: activeMembership });
+      res.json({ memberships: activeMembership });
     } catch (error) {
       logger.error('Get active membership error:', error);
       res.status(500).json({ message: error.message });

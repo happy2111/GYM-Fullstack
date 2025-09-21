@@ -110,77 +110,28 @@ const visitSchemas = {
 
   // ✅ Получение списка посещений
   getVisits: Joi.object({
-    user_id: Joi.string().uuid().optional()
-      .messages({ "string.guid": "User ID must be a valid UUID" }),
-
-    membership_id: Joi.string().uuid().optional()
-      .messages({ "string.guid": "Membership ID must be a valid UUID" }),
-
-    checkin_method: Joi.string().valid("qr", "manual", "admin").optional()
-      .messages({ "any.only": "Check-in method must be one of: qr, manual, admin" }),
-
-    date_from: Joi.date().optional()
-      .messages({ "date.base": "Date from must be a valid date" }),
-
-    date_to: Joi.date().when('date_from', {
-      is: Joi.exist(),
-      then: Joi.date().greater(Joi.ref('date_from')),
-      otherwise: Joi.date()
-    }).optional()
-      .messages({
-        "date.base": "Date to must be a valid date",
-        "date.greater": "Date to must be after date from"
-      }),
-
-    user_name: Joi.string().trim().min(1).max(100).optional()
-      .messages({
-        "string.min": "User name must be at least 1 character",
-        "string.max": "User name cannot exceed 100 characters"
-      }),
-
+    user_id: Joi.string().uuid().allow('', null).optional(),
+    membership_id: Joi.string().uuid().allow('', null).optional(),
+    checkin_method: Joi.string().allow('', null).optional(),
+    date_from: Joi.date().iso().allow('', null).optional(),
+    date_to: Joi.date().iso().allow('', null).optional(),
+    user_name: Joi.string().allow('', null).optional(),
     today: Joi.boolean().optional(),
-
-    page: Joi.number().integer().min(1).default(1).optional()
-      .messages({
-        "number.integer": "Page must be an integer",
-        "number.min": "Page must be at least 1"
-      }),
-
-    limit: Joi.number().integer().min(1).max(100).default(20).optional()
-      .messages({
-        "number.integer": "Limit must be an integer",
-        "number.min": "Limit must be at least 1",
-        "number.max": "Limit cannot exceed 100"
-      })
+    page: Joi.number().integer().min(1).default(1),
+    limit: Joi.number().integer().min(1).max(100).default(20),
+    sortBy: Joi.string().valid('created_at', 'checkin_method', 'user_name').default('created_at'),
+    sortOrder: Joi.string().valid('asc', 'desc').default('desc'),
   }),
 
   // ✅ Получение моих посещений
   getMyVisits: Joi.object({
-    date_from: Joi.date().optional()
-      .messages({ "date.base": "Date from must be a valid date" }),
-
-    date_to: Joi.date().when('date_from', {
-      is: Joi.exist(),
-      then: Joi.date().greater(Joi.ref('date_from')),
-      otherwise: Joi.date()
-    }).optional()
-      .messages({
-        "date.base": "Date to must be a valid date",
-        "date.greater": "Date to must be after date from"
-      }),
-
-    page: Joi.number().integer().min(1).default(1).optional()
-      .messages({
-        "number.integer": "Page must be an integer",
-        "number.min": "Page must be at least 1"
-      }),
-
-    limit: Joi.number().integer().min(1).max(50).default(20).optional()
-      .messages({
-        "number.integer": "Limit must be an integer",
-        "number.min": "Limit must be at least 1",
-        "number.max": "Limit cannot exceed 50"
-      })
+    user_id: Joi.string().uuid().optional(),
+    membership_id: Joi.string().uuid().optional(),
+    date_from: Joi.date().iso().optional(),
+    date_to: Joi.date().iso().optional(),
+    user_name: Joi.string().optional(),
+    limit: Joi.number().integer().min(1).max(100).default(10),
+    page: Joi.number().integer().min(1).default(1),
   }),
 
   // ✅ Статистика по посещениям
