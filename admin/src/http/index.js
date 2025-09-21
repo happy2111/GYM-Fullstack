@@ -1,4 +1,7 @@
 import axios from 'axios';
+import toast from "react-hot-toast";
+import i18n from '../i18n'; // путь к твоему i18n конфигу
+
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 
@@ -7,10 +10,9 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // Enable cookies for refresh token
+  withCredentials: true,
 });
 
-// Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -31,6 +33,7 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -54,6 +57,27 @@ api.interceptors.response.use(
         window.location.href = '/login';
         return Promise.reject(refreshError);
       }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (!error.response) {
+      console.error('Network or CORS error:', error);
+      toast.error('Проблема с сетью или CORS');
+      return Promise.reject(error);
+    }
+
+    const originalRequest = error.config;
+
+    if (error.response.status === 429) {
+      console.warn('429 Too Many Requests');
+      toast.error(i18n.t('errors.tooManyRequests'));
     }
 
     return Promise.reject(error);

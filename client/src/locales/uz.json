@@ -259,9 +259,8 @@
       "success_rate": "Muvaffaqiyat darajasi",
       "rating": "Reyting"
     }
-
-
+  },
+  "errors": {
+    "tooManyRequests": "Juda ko'p so'rovlar. Iltimos\", keyinroq qayta urinib ko'ring."
   }
-
-
 }

@@ -261,6 +261,9 @@
       "success_rate": "Success Rate",
       "rating": "Rating"
     }
+  },
+  "errors": {
+    "tooManyRequests": "Too many requests. Please try again later."
   }
 
 

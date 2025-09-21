@@ -34,7 +34,6 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-app.use(limiter);
 
 // CORS configuration
 app.use(cors({
@@ -61,6 +60,9 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.use(limiter);
+
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
