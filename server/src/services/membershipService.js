@@ -1,6 +1,6 @@
-const { pool } = require('../utils/database');
+const {pool} = require('../utils/database');
 const logger = require('../utils/logger');
-const { v4: uuidv4 } = require('uuid');
+const {v4: uuidv4} = require('uuid');
 
 class MembershipService {
   // Создание нового абонемента
@@ -19,9 +19,10 @@ class MembershipService {
     const membershipId = uuidv4();
 
     const query = `
-      INSERT INTO memberships (id, user_id, start_date, end_date, status, payment_id, max_visits, used_visits, tariff_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-      RETURNING id, user_id, start_date, end_date, status, payment_id, max_visits, used_visits, created_at, updated_at
+        INSERT INTO memberships (id, user_id, start_date, end_date, status,
+                                 payment_id, max_visits, used_visits, tariff_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8,
+                $9) RETURNING id, user_id, start_date, end_date, status, payment_id, max_visits, used_visits, created_at, updated_at
     `;
 
     try {
@@ -48,10 +49,10 @@ class MembershipService {
   // Получение абонемента по ID
   async getMembershipById(membershipId) {
     const query = `
-      SELECT m.*, u.name as user_name, u.email as user_email
-      FROM memberships m
-      LEFT JOIN users u ON m.user_id = u.id
-      WHERE m.id = $1
+        SELECT m.*, u.name as user_name, u.email as user_email
+        FROM memberships m
+                 LEFT JOIN users u ON m.user_id = u.id
+        WHERE m.id = $1
     `;
 
     try {
@@ -66,10 +67,10 @@ class MembershipService {
   // Получение всех абонементов пользователя
   async getUserMemberships(userId, filters = {}) {
     let query = `
-      SELECT m.*, u.name as user_name, u.email as user_email
-      FROM memberships m
-      LEFT JOIN users u ON m.user_id = u.id
-      WHERE m.user_id = $1
+        SELECT m.*, u.name as user_name, u.email as user_email
+        FROM memberships m
+                 LEFT JOIN users u ON m.user_id = u.id
+        WHERE m.user_id = $1
     `;
     const params = [userId];
     let paramIndex = 2;
@@ -115,10 +116,10 @@ class MembershipService {
   // Получение всех абонементов (админ)
   async getAllMemberships(filters = {}) {
     let query = `
-      SELECT m.*, u.name as user_name, u.email as user_email
-      FROM memberships m
-      LEFT JOIN users u ON m.user_id = u.id
-      WHERE 1=1
+        SELECT m.*, u.name as user_name, u.email as user_email
+        FROM memberships m
+                 LEFT JOIN users u ON m.user_id = u.id
+        WHERE 1 = 1
     `;
     const params = [];
     let paramIndex = 1;
@@ -200,10 +201,9 @@ class MembershipService {
     params.push(membershipId);
 
     const query = `
-      UPDATE memberships 
-      SET ${updateFields.join(', ')}
-      WHERE id = $${paramIndex}
-      RETURNING id, user_id, type, start_date, end_date, status, price, payment_id, max_visits, used_visits, created_at, updated_at
+        UPDATE memberships
+        SET ${updateFields.join(', ')}
+        WHERE id = $${paramIndex} RETURNING id, user_id, type, start_date, end_date, status, price, payment_id, max_visits, used_visits, created_at, updated_at
     `;
 
     try {
@@ -261,11 +261,12 @@ class MembershipService {
   }
 
 
-  async getAllUserMemberships(userId)  {
+  async getAllUserMemberships(userId) {
     const query = `
-      SELECT * FROM memberships 
-      WHERE user_id = $1
-      ORDER BY created_at DESC
+        SELECT *
+        FROM memberships
+        WHERE user_id = $1
+        ORDER BY created_at DESC
     `;
     try {
       const result = await pool.query(query, [userId]);
@@ -274,7 +275,7 @@ class MembershipService {
       logger.error('Error getting all user memberships:', error);
       throw error;
     }
-}
+  }
 
   // Проверка доступа к абонементу (пользователь может видеть только свои абонементы)
   async checkMembershipAccess(membershipId, userId, userRole) {
@@ -301,10 +302,9 @@ class MembershipService {
   // Увеличение счетчика использованных посещений
   async incrementUsedVisits(membershipId) {
     const query = `
-      UPDATE memberships 
-      SET used_visits = used_visits + 1
-      WHERE id = $1
-      RETURNING *
+        UPDATE memberships
+        SET used_visits = used_visits + 1
+        WHERE id = $1 RETURNING *
     `;
 
     try {
@@ -329,29 +329,27 @@ class MembershipService {
     if (userId) {
       // Статистика для конкретного пользователя
       query = `
-        SELECT 
-          COUNT(*) as total_memberships,
-          COUNT(CASE WHEN status = 'active' THEN 1 END) as active_memberships,
-          COUNT(CASE WHEN status = 'expired' THEN 1 END) as expired_memberships,
-          COUNT(CASE WHEN status = 'frozen' THEN 1 END) as frozen_memberships,
-          COALESCE(SUM(price), 0) as total_paid,
-          COALESCE(SUM(used_visits), 0) as total_visits_used
-        FROM memberships
-        WHERE user_id = $1
+          SELECT COUNT(*)                                       as total_memberships,
+                 COUNT(CASE WHEN status = 'active' THEN 1 END)  as active_memberships,
+                 COUNT(CASE WHEN status = 'expired' THEN 1 END) as expired_memberships,
+                 COUNT(CASE WHEN status = 'frozen' THEN 1 END)  as frozen_memberships,
+                 COALESCE(SUM(price), 0)                        as total_paid,
+                 COALESCE(SUM(used_visits), 0)                  as total_visits_used
+          FROM memberships
+          WHERE user_id = $1
       `;
       params = [userId];
     } else {
       // Общая статистика (для админа)
       query = `
-        SELECT 
-          COUNT(*) as total_memberships,
-          COUNT(CASE WHEN status = 'active' THEN 1 END) as active_memberships,
-          COUNT(CASE WHEN status = 'expired' THEN 1 END) as expired_memberships,
-          COUNT(CASE WHEN status = 'frozen' THEN 1 END) as frozen_memberships,
-          COALESCE(SUM(price), 0) as total_revenue,
-          COALESCE(SUM(used_visits), 0) as total_visits,
-          COUNT(DISTINCT user_id) as unique_users
-        FROM memberships
+          SELECT COUNT(*)                                       as total_memberships,
+                 COUNT(CASE WHEN status = 'active' THEN 1 END)  as active_memberships,
+                 COUNT(CASE WHEN status = 'expired' THEN 1 END) as expired_memberships,
+                 COUNT(CASE WHEN status = 'frozen' THEN 1 END)  as frozen_memberships,
+                 COALESCE(SUM(price), 0)                        as total_revenue,
+                 COALESCE(SUM(used_visits), 0)                  as total_visits,
+                 COUNT(DISTINCT user_id)                        as unique_users
+          FROM memberships
       `;
     }
 
@@ -367,10 +365,10 @@ class MembershipService {
   // Автоматическое обновление статуса просроченных абонементов
   async updateExpiredMemberships() {
     const query = `
-      UPDATE memberships 
-      SET status = 'expired'
-      WHERE status = 'active' AND end_date < CURRENT_DATE
-      RETURNING id, user_id
+        UPDATE memberships
+        SET status = 'expired'
+        WHERE status = 'active'
+          AND end_date < CURRENT_DATE RETURNING id, user_id
     `;
 
     try {
@@ -383,6 +381,22 @@ class MembershipService {
       return result.rows;
     } catch (error) {
       logger.error('Error updating expired memberships:', error);
+      throw error;
+    }
+  }
+
+  async getActiveMembership(userId) {
+    const query = `SELECT *
+                   FROM memberships
+                   WHERE user_id = $1
+                     AND status = 'active'
+                     AND end_date > CURRENT_DATE
+                   ORDER BY end_date DESC LIMIT 1`;
+    try {
+      const result = await pool.query(query, [userId]);
+      return result.rows[0] || null;
+    } catch (error) {
+      logger.error('Error getting active membership:', error);
       throw error;
     }
   }
