@@ -492,6 +492,29 @@ const authSchemas = {
 
 };
 
+const tariffSchemas = {
+  createTariffSchema: Joi.object({
+    code: Joi.string().trim().min(3).max(50).required(),        // Уникальный код тарифа
+    name: Joi.string().trim().min(3).max(100).required(),       // Название
+    description: Joi.string().trim().allow(null, '').max(500),  // Описание (необязательное)
+    durationDays: Joi.number().integer().min(1).required(),     // Срок действия (дни)
+    price: Joi.number().precision(2).positive().required(),     // Цена
+    maxVisits: Joi.number().integer().min(0).allow(null),       // Максимум посещений (0 = безлимит)
+    features: Joi.array().items(Joi.string().trim().max(100)),  // Массив строк (фичи)
+    isBestOffer: Joi.boolean().default(false)                   // Лучшее предложение
+  }),
+  updateTariffSchema : Joi.object({
+    code: Joi.string().trim().min(3).max(50),
+    name: Joi.string().trim().min(3).max(100),
+    description: Joi.string().trim().allow(null, '').max(500),
+    durationDays: Joi.number().integer().min(1),
+    price: Joi.number().precision(2).positive(),
+    maxVisits: Joi.number().integer().min(0).allow(null),
+    features: Joi.array().items(Joi.string().trim().max(100)),
+    isBestOffer: Joi.boolean()
+  }).min(1)
+}
+
 
 const createPaymentSchema = Joi.object({
   userId: Joi.string().uuid().required(),
@@ -539,6 +562,7 @@ module.exports = {
   applyCustomValidation,
   createPaymentSchema,
   confirmPaymentSchema,
+  tariffSchemas,
 
   // Комбинированные валидаторы для различных эндпоинтов
   validateScanQR: [

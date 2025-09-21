@@ -5,6 +5,7 @@ import {useLocation} from "react-router-dom";
 import {ShoppingCart, Menu, User, Sidebar} from "lucide-react"
 import authStore from "../store/authStore";
 import {observer} from "mobx-react-lite";
+import SideBar from "./SideBar.jsx";
 
 const Navbar = observer(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -98,6 +99,46 @@ const Navbar = observer(() => {
               </div>
             )}
           </div>
+
+
+          {/* Mobile меню открывается при клике на иконку Menu */}
+          <SideBar
+            sidebarOpen={isMenuOpen}
+            setSidebarOpen={setIsMenuOpen}
+            sidebarItems={[
+              {
+                text: "Dashboard",
+                href: "/",
+              },
+              {
+                text: "Users",
+                href: "/users",
+              },
+
+              {
+                text: "Visits",
+                href: "/visits",
+              },
+              {
+                text: "Payments",
+                href: "/payments",
+              },
+              {
+                text: "Tariffs",
+                href: "/tariffs",
+              },
+              {
+                text: "",
+                href: "#",
+                className: "my-7 border-dashed !border-0 !border-b-2 !border-dark-10 pointer-cursor !bg-transparent !h-1 !w-full"
+              },
+              {
+                text: "Scan QR Code",
+                href: "/scan-qr",
+              },
+
+            ]}
+          />
         </div>
       </div>
     </nav>

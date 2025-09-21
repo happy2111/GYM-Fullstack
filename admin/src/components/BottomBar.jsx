@@ -14,11 +14,6 @@ const BottomBar = observer(() => {
       icon: LayoutDashboard,
     },
     {
-      name: 'Users',
-      href: '/users',
-      icon: Users,
-    },
-    {
       name: 'Payments',
       href: '/payments',
       icon: BanknoteArrowDown,

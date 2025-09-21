@@ -3,24 +3,23 @@ const { pool } = require('../utils/database');
 const logger = require('../utils/logger');
 
 class TariffService {
-  async createTariff({ code, name, description, durationDays, price, maxVisits }) {
-    const id = uuidv4();
-
+  async createTariff({ code, name, description, durationDays, price, maxVisits, features = [], isBestOffer = false }) {
     const query = `
-      INSERT INTO tariffs (id, code, name, description, duration_days, price, max_visits)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO tariffs (code, name, description, duration_days, price, max_visits, features, is_best_offer)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `;
 
     try {
       const result = await pool.query(query, [
-        id,
         code,
         name,
         description,
         durationDays,
         price,
-        maxVisits
+        maxVisits,
+        features.length > 0 ? features : null, // если нет фич — null
+        isBestOffer
       ]);
 
       logger.info(`Tariff created: ${name} (${code})`);
@@ -30,15 +29,51 @@ class TariffService {
       throw error;
     }
   }
-
-  async getAllTariffs() {
-    const query = `SELECT * FROM tariffs ORDER BY price ASC`;
-
+  async getAllTariffs(filters, sortBy = "created_at", sortOrder = "DESC") {
     try {
-      const result = await pool.query(query);
-      return result.rows;
+      const { limit, offset, name } = filters;
+
+      let query = `
+        SELECT * FROM tariffs
+      `;
+      const values = [];
+      const conditions = [];
+
+      if (name) {
+        values.push(`%${name}%`);
+        conditions.push(`name ILIKE $${values.length}`);
+      }
+
+      if (conditions.length > 0) {
+        query += ` WHERE ${conditions.join(" AND ")}`;
+      }
+
+      // сортировка
+      query += ` ORDER BY ${sortBy} ${sortOrder}`;
+
+      // пагинация
+      if (limit) {
+        values.push(limit);
+        query += ` LIMIT $${values.length}`;
+      }
+      if (offset) {
+        values.push(offset);
+        query += ` OFFSET $${values.length}`;
+      }
+
+      const result = await pool.query(query, values);
+
+      // общее количество
+      let countQuery = `SELECT COUNT(*) FROM tariffs`;
+      if (conditions.length > 0) {
+        countQuery += ` WHERE ${conditions.join(" AND ")}`;
+      }
+      const totalResult = await pool.query(countQuery, values.slice(0, conditions.length));
+      const total = parseInt(totalResult.rows[0].count, 10);
+
+      return { tariffs: result.rows, total };
     } catch (error) {
-      logger.error('Error fetching tariffs:', error);
+      logger.error("Error fetching tariffs:", error);
       throw error;
     }
   }
@@ -101,11 +136,6 @@ class TariffService {
     }
   }
 
-  async getTariffById(id) {
-    const query = `SELECT * FROM tariffs WHERE id = $1`;
-    const result = await pool.query(query, [id]);
-    return result.rows[0] || null;
-  }
 }
 
 module.exports = new TariffService();

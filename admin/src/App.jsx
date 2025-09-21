@@ -24,6 +24,7 @@ import MembershipHistory from "./pages/profile/MembershipHistory.jsx"
 import i18n from "./i18n.js";
 import Users from "./pages/Users.jsx";
 import Visits from "./pages/Visits.jsx";
+import Tariffs from "./pages/Tariffs.jsx";
 
 
 const App = observer(() => {
@@ -92,7 +93,7 @@ const App = observer(() => {
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/*<Route path="/register" element={<Register />} />*/}
           <Route path={"/auth/google/callback"} element={<GoogleAuthCallBack />} />
 
           {/* Admin-only Protected Routes */}
@@ -102,7 +103,7 @@ const App = observer(() => {
             <Route path="payments" element={<Payments />} />
             <Route path="users" element={<Users />} />
             <Route path="visits" element={<Visits/>} />
-
+            <Route path="tariffs" element={<Tariffs/>} />
 
             <Route path="profile" element={<ProfileLayout />}>
               <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />

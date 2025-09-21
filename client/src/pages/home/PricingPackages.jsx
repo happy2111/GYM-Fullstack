@@ -22,15 +22,17 @@ const PricingPackages = () => {
 
 
 
-  const getAllTariffs = async () => {
+  const getAllTariffs = async ({ page = 1, limit = 20, sortBy = "created_at", sortOrder = "desc" } = {}) => {
     try {
       setLoading(true);
-      const res = await api.get("/tariffs/all");
+      const res = await api.get("/tariffs/all", {
+        params: { page, limit, sortBy, sortOrder },
+      });
 
       const monthly = [];
       const yearly = [];
 
-      res.data.forEach((tariff) => {
+      res.data.data.forEach((tariff) => {
         if (tariff.code.startsWith("fit30")) {
           monthly.push(tariff);
         } else if (tariff.code.startsWith("fit360")) {
