@@ -5,10 +5,10 @@ import React from "react";
 const SideBar = ({sidebarOpen, setSidebarOpen, sidebarItems, isAdmin}) => {
   return (
     <>
-      <div className={`h-full ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} ${!isAdmin && "md:hidden"}  lg:translate-x-0 transition-transform duration-300 ease-in-out fixed lg:static inset-y-0 left-0 z-50 w-64 bg-dark-06/50 backdrop-blur-2xl  shadow-lg border-r border-dark-12`}>
+      <div className={`h-full ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} ${!isAdmin && "md:hidden"} md:hidden  lg:translate-x-0 transition-transform duration-300 ease-in-out fixed lg:static inset-y-0 left-0 z-50 w-64 bg-dark-06/50 backdrop-blur-2xl  shadow-lg border-r border-dark-12`}>
         <div className={`flex items-center justify-between ${isAdmin ? "h-[80px]  " : "h-[123px]"} px-6 `}>
           <div className="flex items-center space-x-3 ">
-            <Link to={"/"} className="text-2xl font-bold text-white">VeloPro</Link>
+            <Link to={"/"} className="text-2xl font-bold text-white">BullFit</Link>
           </div>
           <Button
             isTransparent={false}

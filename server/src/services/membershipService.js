@@ -114,66 +114,50 @@ class MembershipService {
   }
 
   // Получение всех абонементов (админ)
-  async getAllMemberships(filters = {}) {
-    let query = `
-        SELECT m.*, u.name as user_name, u.email as user_email
-        FROM memberships m
-                 LEFT JOIN users u ON m.user_id = u.id
-        WHERE 1 = 1
-    `;
-    const params = [];
-    let paramIndex = 1;
+  async getAllMemberships(limit, offset, sortBy, sortOrder, { status, type, userIdFilter, userName }) {
+    let where = [];
+    let values = [];
+    let i = 1;
 
-    // Фильтр по статусу
-    if (filters.status) {
-      query += ` AND m.status = $${paramIndex}`;
-      params.push(filters.status);
-      paramIndex++;
+    if (status) {
+      where.push(`m.status = $${i++}`);
+      values.push(status);
+    }
+    if (type) {
+      where.push(`m.type = $${i++}`);
+      values.push(type);
+    }
+    if (userIdFilter) {
+      where.push(`m.user_id = $${i++}`);
+      values.push(userIdFilter);
+    }
+    if (userName) {
+      where.push(`u.name ILIKE $${i++}`);
+      values.push(`%${userName}%`);
     }
 
-    // Фильтр по типу
-    if (filters.type) {
-      query += ` AND m.type = $${paramIndex}`;
-      params.push(filters.type);
-      paramIndex++;
-    }
+    const whereClause = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
 
-    // Фильтр по пользователю
-    if (filters.userId) {
-      query += ` AND m.user_id = $${paramIndex}`;
-      params.push(filters.userId);
-      paramIndex++;
-    }
+    const query = `
+    SELECT COUNT(*) OVER() AS total,
+           m.*,
+           u.name as user_name,
+           u.email as user_email
+    FROM memberships m
+    JOIN users u ON u.id = m.user_id
+    ${whereClause}
+    ORDER BY ${sortBy} ${sortOrder}
+    LIMIT $${i++} OFFSET $${i}
+  `;
 
-    // Поиск по имени пользователя
-    if (filters.userName) {
-      query += ` AND u.name ILIKE $${paramIndex}`;
-      params.push(`%${filters.userName}%`);
-      paramIndex++;
-    }
+    values.push(limit, offset);
 
-    query += ` ORDER BY m.created_at DESC`;
+    const result = await pool.query(query, values);
 
-    // Пагинация
-    if (filters.limit) {
-      query += ` LIMIT $${paramIndex}`;
-      params.push(filters.limit);
-      paramIndex++;
-    }
-
-    if (filters.offset) {
-      query += ` OFFSET $${paramIndex}`;
-      params.push(filters.offset);
-      paramIndex++;
-    }
-
-    try {
-      const result = await pool.query(query, params);
-      return result.rows;
-    } catch (error) {
-      logger.error('Error getting all memberships:', error);
-      throw error;
-    }
+    return {
+      memberships: result.rows,
+      total: result.rows.length > 0 ? parseInt(result.rows[0].total, 10) : 0
+    };
   }
 
 

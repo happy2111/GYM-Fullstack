@@ -25,10 +25,42 @@ import i18n from "./i18n.js";
 import Users from "./pages/Users.jsx";
 import Visits from "./pages/Visits.jsx";
 import Tariffs from "./pages/Tariffs.jsx";
+import Memberships from "./pages/Memberships.jsx";
 
 
 const App = observer(() => {
-  const [isTelegram, setIsTelegram] = useState(true)
+  const [isTelegram, setIsTelegram] = useState(false);
+
+  useEffect(() => {
+    console.log(`%c
+          _____                _____          
+         /\\    \\              |\\    \\         
+        /::\\____\\             |:\\____\\        
+       /:::/    /             |::|   |        
+      /:::/    /              |::|   |        
+     /:::/    /               |::|   |        
+    /:::/____/                |::|   |        
+   /::::\\    \\                |::|   |        
+  /::::::\\    \\   _____       |::|___|______  
+ /:::/\\:::\\    \\ /\\    \\      /::::::::\\    \\ 
+/:::/  \\:::\\    /::\\____\\    /::::::::::\\____\\
+\\::/    \\:::\\  /:::/    /   /:::/~~~~/~~      
+ \\/____/ \\:::\\/:::/    /   /:::/    /         
+          \\::::::/    /   /:::/    /          
+           \\::::/    /   /:::/    /           
+           /:::/    /    \\::/    /            
+          /:::/    /      \\/____/             
+         /:::/    /                           
+        /:::/    /                            
+        \\::/    /                             
+         \\/____/                              
+                                              
+\n%chttps://github.com/happy2111
+`,
+      "color:#00ffcc; font-size:12px; font-family:monospace;",
+      "color:#4ea1ff; font-size:12px; font-family:monospace; text-decoration:underline;");
+
+  }, [])
 
   useEffect(() => {
     const TelegramLogin = async () => {
@@ -38,7 +70,7 @@ const App = observer(() => {
       }
 
       const tg = window.Telegram.WebApp;
-      console.log("initDataUnsafe:", tg.initDataUnsafe);
+      // console.log("initDataUnsafe:", tg.initDataUnsafe);
 
       if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
         console.log("Нет данных Telegram пользователя (браузер или тест без Telegram)");
@@ -46,8 +78,8 @@ const App = observer(() => {
       }
 
       try {
-        console.log(`Window Telegram: ${window.Telegram} `)
-        console.log(`Telegram WebApp: ${window.Telegram.WebApp} `)
+        // console.log(`Window Telegram: ${window.Telegram} `)
+        // console.log(`Telegram WebApp: ${window.Telegram.WebApp} `)
 
         await authStore.telegramLogin();
         console.log("Telegram login successful");
@@ -104,6 +136,7 @@ const App = observer(() => {
             <Route path="users" element={<Users />} />
             <Route path="visits" element={<Visits/>} />
             <Route path="tariffs" element={<Tariffs/>} />
+            <Route path="memberships" element={<Memberships/>} />
 
             <Route path="profile" element={<ProfileLayout />}>
               <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />

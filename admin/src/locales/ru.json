@@ -33,9 +33,10 @@
     "sign_in": "Войти",
     "try_free": "Попробовать бесплатно",
     "contact_us": "Связаться с нами",
-    "edit": "Редактировать",
+    "edit": "Изменить",
     "delete": "Удалить",
-    "cancel": "Отмена"
+    "cancel": "Отмена",
+    "save": "Сохранить"
   },
   "pricing": {
     "header": {
@@ -267,10 +268,14 @@
   "manageAllUsers": "Управление всеми пользователями системы",
 
   "searchAndFilters": {
-    "searchPlaceholder": "Поиск по имени, email или телефону...",
     "allRoles": "Все роли",
     "allStatuses": "Все статусы",
-    "addUser": "Добавить пользователя"
+    "addUser": "Добавить пользователя",
+    "searchPlaceholder": "Поиск по названию, коду или описанию...",
+    "addTariff": "Добавить тариф",
+    "allTypes": "Все типы",
+    "bestOffers": "Лучшие предложения",
+    "regularTariffs": "Обычные тарифы"
   },
 
   "tableHeaders": {
@@ -279,7 +284,13 @@
     "role": "Роль",
     "status": "Статус",
     "joined": "Дата регистрации",
-    "actions": "Действия"
+    "tariff": "Тариф",
+    "price": "Цена",
+    "duration": "Длительность",
+    "visits": "Посещения",
+    "features": "Характеристики",
+    "actions": "Действия",
+    "created": "Создано"
   },
 
   "roles": {
@@ -366,7 +377,12 @@
     "visitCreatedSuccessfully": "Визит успешно создан!",
     "errorCreatingVisit": "Ошибка создания посещения",
     "searchError": "Ошибка поиска пользователя",
-    "membershipError": "Ошибка получения членства"
+    "membershipError": "Ошибка получения членства",
+    "noTariffsFound": "Тарифы не найдены",
+    "tryAdjusting": "Попробуйте настроить фильтры поиска",
+    "addFirstTariff": "Добавить первый тариф",
+    "confirmDeletion": "Подтвердить удаление",
+    "deleteTariffConfirm": "Вы уверены, что хотите удалить этот тариф? Это действие нельзя отменить."
   },
   "visits": {
     "management": "Управление посещениями",
@@ -404,8 +420,18 @@
       "checkinMethod": "Способ входа",
       "checkinTime": "Время входа",
       "notes": "Заметки",
+      "tariffCode" : "Код тарифа",
+      "contact": "Контакты",
+      "role": "Роль",
+      "status": "Статус",
+      "joined": "Дата регистрации",
+      "tariff": "Тариф",
+      "price": "Цена",
+      "duration": "Длительность",
+      "visits": "Посещения",
+      "features": "Характеристики",
       "actions": "Действия",
-      "tariffCode" : "Код тарифа"
+      "created": "Создано"
     },
 
     "form": {
@@ -460,6 +486,35 @@
   "notes": {
     "notes": "Заметки",
     "notesPlaceholder": "Дополнительная информация о посещении..."
+  },
+  "tariffsManagement": "Управление тарифами",
+  "manageAllTariffs": "Управление всеми тарифами и ценовыми планами тренажерного зала",
+
+  "tariffDetails": {
+    "code": "Код",
+    "name": "Название",
+    "description": "Описание",
+    "priceAmount": "Цена",
+    "durationDays": "Продолжительность (дней)",
+    "maxVisits": "Максимальное количество посещений",
+    "featuresLabel": "Характеристики",
+    "isBestOffer": "Лучшее предложение",
+    "unlimited": "Без ограничений",
+    "days": "Дней"
+  },
+
+  "form": {
+    "createTariff": "Создать тариф",
+    "editTariff": "Изменить тариф",
+    "updateTariff": "Обновить тариф",
+    "enterCode": "Введите код тарифа",
+    "enterName": "Введите название тарифа",
+    "enterDescription": "Введите описание",
+    "enterPrice": "Введите цену",
+    "enterDuration": "Продолжительность в днях",
+    "enterMaxVisits": "Введите максимальное количество посещений (оставьте пустым, чтобы не ограничивать)",
+    "enterFeatures": "Введите характеристики (по одной в строке)",
+    "markAsBestOffer": "Отметить как лучшее предложение"
   }
 
 }

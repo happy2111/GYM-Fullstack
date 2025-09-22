@@ -473,7 +473,7 @@ const MembershipHistory = observer(() => {
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap items-strech">
                   {actualStatus === 'expired' && (
                     <button
                       onClick={() => handleRenewMembership(membership.id)}
@@ -483,7 +483,7 @@ const MembershipHistory = observer(() => {
                         color: 'white'
                       }}
                     >
-                      {t("profile.renewMembership")}
+                      {t("renewMembership")}
                     </button>
                   )}
 

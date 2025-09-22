@@ -17,7 +17,7 @@ const membershipLimiter = rateLimit({
 // Rate limiting для создания абонементов (более строгий)
 const createMembershipLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 минут
-  max: 10, // максимум 10 создании абонементов за 15 минут
+  max: 50, // максимум 10 создании абонементов за 15 минут
   message: 'Too many membership creation attempts, please try again later'
 });
 
@@ -103,9 +103,11 @@ router.get('/user/:userId/active',
 // Получить все абонементы конкретного пользователя
 router.get('/user/:userId',
   authMiddleware,
+  requireRole(['admin', 'trainer']),
   membershipLimiter,
   membershipController.getUserMemberships
 );
+
 
 
 

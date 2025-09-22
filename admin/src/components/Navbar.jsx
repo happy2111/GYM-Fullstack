@@ -103,6 +103,7 @@ const Navbar = observer(() => {
 
           {/* Mobile меню открывается при клике на иконку Menu */}
           <SideBar
+            isAdmin={true}
             sidebarOpen={isMenuOpen}
             setSidebarOpen={setIsMenuOpen}
             sidebarItems={[

@@ -46,6 +46,38 @@ const App = observer(() => {
   const [isTelegram, setIsTelegram] = useState(false)
 
   useEffect(() => {
+    console.log(`%c
+          _____                _____          
+         /\\    \\              |\\    \\         
+        /::\\____\\             |:\\____\\        
+       /:::/    /             |::|   |        
+      /:::/    /              |::|   |        
+     /:::/    /               |::|   |        
+    /:::/____/                |::|   |        
+   /::::\\    \\                |::|   |        
+  /::::::\\    \\   _____       |::|___|______  
+ /:::/\\:::\\    \\ /\\    \\      /::::::::\\    \\ 
+/:::/  \\:::\\    /::\\____\\    /::::::::::\\____\\
+\\::/    \\:::\\  /:::/    /   /:::/~~~~/~~      
+ \\/____/ \\:::\\/:::/    /   /:::/    /         
+          \\::::::/    /   /:::/    /          
+           \\::::/    /   /:::/    /           
+           /:::/    /    \\::/    /            
+          /:::/    /      \\/____/             
+         /:::/    /                           
+        /:::/    /                            
+        \\::/    /                             
+         \\/____/                              
+                                              
+\n%chttps://github.com/happy2111
+`,
+      "color:#00ffcc; font-size:12px; font-family:monospace;",
+      "color:#4ea1ff; font-size:12px; font-family:monospace; text-decoration:underline;");
+
+  }, [])
+
+
+  useEffect(() => {
     const TelegramLogin = async () => {
       if (!window.Telegram || !window.Telegram.WebApp) {
           console.log("Обычный браузер: Telegram WebApp не найден");
@@ -53,16 +85,16 @@ const App = observer(() => {
       }
 
       const tg = window.Telegram.WebApp;
-      console.log("initDataUnsafe:", tg.initDataUnsafe);
+      // console.log("initDataUnsafe:", tg.initDataUnsafe);
 
       if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
-        console.log("Нет данных Telegram пользователя (браузер или тест без Telegram)");
+        // console.log("Нет данных Telegram пользователя (браузер или тест без Telegram)");
         return;
       }
 
       try {
-        console.log(`Window Telegram: ${window.Telegram} `)
-        console.log(`Telegram WebApp: ${window.Telegram.WebApp} `)
+        // console.log(`Window Telegram: ${window.Telegram} `)
+        // console.log(`Telegram WebApp: ${window.Telegram.WebApp} `)
 
         await authStore.telegramLogin();
         console.log("Telegram login successful");
@@ -78,7 +110,7 @@ const App = observer(() => {
     if (window.Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
       i18n.changeLanguage(window.Telegram.WebApp.initDataUnsafe.user.language_code);
       setIsTelegram(true);
-      console.log("Platform:", window.Telegram.WebApp.platform);
+      // console.log("Platform:", window.Telegram.WebApp.platform);
     }
   }, []);
 

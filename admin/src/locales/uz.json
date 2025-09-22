@@ -35,7 +35,8 @@
     "contact_us": "Biz bilan bog'laning",
     "edit": "Edit",
     "delete": "O'chirish",
-    "cancel": "Bekor qilish"
+    "cancel": "Bekor qilish",
+    "save": "Saqlash"
   },
   "pricing": {
     "header": {
@@ -269,10 +270,14 @@
   "manageAllUsers": "Tizimdagi barcha foydalanuvchilarni boshqarish",
 
   "searchAndFilters": {
-    "searchPlaceholder": "Ism, email yoki telefon orqali qidirish...",
     "allRoles": "Barcha rollar",
     "allStatuses": "Barcha holatlar",
-    "addUser": "Foydalanuvchi qo‘shish"
+    "addUser": "Foydalanuvchi qo‘shish",
+    "searchPlaceholder": "Ism, kod yoki tavsif bo'yicha qidirish...",
+    "addTariff": "Tarif qo'shish",
+    "allTypes": "Barcha turlar",
+    "bestOffers": "Eng yaxshi takliflar",
+    "regularTariffs": "Oddiy tariflar"
   },
 
   "tableHeaders": {
@@ -281,7 +286,13 @@
     "role": "Rol",
     "status": "Holat",
     "joined": "Ro‘yxatdan o‘tgan sana",
-    "actions": "Harakatlar"
+    "tariff": "Tarif",
+    "price": "Narx",
+    "duration": "Duration",
+    "visits": "Tashriflar",
+    "features": "Xususiyatlar",
+    "actions": "Harakatlar",
+    "created": "Yaratilgan"
   },
 
   "roles": {
@@ -368,7 +379,12 @@
     "visitCreatedSuccessfully": "Tashrif muvaffaqiyatli yaratildi!",
     "errorCreatingVisit": "Tashrif yaratishda xatolik yuz berdi",
     "searchError": "Foydalanuvchini qidirish xatosi",
-    "membershipError": "A'zolikni olishda xatolik yuz berdi"
+    "membershipError": "A'zolikni olishda xatolik yuz berdi",
+    "noTariffsFound": "Tariflar topilmadi",
+    "tryAdjusting": "Qidiruv filtrlaringizni sozlab ko'ring",
+    "addFirstTariff": "Birinchi tarifni qo'shish",
+    "confirmDeletion": "O'chirishni tasdiqlang",
+    "deleteTariffConfirm": "Ushbu tarifni oʻchirib tashlamoqchimisiz? Bu amalni ortga qaytarib boʻlmaydi."
   },
   "visits": {
     "management": "Tashriflarni boshqarish",
@@ -398,16 +414,6 @@
       "todayOnly": "Faqat bugun",
       "apply": "qo'llash",
       "reset": "Qayta tiklash"
-    },
-
-    "tableHeaders": {
-      "user": "Foydalanuvchi",
-      "membership": "Obuna",
-      "checkinMethod": "Kirish usuli",
-      "checkinTime": "Kirish vaqti",
-      "notes": "Eslatmalar",
-      "actions": "Actions",
-      "tariffCode" : "Tarif kodi"
     },
 
     "form": {
@@ -462,6 +468,46 @@
   "notes": {
     "notes": "Eslatmalar",
     "notesPlaceholder": "Tashrif haqida qo'shimcha ma'lumot..."
+  },
+  "tariffsManagement": "Tariflarni boshqarish",
+  "manageAllTariffs": "Barcha sport zallari tariflari va narx rejalarini boshqarish",
+
+  "tableHeaders": {
+    "tariff": "Tarif",
+    "price": "Narx",
+    "duration": "Duration",
+    "visits": "Tashriflar",
+    "features": "Xususiyatlar",
+    "status": "Status",
+    "actions": "Harakatlar",
+    "created": "Yaratilgan"
+  },
+
+  "tariffDetails": {
+    "code": "kod",
+    "name": "Ism",
+    "description": "tavsif",
+    "priceAmount": "Narx",
+    "durationDays": "Davomlik (kun)",
+    "maxVisits": "Maksimal tashriflar",
+    "featuresLabel": "Xususiyatlar",
+    "isBestOffer": "Eng yaxshi taklif",
+    "unlimited": "Cheksiz",
+    "days": "kunlar"
+  },
+
+  "form": {
+    "createTariff": "Tarif yaratish",
+    "editTariff": "Tarifni tahrirlash",
+    "updateTariff": "Tarifni yangilash",
+    "enterCode": "Tarif kodini kiriting",
+    "enterName": "Tarif nomini kiriting",
+    "enterDescription": "Tavsifni kiriting",
+    "enterPrice": "Narxni kiriting",
+    "enterDuration": "Davomiylikni kunlarda kiriting",
+    "enterMaxVisits": "Maksimal tashriflarni kiriting (cheksiz uchun bo'sh qoldiring)",
+    "enterFeatures": "Xususiyatlar kiriting (har bir satrda bittadan)",
+    "markAsBestOffer": "Eng yaxshi taklif deb belgilash"
   }
 
 

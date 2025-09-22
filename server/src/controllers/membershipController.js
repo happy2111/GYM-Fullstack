@@ -306,25 +306,49 @@ class MembershipController {
   }
 
   // Получение статистики по абонементам
-  async getMembershipStats(req, res) {
+  async getMemberships(req, res) {
     try {
-      const { userId, role } = req.user;
-      const { user_id: targetUserId } = req.query;
+      const { id: userId, role } = req.user;
 
-      let stats;
-
-      if (role === 'admin') {
-        // Админ может получить общую статистику или статистику конкретного пользователя
-        stats = await membershipService.getMembershipStats(targetUserId);
-      } else {
-        // Обычный пользователь получает только свою статистику
-        stats = await membershipService.getMembershipStats(userId);
+      // доступ только админу
+      if (!userId || role !== 'admin') {
+        return res.status(403).json({ message: 'Forbidden' });
       }
 
-      res.json({ stats });
+      const page = parseInt(req.query.page, 10) || 1;
+      const limit = parseInt(req.query.limit, 10) || 20;
+      const offset = (page - 1) * limit;
+
+      const allowedSort = ['created_at', 'status', 'type'];
+      const sortBy = allowedSort.includes(req.query.sortBy) ? req.query.sortBy : 'created_at';
+      const sortOrder = req.query.sortOrder === 'asc' ? 'ASC' : 'DESC';
+
+      // фильтры
+      const status = req.query.status || null;
+      const type = req.query.type || null;
+      const userIdFilter = req.query.user_id || null;
+      const userName = req.query.user_name?.trim() || "";
+
+      const { memberships, total } = await membershipService.getAllMemberships(
+        limit,
+        offset,
+        sortBy,
+        sortOrder,
+        { status, type, userIdFilter, userName }
+      );
+
+      res.json({
+        data: memberships,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit)
+        }
+      });
     } catch (error) {
-      logger.error('Get membership stats error:', error);
-      res.status(500).json({ message: error.message });
+      logger.error(`Get memberships error (userId: ${req.user?.id}):`, error);
+      res.status(500).json({ message: 'Internal server error' });
     }
   }
 

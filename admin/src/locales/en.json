@@ -33,9 +33,7 @@
     "sign_in": "Sign In",
     "try_free": "Try Free",
     "contact_us": "Contact Us",
-    "edit": "Edit",
-    "delete": "Delete",
-    "cancel": "Cancel"
+    "save": "Save"
   },
   "pricing": {
     "header": {
@@ -269,19 +267,29 @@
   "manageAllUsers": "Manage all system users",
 
   "searchAndFilters": {
-    "searchPlaceholder": "Search by name, email, or phone...",
     "allRoles": "All Roles",
     "allStatuses": "All Statuses",
-    "addUser": "Add User"
+    "addUser": "Add User",
+    "searchPlaceholder": "Search by name, code, or description...",
+    "addTariff": "Add Tariff",
+    "allTypes": "All Types",
+    "bestOffers": "Best Offers",
+    "regularTariffs": "Regular Tariffs"
   },
 
   "tableHeaders": {
     "user": "User",
     "contact": "Contact",
     "role": "Role",
-    "status": "Status",
     "joined": "Joined",
-    "actions": "Actions"
+    "tariff": "Tariff",
+    "price": "Price",
+    "duration": "Duration",
+    "visits": "Visits",
+    "features": "Features",
+    "status": "Status",
+    "actions": "Actions",
+    "created": "Created"
   },
 
   "roles": {
@@ -368,7 +376,12 @@
     "visitCreatedSuccessfully": "Visit created successfully!",
     "errorCreatingVisit": "Error creating visit",
     "searchError": "User search error",
-    "membershipError": "Error getting memberships"
+    "membershipError": "Error getting memberships",
+    "noTariffsFound": "No tariffs found",
+    "tryAdjusting": "Try adjusting your search filters",
+    "addFirstTariff": "Add first tariff",
+    "confirmDeletion": "Confirm Deletion",
+    "deleteTariffConfirm": "Are you sure you want to delete this tariff? This action cannot be undone."
   },
   "visits": {
     "management": "Manage visits",
@@ -450,7 +463,6 @@
     "selectMembership": "Select Membership",
     "loadingMemberships": "Loading memberships...",
     "noActiveMemberships": "User has no active memberships",
-    "loadingMemberships": "Membership",
     "validityPeriod": "Validity Period",
     "visits": "Visits",
     "unlimited": "Unlimited",
@@ -462,8 +474,37 @@
   "notes": {
     "notes": "Notes",
     "notesPlaceholder": "Additional information about the visit..."
-  }
+  },
+  "tariffsManagement": "Tariffs Management",
+  "manageAllTariffs": "Manage all gym tariffs and pricing plans",
 
+
+  "tariffDetails": {
+    "code": "Code",
+    "name": "Name",
+    "description": "Description",
+    "priceAmount": "Price",
+    "durationDays": "Duration (days)",
+    "maxVisits": "Max Visits",
+    "featuresLabel": "Features",
+    "isBestOffer": "Best Offer",
+    "unlimited": "Unlimited",
+    "days": "days"
+  },
+
+  "form": {
+    "createTariff": "Create Tariff",
+    "editTariff": "Edit Tariff",
+    "updateTariff": "Update Tariff",
+    "enterCode": "Enter tariff code",
+    "enterName": "Enter tariff name",
+    "enterDescription": "Enter description",
+    "enterPrice": "Enter price",
+    "enterDuration": "Enter duration in days",
+    "enterMaxVisits": "Enter max visits (leave empty for unlimited)",
+    "enterFeatures": "Enter features (one per line)",
+    "markAsBestOffer": "Mark as best offer"
+  }
 }
 
 
