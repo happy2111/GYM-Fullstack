@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, User, Package, Clock, CheckCircle, XCircle, AlertCircle, Star, RefreshCw, Target, CreditCard } from 'lucide-react';
+import { Calendar, Package, Clock, CheckCircle, XCircle, AlertCircle, Star, RefreshCw, Target, CreditCard } from 'lucide-react';
 import authStore from "../../store/authStore.js";
 import api from "../../http/index.js";
 import toast from "react-hot-toast";
@@ -298,8 +298,6 @@ const MembershipHistory = observer(() => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredMemberships.map((membership) => {
             const actualStatus = getMembershipStatus(membership);
-            const tariff = tariffDetails[membership.tariff_id];
-            const payment = paymentDetails[membership.payment_id];
             const remainingDays = calculateRemainingDays(membership.end_date);
             const totalDays = calculateTotalDays(membership.start_date, membership.end_date);
 
@@ -451,15 +449,15 @@ const MembershipHistory = observer(() => {
                   <div className="mb-4">
                     <p className="text-gray-400 text-sm mb-2">{t("profile.includedFeatures")}</p>
                     <div className="space-y-1">
-                      {membership?.tariff.features.slice(0, 3).map((feature, index) => (
+                      {membership?.tariff?.features.slice(0, 3).map((feature, index) => (
                         <div key={index} className="flex items-center gap-2">
                           <div className="w-1.5 h-1.5 bg-brown-60 rounded-full"></div>
                           <span className="text-sm text-gray-300">{feature}</span>
                         </div>
                       ))}
-                      {membership?.tariff.features.length > 3 && (
+                      {membership?.tariff?.features.length > 3 && (
                         <p className="text-xs text-gray-500 ml-3.5">
-                          +{tariff.features.length - 3} {t("profile.moreFeatures")}
+                          +{membership?.tariff?.features.length - 3} {t("profile.moreFeatures")}
                         </p>
                       )}
                     </div>
