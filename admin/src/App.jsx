@@ -27,7 +27,6 @@ import Visits from "./pages/Visits.jsx";
 import Tariffs from "./pages/Tariffs.jsx";
 import Memberships from "./pages/Memberships.jsx";
 import Dashboard from "./pages/dashboard/page.js";
-import {ThemeToggle} from "@/components/theme-toggle.js";
 
 
 const App = observer(() => {
@@ -127,7 +126,6 @@ const App = observer(() => {
             },
           }}/>
 
-        <ThemeToggle/>
 
         <Routes>
           {/* Public Routes */}
@@ -137,13 +135,16 @@ const App = observer(() => {
 
           {/* Admin-only Protected Routes */}
           <Route path="/" element={<AuthLayout><AdminRoute><NavLayout/></AdminRoute></AuthLayout>}>
-            <Route index element={<Home />} />
+            <Route path={""} element={<Navigate to="dashboard" replace />} />
+            <Route index path="dashboard" element={<Dashboard />} />
+            {/*<Route index element={<Home />} />*/}
             <Route path="scan-qr" element={<ScanQrCodePage />} />
             <Route path="payments" element={<Payments />} />
             <Route path="users" element={<Users />} />
             <Route path="visits" element={<Visits/>} />
             <Route path="tariffs" element={<Tariffs/>} />
             <Route path="memberships" element={<Memberships/>} />
+
 
             <Route path="profile" element={<ProfileLayout />}>
               <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />
@@ -154,12 +155,12 @@ const App = observer(() => {
               <Route path={"sessions"} element={<Sessions/>}/>
               <Route path={"payments"} element={<Payments/>}/>
               <Route path={"membership-history"} element={<MembershipHistory/>}/>
+
             </Route>
 
           </Route>
 
 
-          <Route path="dashboard" element={<AuthLayout><AdminRoute><Dashboard /></AdminRoute></AuthLayout>} />
 
           <Route
             path="*"

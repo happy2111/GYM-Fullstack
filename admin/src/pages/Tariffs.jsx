@@ -324,8 +324,8 @@ const TariffsCRUD = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8 pb-30" style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-97)' }}>
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen " style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-97)' }}>
+      <div className="container mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t('tariffsManagement')}</h1>

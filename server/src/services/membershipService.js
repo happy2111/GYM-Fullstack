@@ -1,6 +1,6 @@
 const {pool} = require('../utils/database');
 const logger = require('../utils/logger');
-const {v4: uuidv4} = require('uuid');
+const {v4: uuidv4,validate: isUuid} = require('uuid');
 
 class MembershipService {
   // Создание нового абонемента
@@ -311,6 +311,10 @@ class MembershipService {
     let params = [];
 
     if (userId) {
+
+      if (!isUuid(userId)) {
+        throw new Error('Invalid UUID format');
+      }
       // Статистика для конкретного пользователя
       query = `
           SELECT COUNT(*)                                       as total_memberships,

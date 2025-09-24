@@ -127,10 +127,10 @@ class PaymentController {
       const dailyRevenue = await paymentService.getDailyRevenue(30);
 
       res.json({
-        totalRevenue,
-        byStatus,
-        byMethod,
-        dailyRevenue
+          totalRevenue,
+          byStatus,
+          byMethod,
+          dailyRevenue
       });
     } catch (error) {
       logger.error('Get payments stats error:', error);

@@ -122,6 +122,15 @@ router.get('/stats/today',
 );
 
 
+router.get(
+  '/stats/dashboard',
+  authMiddleware,
+  requireRole(['admin', 'trainer']),
+  visitLimiter,
+  visitController.getDashboardStats
+);
+
+
 
 
 // ==========================================

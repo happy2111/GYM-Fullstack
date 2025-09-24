@@ -40,11 +40,11 @@ router.get('/me/all/',
 
 
 // Получить мою статистику по абонементам
-router.get('/me/stats',
-  authMiddleware,
-  membershipLimiter,
-  membershipController.getMembershipStats
-);
+// router.get('/me/stats',
+//   authMiddleware,
+//   membershipLimiter,
+//   membershipController.getMembershipStats
+// );
 
 // ==========================================
 // CRUD ОПЕРАЦИИ
@@ -127,7 +127,7 @@ router.post('/:id/visit',
 // ==========================================
 
 // Получить общую статистику по абонементам (админ)
-router.get('/admin/stats',
+router.get('/stats',
   authMiddleware,
   requireRole(['admin', 'trainer']),
   membershipLimiter,

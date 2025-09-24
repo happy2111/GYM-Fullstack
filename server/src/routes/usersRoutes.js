@@ -11,6 +11,8 @@ router.get('/all',
   userController.getAllUsers
 );
 
+router.get('/stats', authMiddleware, requireRole(['admin', 'trainer']), userController.getUserStats);
+
 
 // ==========================================
 // ОБРАБОТКА ОШИБОК

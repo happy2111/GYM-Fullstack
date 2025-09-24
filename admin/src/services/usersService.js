@@ -36,6 +36,18 @@ class UsersService {
       throw error; // пробрасываем, чтобы обработать в компоненте
     }
   }
+
+
+  async getUserStats() {
+    try {
+      const response = await api.get("/users/stats");
+      return response.data?.data;
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
 }
 
 export default new UsersService();

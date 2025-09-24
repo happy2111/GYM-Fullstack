@@ -10,6 +10,12 @@ class PaymentService {
     const response = await api.post(`/payment/confirm/${paymentId}`);
     return response.data;
   }
+
+  async getPaymentStats() {
+    const response = await api.get('/payment/stats');
+    return response.data;
+  }
+
 }
 
 const paymentService = new PaymentService();

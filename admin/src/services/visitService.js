@@ -133,6 +133,14 @@ class VisitService {
     }
   }
 
+  async getDashboardStats() {
+    try {
+      const response = await api.get("/visits/stats/dashboard");
+      return response.data;
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
 }
 

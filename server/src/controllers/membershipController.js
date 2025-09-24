@@ -405,6 +405,18 @@ class MembershipController {
       res.status(500).json({ message: error.message });
     }
   }
+
+
+  async getMembershipStats(req, res) {
+    try {
+      const stats = await membershipService.getMembershipStats(null); // явно null
+      res.json({ data: stats });
+    } catch (error) {
+      logger.error("Get membership stats error:", error);
+      res.status(500).json({ message: error.message });
+    }
+  }
+
 }
 
 module.exports = new MembershipController();

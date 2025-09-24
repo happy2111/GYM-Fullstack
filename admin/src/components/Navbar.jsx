@@ -6,6 +6,8 @@ import {ShoppingCart, Menu, User, Sidebar} from "lucide-react"
 import authStore from "../store/authStore";
 import {observer} from "mobx-react-lite";
 import SideBar from "./SideBar.jsx";
+import {ThemeToggle} from "@/components/theme-toggle.js";
+
 
 const Navbar = observer(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,9 +22,9 @@ const Navbar = observer(() => {
           <div className={"flex gap-2 max-md:hidden"}>
             <Button
               text={"Dashboard"}
-              href={"/"}
-              isTransparent={location.pathname === "/" ? false : true}
-              border={location.pathname === "/" ? false : true}
+              href={"/dashboard"}
+              isTransparent={location.pathname === "/dashboard" ? false : true}
+              border={location.pathname === "/dashboard" ? false : true}
             />
             <Button
               text={"Users"}
@@ -30,17 +32,30 @@ const Navbar = observer(() => {
               isTransparent={location.pathname === "/users" ? false : true}
               border={location.pathname === "/users" ? false : true}
             />
-            <Button
-              text={"Scan QR Code"}
-              href={"/scan-qr"}
-              isTransparent={location.pathname === "/scan-qr" ? false : true}
-              border={location.pathname === "/scan-qr" ? false : true}
-            />
+
             <Button
               text={"Payments"}
               href={"/payments"}
               isTransparent={location.pathname === "/payments" ? false : true}
               border={location.pathname === "/payments" ? false : true}
+            />
+            <Button
+              text={"Visits"}
+              href={"/visits"}
+              isTransparent={location.pathname === "/visits" ? false : true}
+              border={location.pathname === "/visits" ? false : true}
+            />
+            <Button
+              text={"Membership"}
+              href={"/memberships"}
+              isTransparent={location.pathname === "/memberships" ? false : true}
+              border={location.pathname === "/memberships" ? false : true}
+            />
+            <Button
+              text={"Scan QR Code"}
+              href={"/scan-qr"}
+              isTransparent={location.pathname === "/scan-qr" ? false : true}
+              border={location.pathname === "/scan-qr" ? false : true}
             />
           </div>
           <div className="md:hidden flex items-center space-x-4">
@@ -51,6 +66,9 @@ const Navbar = observer(() => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             />
           </div>
+
+          <ThemeToggle/>
+
 
           <Link
             to="/"
@@ -99,6 +117,8 @@ const Navbar = observer(() => {
               </div>
             )}
           </div>
+
+
 
 
           {/* Mobile меню открывается при клике на иконку Menu */}

@@ -68,8 +68,8 @@ class MembershipService {
   }
 
   // Получить общую статистику по абонементам (админ/тренер)
-  async getAdminStats() {
-    const response = await api.get('/memberships/admin/stats');
+  async getStats() {
+    const response = await api.get('/memberships/stats');
     return response.data;
   }
 

@@ -428,14 +428,6 @@ class VisitController {
    */
   async getTodaySummary(req, res) {
     try {
-      const { role } = req.user;
-
-      // Только админы и тренеры могут видеть общую сводку
-      if (role !== 'admin' && role !== 'trainer') {
-        return res.status(403).json({
-          message: 'Access denied'
-        });
-      }
 
       const summary = await visitService.getTodaySummary();
 
@@ -443,6 +435,18 @@ class VisitController {
 
     } catch (error) {
       logger.error('Get today summary error:', error);
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+
+  async getDashboardStats (req, res) {
+    try {
+      const stats = await visitService.getDashboardStats()
+      logger.info('Dashboard stats fetched successfully')
+      res.json({ stats });
+    }catch (error) {
+      logger.error('Get dashboard stats error:', error);
       res.status(500).json({ message: error.message });
     }
   }
