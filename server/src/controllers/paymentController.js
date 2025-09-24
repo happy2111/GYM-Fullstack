@@ -118,6 +118,26 @@ class PaymentController {
       res.status(500).json({ message: error.message });
     }
   }
+
+  async getPaymentsStats(req, res) {
+    try {
+      const totalRevenue = await paymentService.getTotalRevenue();
+      const byStatus = await paymentService.getPaymentsByStatus();
+      const byMethod = await paymentService.getPaymentsByMethod();
+      const dailyRevenue = await paymentService.getDailyRevenue(30);
+
+      res.json({
+        totalRevenue,
+        byStatus,
+        byMethod,
+        dailyRevenue
+      });
+    } catch (error) {
+      logger.error('Get payments stats error:', error);
+      res.status(500).json({ message: error.message });
+    }
+  }
+
 }
 
 module.exports = new PaymentController();

@@ -26,6 +26,8 @@ import Users from "./pages/Users.jsx";
 import Visits from "./pages/Visits.jsx";
 import Tariffs from "./pages/Tariffs.jsx";
 import Memberships from "./pages/Memberships.jsx";
+import Dashboard from "./pages/dashboard/page.js";
+import {ThemeToggle} from "@/components/theme-toggle.js";
 
 
 const App = observer(() => {
@@ -100,28 +102,33 @@ const App = observer(() => {
   }, []);
 
   return (
-    <Router>
-      <Toaster
-        toastOptions={{
-          // Define default options
-          className: '',
-          duration: 3000,
-          removeDelay: 1000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-            marginTop: `${isTelegram ? '70px' : '0px'}`
-          },
+    <>
 
-          // Default options for specific types
-          success: {
+      <Router>
+        <Toaster
+          toastOptions={{
+            // Define default options
+            className: '',
             duration: 3000,
-            iconTheme: {
-              primary: 'green',
-              secondary: 'black',
+            removeDelay: 1000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+              marginTop: `${isTelegram ? '70px' : '0px'}`
             },
-          },
-        }}/>
+
+            // Default options for specific types
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: 'green',
+                secondary: 'black',
+              },
+            },
+          }}/>
+
+        <ThemeToggle/>
+
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
@@ -150,6 +157,10 @@ const App = observer(() => {
             </Route>
 
           </Route>
+
+
+          <Route path="dashboard" element={<AuthLayout><AdminRoute><Dashboard /></AdminRoute></AuthLayout>} />
+
           <Route
             path="*"
             element={<Navigate
@@ -158,7 +169,9 @@ const App = observer(() => {
             />}
           />
         </Routes>
-    </Router>
+      </Router>
+
+    </>
   );
 });
 

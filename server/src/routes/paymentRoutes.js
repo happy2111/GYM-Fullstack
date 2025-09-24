@@ -26,6 +26,8 @@ router.post("/click/prepare", clickController.prepare)
 router.post("/click/complete", clickController.complete)
 router.post("/click/checkout", authMiddleware, clickController.checkout)
 
+router.get("/stats", requireRole(['admin', 'trainer']) ,paymentController.getPaymentsStats)
+
 
 
 router.get(

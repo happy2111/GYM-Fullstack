@@ -72,12 +72,6 @@ class PaymentService {
     return result.rows;
   }
 
-  async getPaymentById(paymentId) {
-    const query = `SELECT * FROM payments WHERE id = $1`;
-    const result = await pool.query(query, [paymentId]);
-    return result.rows[0] || null;
-  }
-
   async getUserPayments(userId) {
     const query = `SELECT * FROM payments WHERE user_id = $1 ORDER BY created_at DESC`;
     const result = await pool.query(query, [userId]);
@@ -170,6 +164,51 @@ class PaymentService {
     const result = await pool.query(query, [transactionId, prepareId, paymentId]);
     return result.rows[0];
   }
+  // _________________________________________________________________
+  // Общая сумма платежей (completed)
+  async getTotalRevenue() {
+    const query = `SELECT COALESCE(SUM(amount), 0) AS total FROM payments WHERE status = 'completed'`;
+    const result = await pool.query(query);
+    return result.rows[0].total;
+  }
+
+// Кол-во платежей по статусам
+  async getPaymentsByStatus() {
+    const query = `
+    SELECT status, COUNT(*) as count
+    FROM payments
+    GROUP BY status
+  `;
+    const result = await pool.query(query);
+    return result.rows;
+  }
+
+// Распределение по методам оплаты
+  async getPaymentsByMethod() {
+    const query = `
+    SELECT method, COUNT(*) as count, SUM(amount) as total
+    FROM payments
+    WHERE status = 'completed'
+    GROUP BY method
+  `;
+    const result = await pool.query(query);
+    return result.rows;
+  }
+
+// Динамика (по дням за последние 30 дней)
+  async getDailyRevenue(days = 30) {
+    const query = `
+    SELECT DATE(created_at) as date, SUM(amount) as total
+    FROM payments
+    WHERE status = 'completed' 
+      AND created_at >= NOW() - INTERVAL '${days} days'
+    GROUP BY DATE(created_at)
+    ORDER BY date ASC
+  `;
+    const result = await pool.query(query);
+    return result.rows;
+  }
+
 
 
 }
