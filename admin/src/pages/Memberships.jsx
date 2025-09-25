@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Search, Filter, X, Clock, Calendar, User, CheckCircle, XCircle, Pause, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import membershipService from "../services/membershipService.js";
-import AddMembershipModal from "../components/modals/AddMembershipModal.jsx";
+import AddMembershipModal from "../components/Modals/AddMembershipModal.jsx";
 
 const MembershipsCRUD = () => {
   const { t } = useTranslation();
