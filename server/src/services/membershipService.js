@@ -46,6 +46,64 @@ class MembershipService {
     }
   }
 
+
+  async createMembershipByAdmin({ userId, tariffId, method = "cash", status = "completed" }) {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      // 1. Получаем тариф
+      const tariffRes = await client.query(`SELECT * FROM tariffs WHERE id = $1`, [tariffId]);
+      if (tariffRes.rows.length === 0) {
+        throw new Error("Tariff not found");
+      }
+      const tariff = tariffRes.rows[0];
+
+      // 2. Создаём оплату
+      const paymentId = uuidv4();
+      const paymentRes = await client.query(
+        `
+        INSERT INTO payments (id, user_id, tariff_id, amount, method, status, transaction_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING *
+      `,
+        [paymentId, userId, tariffId, tariff.price, method, status, `manual-${Date.now()}`]
+      );
+      const payment = paymentRes.rows[0];
+
+      // 3. Создаём абонемент
+      const membershipId = uuidv4();
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(startDate.getDate() + tariff.duration_days);
+
+      const membershipRes = await client.query(
+        `
+        INSERT INTO memberships (id, user_id, tariff_id, payment_id, start_date, end_date, status, max_visits, used_visits)
+        VALUES ($1, $2, $3, $4, $5, $6, 'active', $7, 0)
+        RETURNING *
+      `,
+        [membershipId, userId, tariffId, paymentId, startDate, endDate, tariff.max_visits]
+      );
+      const membership = membershipRes.rows[0];
+
+      // 4. Обновляем ссылку в платежах на membership_id
+      await client.query(
+        `UPDATE payments SET membership_id = $1 WHERE id = $2`,
+        [membershipId, paymentId]
+      );
+
+      await client.query("COMMIT");
+
+      return { payment, membership, tariff };
+    } catch (err) {
+      await client.query("ROLLBACK");
+      throw err;
+    } finally {
+      client.release();
+    }
+  }
+
   // Получение абонемента по ID
   async getMembershipById(membershipId) {
     const query = `
@@ -123,10 +181,6 @@ class MembershipService {
       where.push(`m.status = $${i++}`);
       values.push(status);
     }
-    if (type) {
-      where.push(`m.type = $${i++}`);
-      values.push(type);
-    }
     if (userIdFilter) {
       where.push(`m.user_id = $${i++}`);
       values.push(userIdFilter);
@@ -139,16 +193,19 @@ class MembershipService {
     const whereClause = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
 
     const query = `
-    SELECT COUNT(*) OVER() AS total,
-           m.*,
-           u.name as user_name,
-           u.email as user_email
-    FROM memberships m
-    JOIN users u ON u.id = m.user_id
-    ${whereClause}
-    ORDER BY ${sortBy} ${sortOrder}
-    LIMIT $${i++} OFFSET $${i}
-  `;
+        SELECT COUNT(*) OVER() AS total,
+            m.*,
+               u.name  AS user_name,
+               u.email AS user_email,
+               t.code  AS tariff_code,
+               t.name  AS tariff_name
+        FROM memberships m
+                 JOIN users u ON u.id = m.user_id
+                 LEFT JOIN tariffs t ON t.id = m.tariff_id
+            ${whereClause}
+        ORDER BY ${sortBy} ${sortOrder}
+            LIMIT $${i++} OFFSET $${i}
+    `;
 
     values.push(limit, offset);
 
@@ -161,9 +218,10 @@ class MembershipService {
   }
 
 
+
   // Обновление абонемента
   async updateMembership(membershipId, updateData) {
-    const allowedFields = ['type', 'start_date', 'end_date', 'status', 'price', 'payment_id', 'max_visits', 'used_visits'];
+    const allowedFields = ['start_date', 'end_date', 'status', 'payment_id', 'max_visits', 'used_visits'];
     const updateFields = [];
     const params = [];
     let paramIndex = 1;
@@ -187,7 +245,7 @@ class MembershipService {
     const query = `
         UPDATE memberships
         SET ${updateFields.join(', ')}
-        WHERE id = $${paramIndex} RETURNING id, user_id, type, start_date, end_date, status, price, payment_id, max_visits, used_visits, created_at, updated_at
+        WHERE id = $${paramIndex} RETURNING id, user_id, start_date, end_date, status, payment_id, max_visits, used_visits, created_at, updated_at
     `;
 
     try {
@@ -311,33 +369,35 @@ class MembershipService {
     let params = [];
 
     if (userId) {
-
       if (!isUuid(userId)) {
         throw new Error('Invalid UUID format');
       }
+
       // Статистика для конкретного пользователя
       query = `
-          SELECT COUNT(*)                                       as total_memberships,
-                 COUNT(CASE WHEN status = 'active' THEN 1 END)  as active_memberships,
-                 COUNT(CASE WHEN status = 'expired' THEN 1 END) as expired_memberships,
-                 COUNT(CASE WHEN status = 'frozen' THEN 1 END)  as frozen_memberships,
-                 COALESCE(SUM(price), 0)                        as total_paid,
-                 COALESCE(SUM(used_visits), 0)                  as total_visits_used
-          FROM memberships
-          WHERE user_id = $1
+          SELECT COUNT(*)                                       AS total_memberships,
+                 COUNT(CASE WHEN m.status = 'active' THEN 1 END)  AS active_memberships,
+                 COUNT(CASE WHEN m.status = 'expired' THEN 1 END) AS expired_memberships,
+                 COUNT(CASE WHEN m.status = 'frozen' THEN 1 END)  AS frozen_memberships,
+                 COALESCE(SUM(t.price), 0)                        AS total_paid,
+                 COALESCE(SUM(m.used_visits), 0)                  AS total_visits_used
+          FROM memberships m
+                   LEFT JOIN tariffs t ON m.tariff_id = t.id
+          WHERE m.user_id = $1
       `;
       params = [userId];
     } else {
       // Общая статистика (для админа)
       query = `
-          SELECT COUNT(*)                                       as total_memberships,
-                 COUNT(CASE WHEN status = 'active' THEN 1 END)  as active_memberships,
-                 COUNT(CASE WHEN status = 'expired' THEN 1 END) as expired_memberships,
-                 COUNT(CASE WHEN status = 'frozen' THEN 1 END)  as frozen_memberships,
-                 COALESCE(SUM(price), 0)                        as total_revenue,
-                 COALESCE(SUM(used_visits), 0)                  as total_visits,
-                 COUNT(DISTINCT user_id)                        as unique_users
-          FROM memberships
+          SELECT COUNT(*)                                       AS total_memberships,
+                 COUNT(CASE WHEN m.status = 'active' THEN 1 END)  AS active_memberships,
+                 COUNT(CASE WHEN m.status = 'expired' THEN 1 END) AS expired_memberships,
+                 COUNT(CASE WHEN m.status = 'frozen' THEN 1 END)  AS frozen_memberships,
+                 COALESCE(SUM(t.price), 0)                        AS total_revenue,
+                 COALESCE(SUM(m.used_visits), 0)                  AS total_visits,
+                 COUNT(DISTINCT m.user_id)                        AS unique_users
+          FROM memberships m
+                   LEFT JOIN tariffs t ON m.tariff_id = t.id
       `;
     }
 

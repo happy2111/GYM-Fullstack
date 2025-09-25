@@ -178,9 +178,6 @@ const membershipSchemas = {
     userId: Joi.string().uuid().required()
       .messages({ "string.guid": "UserId must be a valid UUID" }),
 
-    type: Joi.string().valid("single", "monthly", "yearly").required()
-      .messages({ "any.only": "Type must be one of: single, monthly, yearly" }),
-
     startDate: Joi.date().min('now').required()
       .messages({
         "date.min": "Start date cannot be in the past",
@@ -196,11 +193,6 @@ const membershipSchemas = {
     status: Joi.string().valid("active", "expired", "frozen").default("active")
       .messages({ "any.only": "Status must be one of: active, expired, frozen" }),
 
-    price: Joi.number().min(0).precision(2).required()
-      .messages({
-        "number.min": "Price cannot be negative",
-        "number.base": "Price must be a valid number"
-      }),
 
     paymentId: Joi.string().trim().max(255).optional().allow("", null)
       .messages({ "string.max": "Payment ID cannot exceed 255 characters" }),
@@ -252,9 +244,6 @@ const membershipSchemas = {
 
   // ✅ Обновление абонемента
   updateMembership: Joi.object({
-    type: Joi.string().valid("single", "monthly", "yearly").optional()
-      .messages({ "any.only": "Type must be one of: single, monthly, yearly" }),
-
     startDate: Joi.date().optional()
       .messages({ "date.base": "Start date must be a valid date" }),
 

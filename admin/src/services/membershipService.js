@@ -78,6 +78,11 @@ class MembershipService {
     const response = await api.post('/memberships/admin/update-expired');
     return response.data;
   }
+
+  async createMembershipByAdmin(data) {
+    const response = await api.post('/memberships/admin/create', data);
+    return response.data;
+  }
 }
 
 const membershipService = new MembershipService();

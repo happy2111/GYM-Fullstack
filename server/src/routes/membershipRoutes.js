@@ -8,16 +8,16 @@ const router = express.Router();
 
 // Rate limiting для операций с абонементами
 const membershipLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 минут
-  max: 100, // максимум 100 запросов за 15 минут
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
   message: 'Too many membership requests, please try again later',
   skipSuccessfulRequests: true
 });
 
 // Rate limiting для создания абонементов (более строгий)
 const createMembershipLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 минут
-  max: 50, // максимум 10 создании абонементов за 15 минут
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
   message: 'Too many membership creation attempts, please try again later'
 });
 
@@ -39,12 +39,26 @@ router.get('/me/all/',
 )
 
 
-// Получить мою статистику по абонементам
-// router.get('/me/stats',
-//   authMiddleware,
-//   membershipLimiter,
-//   membershipController.getMembershipStats
-// );
+// ==========================================
+// АДМИНСКИЕ МАРШРУТЫ
+// ==========================================
+
+
+
+// Обновить просроченные абонементы (админ)
+router.post('/admin/update-expired',
+  authMiddleware,
+  requireRole(['admin', 'trainer']),
+  membershipLimiter,
+  membershipController.updateExpiredMemberships
+);
+
+router.get('/stats',
+  authMiddleware,
+  requireRole(['admin', 'trainer']),
+  membershipLimiter,
+  membershipController.getMembershipStats
+);
 
 // ==========================================
 // CRUD ОПЕРАЦИИ
@@ -52,11 +66,21 @@ router.get('/me/all/',
 
 // Создать новый абонемент
 router.post('/',
+  requireRole(['admin', 'trainer']),
   authMiddleware,
   createMembershipLimiter,
   validate(membershipSchemas.createMembership),
   membershipController.createMembership
 );
+
+router.post(
+  "/admin/create",
+  authMiddleware,
+  requireRole(['admin', 'trainer']),
+  membershipController.createByAdmin
+);
+
+
 
 // Получить список всех абонементов (с фильтрами и пагинацией)
 router.get('/',
@@ -122,25 +146,7 @@ router.post('/:id/visit',
   membershipController.incrementUsedVisits
 );
 
-// ==========================================
-// АДМИНСКИЕ МАРШРУТЫ
-// ==========================================
 
-// Получить общую статистику по абонементам (админ)
-router.get('/stats',
-  authMiddleware,
-  requireRole(['admin', 'trainer']),
-  membershipLimiter,
-  membershipController.getMembershipStats
-);
-
-// Обновить просроченные абонементы (админ)
-router.post('/admin/update-expired',
-  authMiddleware,
-  requireRole(['admin', 'trainer']),
-  membershipLimiter,
-  membershipController.updateExpiredMemberships
-);
 
 // ==========================================
 // MIDDLEWARE ДЛЯ ВАЛИДАЦИИ ПАРАМЕТРОВ

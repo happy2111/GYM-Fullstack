@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Search, Filter, X, Clock, Calendar, User, CheckCircle, XCircle, Pause, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import membershipService from "../services/membershipService.js";
-import AddMembershipModal from "../components/AddMembershipModal.jsx";
+import AddMembershipModal from "../components/modals/AddMembershipModal.jsx";
 
 const MembershipsCRUD = () => {
   const { t } = useTranslation();
@@ -16,13 +16,13 @@ const MembershipsCRUD = () => {
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, totalPages: 0 });
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [membershipToDelete, setMembershipToDelete] = useState(null);
-
+  const [addMembershipModalOpen, setAddMembershipModalOpen] = useState(false);
   // Получение списка абонементов
   const getMemberships = async (page = 1, limit = 10, filters = {}) => {
     try {
       setIsLoading(true);
       const response = await membershipService.getMemberships({ page, limit, status: statusFilter !== 'all' ? statusFilter : undefined, user_name: searchTerm || undefined });
-      setMemberships(response.memberships || []);
+      setMemberships(response.data || []);
       setPagination({
         page: response.pagination.page,
         limit: response.pagination.limit,
@@ -61,6 +61,7 @@ const MembershipsCRUD = () => {
 
   // Закрытие модального окна
   const closeModal = () => {
+    setAddMembershipModalOpen(false)
     setIsModalOpen(false);
     setCurrentMembership(null);
     setIsEditing(false);
@@ -188,8 +189,8 @@ const MembershipsCRUD = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8" style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-97)' }}>
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-97)' }}>
+      <div className="container mx-auto">
         <div className="mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t('membershipsManagement')}</h1>
           <p className="text-gray-70">{t('manageAllMemberships')}</p>
@@ -224,7 +225,7 @@ const MembershipsCRUD = () => {
               </select>
             </div>
             <button
-              onClick={() => openModal()}
+              onClick={() =>  setAddMembershipModalOpen(true)}
               className="flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors hover:opacity-90"
               style={{ backgroundColor: 'var(--color-brown-60)', color: 'white' }}
             >
@@ -263,12 +264,12 @@ const MembershipsCRUD = () => {
                           <User className="w-5 h-5 text-gray-400" />
                         </div>
                         <div>
-                          <div className="text-sm font-medium text-gray-97">{membership.user?.name || 'N/A'}</div>
+                          <div className="text-sm font-medium text-gray-97">{membership?.user_name || 'N/A'}</div>
                           <div className="text-xs text-gray-70">ID: {membership.user_id.substring(0, 8)}...</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-97">{membership.tariff?.name || 'N/A'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-97">{membership?.tariff_code || 'N/A'}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         {getStatusIcon(membership.status)}
@@ -324,7 +325,7 @@ const MembershipsCRUD = () => {
                     <User className="w-6 h-6 text-gray-400" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-lg font-medium text-gray-97">{membership.user?.name || 'N/A'}</div>
+                    <div className="text-lg font-medium text-gray-97">{membership?.user_name || 'N/A'}</div>
                     <div className="flex items-center gap-2">
                       {getStatusIcon(membership.status)}
                       <span className="text-sm">{t(`statuses.${membership.status}`)}</span>
@@ -332,7 +333,7 @@ const MembershipsCRUD = () => {
                   </div>
                 </div>
                 <div className="space-y-2 mb-4">
-                  <div className="text-sm">Тариф: {membership.tariff?.name || 'N/A'}</div>
+                  <div className="text-sm">Тариф: {membership?.tariff_code || 'N/A'}</div>
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-gray-50" />
                     <span className="text-sm">{formatDate(membership.start_date)} - {formatDate(membership.end_date)}</span>
@@ -384,28 +385,32 @@ const MembershipsCRUD = () => {
         )}
 
         {/* Модальное окно */}
-        {isModalOpen && (
-          <AddMembershipModal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            membership={currentMembership}
-            isEditing={isEditing}
-            onSubmit={async (data) => {
-              try {
-                if (isEditing) {
-                  await membershipService.updateMembership(currentMembership.id, data);
-                  setMemberships(memberships.map(m => m.id === currentMembership.id ? { ...m, ...data } : m));
-                } else {
-                  await membershipService.createMembership(data);
-                  getMemberships(pagination.page, pagination.limit);
-                }
-                closeModal();
-              } catch (error) {
-                console.error('Error submitting form:', error);
-              }
-            }}
-          />
-        )}
+
+        <AddMembershipModal isOpen={addMembershipModalOpen} onClose={closeModal}/>
+
+
+        {/*{isModalOpen && (*/}
+        {/*  <AddMembershipModal*/}
+        {/*    isOpen={isModalOpen}*/}
+        {/*    onClose={closeModal}*/}
+        {/*    membership={currentMembership}*/}
+        {/*    isEditing={isEditing}*/}
+        {/*    onSubmit={async (data) => {*/}
+        {/*      try {*/}
+        {/*        if (isEditing) {*/}
+        {/*          await membershipService.updateMembership(currentMembership.id, data);*/}
+        {/*          setMemberships(memberships.map(m => m.id === currentMembership.id ? { ...m, ...data } : m));*/}
+        {/*        } else {*/}
+        {/*          await membershipService.createMembership(data);*/}
+        {/*          getMemberships(pagination.page, pagination.limit);*/}
+        {/*        }*/}
+        {/*        closeModal();*/}
+        {/*      } catch (error) {*/}
+        {/*        console.error('Error submitting form:', error);*/}
+        {/*      }*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*)}*/}
 
         {/* Подтверждение удаления */}
         {isDeleteConfirmOpen && (

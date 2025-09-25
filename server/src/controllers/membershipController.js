@@ -7,25 +7,17 @@ class MembershipController {
   // Создание нового абонемента
   async createMembership(req, res) {
     try {
-      const { userId, type, startDate, endDate, status, price, paymentId, maxVisits } = req.body;
-      const userRole = req.user?.role;
+      const { userId, startDate, endDate, status, paymentId, maxVisits, tariffId } = req.body;
 
-      // Проверяем права доступа
-      if (userRole !== 'admin' && userId !== req.user.userId) {
-        return res.status(403).json({
-          message: 'Access denied. You can only create memberships for yourself'
-        });
-      }
 
       const membership = await membershipService.createMembership({
         userId,
-        type,
         startDate,
         endDate,
         status,
-        price,
         paymentId,
-        maxVisits
+        maxVisits,
+        tariffId
       });
 
       logger.info(`Membership created: ${membership.id} by user ${req.user.userId}`);
@@ -37,6 +29,28 @@ class MembershipController {
     } catch (error) {
       logger.error('Create membership error:', error);
       res.status(500).json({ message: error.message });
+    }
+  }
+
+  async createByAdmin(req, res) {
+    try {
+      const { userId, tariffId, method, status } = req.body;
+
+      if (!userId || !tariffId) {
+        return res.status(400).json({ message: "userId and tariffId are required" });
+      }
+
+      const result = await membershipService.createMembershipByAdmin({
+        userId,
+        tariffId,
+        method: method || "cash",
+        status: status || "completed"
+      });
+
+      res.json(result);
+    } catch (err) {
+      console.error("Error creating membership by admin:", err);
+      res.status(500).json({ message: "Internal server error", error: err.message });
     }
   }
 
@@ -61,53 +75,6 @@ class MembershipController {
       res.json({ membership });
     } catch (error) {
       logger.error('Get membership error:', error);
-      res.status(500).json({ message: error.message });
-    }
-  }
-
-  // Получение списка абонементов
-  async getMemberships(req, res) {
-    try {
-      const { userId, role } = req.user;
-      const {
-        status,
-        type,
-        user_id: filterUserId,
-        user_name: userName,
-        page = 1,
-        limit = 10
-      } = req.query;
-
-      const offset = (page - 1) * limit;
-      const filters = {
-        status,
-        type,
-        limit: parseInt(limit),
-        offset: parseInt(offset)
-      };
-
-      let memberships;
-
-      if (role === 'admin') {
-        // Админ может видеть все абонементы с фильтрами
-        filters.userId = filterUserId;
-        filters.userName = userName;
-        memberships = await membershipService.getAllMemberships(filters);
-      } else {
-        // Обычный пользователь видит только свои абонементы
-        memberships = await membershipService.getUserMemberships(userId, filters);
-      }
-
-      res.json({
-        memberships,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total: memberships.length
-        }
-      });
-    } catch (error) {
-      logger.error('Get memberships error:', error);
       res.status(500).json({ message: error.message });
     }
   }
@@ -181,7 +148,7 @@ class MembershipController {
     try {
       const { id } = req.params;
       const { userId, role } = req.user;
-      const updateData = req.body;
+      let updateData = req.body;
 
       // Проверяем права доступа
       const hasAccess = await membershipService.checkMembershipAccess(id, userId, role);

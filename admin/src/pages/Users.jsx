@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Search, Filter, Eye, X, Check, Clock, AlertCircle, User, Mail, Phone, Calendar, Users, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import UsersService from "../services/usersService.js"
+import userStore from "@/store/userStore.js";
 
 const userService = {
   verifyUser: (userId) => new Promise((resolve) => {
@@ -43,6 +44,7 @@ const UsersCRUD = () => {
     avatar_url: '',
     telegram_photo_url: ''
   });
+
 
   const getUsers = async (page = 1, limit = 10) => {
     try {

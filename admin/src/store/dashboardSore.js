@@ -71,7 +71,7 @@ class DashboardStore {
     try {
       const data = await membershipService.getStats()
       runInAction(() => {
-        this.membershipStats = data || {};
+        this.membershipStats = data?.data || {};
         this.isLoading = false;
       })
     }catch (error) {
