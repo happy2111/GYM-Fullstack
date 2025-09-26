@@ -53,7 +53,7 @@ const data = {
     {
       title: "Tariffs",
       url: "/tariffs",
-      icon: IconChartBar,
+      icon: IconTag,
     },
     {
       title: "Visits",
@@ -115,11 +115,7 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "/profile#settings",
-      icon: IconSettings,
-    },
+
   ],
 }
 
@@ -129,7 +125,7 @@ export function AppSidebar({
 
 
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar variant="inset" collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>

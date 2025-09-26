@@ -6,7 +6,7 @@ import BottomBar from "../components/BottomBar.jsx";
 const NavLayout = () => {
   return (
     <div>
-      <Navbar/>
+      {/*<Navbar/>*/}
       <Outlet />
       <BottomBar/>
 
