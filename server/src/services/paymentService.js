@@ -209,6 +209,12 @@ class PaymentService {
     return result.rows;
   }
 
+  async deletePayment(paymentId) {
+    const query = `DELETE FROM payments WHERE id = $1 RETURNING id`;
+    const result = await pool.query(query, [paymentId]);
+    return result.rows[0] ? true : false;
+  }
+
 
 }
 

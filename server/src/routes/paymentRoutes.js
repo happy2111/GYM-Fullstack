@@ -29,12 +29,13 @@ router.post("/click/checkout", authMiddleware, clickController.checkout)
 router.get("/stats", authMiddleware, requireRole(['admin', 'trainer']) ,paymentController.getPaymentsStats)
 
 
-
 router.get(
   "/get-payments",
   authMiddleware,
   paymentController.getPayments
 )
+
+router.delete('/:id', authMiddleware, requireRole(['admin']), paymentController.deletePayment)
 
 
 module.exports = router;

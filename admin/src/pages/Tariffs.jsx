@@ -338,7 +338,7 @@ const TariffsCRUD = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-50" />
             <input
               type="text"
-              placeholder={t('searchPlaceholder')}
+              placeholder={t('searchAndFilters.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-3 rounded-lg border focus:ring-2 focus:ring-brown-60 focus:border-brown-60 transition-colors"
@@ -363,9 +363,9 @@ const TariffsCRUD = () => {
                   color: 'var(--color-gray-97)'
                 }}
               >
-                <option value="all">{t('allTypes')}</option>
-                <option value="best">{t('bestOffers')}</option>
-                <option value="regular">{t('regularTariffs')}</option>
+                <option value="all">{t('searchAndFilters.allTypes')}</option>
+                <option value="best">{t('searchAndFilters.bestOffers')}</option>
+                <option value="regular">{t('searchAndFilters.regularTariffs')}</option>
               </select>
             </div>
 
@@ -375,7 +375,7 @@ const TariffsCRUD = () => {
               style={{ backgroundColor: 'var(--color-brown-60)', color: 'white' }}
             >
               <Plus className="w-4 h-4" />
-              <span>{t('addTariff')}</span>
+              <span>{t('searchAndFilters.addTariff')}</span>
             </button>
           </div>
         </div>
@@ -393,13 +393,13 @@ const TariffsCRUD = () => {
             <table className="w-full">
               <thead style={{ backgroundColor: 'var(--color-dark-12)' }}>
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('tariff')}</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('price')}</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('duration')}</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('visits')}</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('status')}</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('created')}</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('actions')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('tableHeaders.tariff')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('tableHeaders.price')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('tableHeaders.duration')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('tableHeaders.visits')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('tableHeaders.status')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('tableHeaders.created')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-70 uppercase tracking-wider">{t('tableHeaders.actions')}</th>
                 </tr>
               </thead>
               <tbody style={{ backgroundColor: 'var(--color-dark-10)' }}>
@@ -669,7 +669,7 @@ const TariffsCRUD = () => {
                       borderColor: 'var(--color-dark-20)',
                       color: 'var(--color-gray-97)'
                     }}
-                    placeholder={t('enterCode')}
+                    placeholder={t('form.enterCode')}
                   />
                 </div>
 
@@ -686,7 +686,7 @@ const TariffsCRUD = () => {
                       borderColor: 'var(--color-dark-20)',
                       color: 'var(--color-gray-97)'
                     }}
-                    placeholder={t('enterName')}
+                    placeholder={t('form.enterName')}
                   />
                 </div>
 
@@ -702,12 +702,12 @@ const TariffsCRUD = () => {
                       borderColor: 'var(--color-dark-20)',
                       color: 'var(--color-gray-97)'
                     }}
-                    placeholder={t('enterDescription')}
+                    placeholder={t('form.enterDescription')}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">{t('priceAmount')}</label>
+                  <label className="block text-sm font-medium mb-2">{t('tariffDetails.priceAmount')}</label>
                   <input
                     type="number"
                     step="0.01"
@@ -720,12 +720,12 @@ const TariffsCRUD = () => {
                       borderColor: 'var(--color-dark-20)',
                       color: 'var(--color-gray-97)'
                     }}
-                    placeholder={t('enterPrice')}
+                    placeholder={t('form.enterPrice')}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">{t('durationDays')}</label>
+                  <label className="block text-sm font-medium mb-2">{t('tariffDetails.durationDays')}</label>
                   <input
                     type="number"
                     required
@@ -737,12 +737,12 @@ const TariffsCRUD = () => {
                       borderColor: 'var(--color-dark-20)',
                       color: 'var(--color-gray-97)'
                     }}
-                    placeholder={t('enterDuration')}
+                    placeholder={t('form.enterDuration')}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">{t('maxVisits')}</label>
+                  <label className="block text-sm font-medium mb-2">{t('tariffDetails.maxVisits')}</label>
                   <input
                     type="number"
                     value={formData.max_visits}
@@ -753,7 +753,7 @@ const TariffsCRUD = () => {
                       borderColor: 'var(--color-dark-20)',
                       color: 'var(--color-gray-97)'
                     }}
-                    placeholder={t('enterMaxVisits')}
+                    placeholder={t('form.enterMaxVisits')}
                   />
                 </div>
 
@@ -769,12 +769,12 @@ const TariffsCRUD = () => {
                         borderColor: 'var(--color-dark-20)'
                       }}
                     />
-                    <span className="text-sm font-medium">{t('markAsBestOffer')}</span>
+                    <span className="text-sm font-medium">{t('form.markAsBestOffer')}</span>
                   </label>
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium mb-2">{t('featuresLabel')}</label>
+                  <label className="block text-sm font-medium mb-2">{t('tariffDetails.featuresLabel')}</label>
                   <textarea
                     value={formData.features}
                     onChange={(e) => setFormData({...formData, features: e.target.value})}
@@ -785,7 +785,7 @@ const TariffsCRUD = () => {
                       borderColor: 'var(--color-dark-20)',
                       color: 'var(--color-gray-97)'
                     }}
-                    placeholder={t('enterFeatures')}
+                    placeholder={t('form.enterFeatures')}
                   />
                 </div>
               </div>

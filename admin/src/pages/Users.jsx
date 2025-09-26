@@ -3,6 +3,8 @@ import { Plus, Edit2, Trash2, Search, Filter, Eye, X, Check, Clock, AlertCircle,
 import { useTranslation } from 'react-i18next';
 import UsersService from "../services/usersService.js"
 import userStore from "@/store/userStore.js";
+import usersService from "../services/usersService.js";
+import toast from "react-hot-toast";
 
 const userService = {
   verifyUser: (userId) => new Promise((resolve) => {
@@ -195,6 +197,15 @@ const UsersCRUD = () => {
   };
 
   const confirmDelete = () => {
+    const res = usersService.deleteUser(userToDelete.id);
+    if(res) {
+      toast.success("User deleted successfully");
+    }else {
+      toast.error("User not deleted");
+
+      return
+    }
+
     setUsers(users.filter(user => user.id !== userToDelete.id));
     // Обновить пагинацию после удаления
     setPagination(prev => ({

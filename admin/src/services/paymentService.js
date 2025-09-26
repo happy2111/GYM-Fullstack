@@ -16,6 +16,11 @@ class PaymentService {
     return response.data;
   }
 
+  async deletePayment(paymentId) {
+    const response = await api.delete(`/payment/${paymentId}`);
+    return response.data;
+  }
+
 }
 
 const paymentService = new PaymentService();

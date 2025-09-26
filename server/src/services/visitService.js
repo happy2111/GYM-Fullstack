@@ -365,7 +365,7 @@ class VisitService {
     const query = `
       SELECT v.*, 
              u.name as user_name, u.email as user_email,
-             m.type as membership_type, m.status as membership_status,
+            m.status as membership_status,
              creator.name as created_by_name
       FROM visits v
       LEFT JOIN users u ON v.user_id = u.id

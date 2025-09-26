@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate
+  Navigate,
+  Outlet
 } from 'react-router-dom';
 import {observer} from 'mobx-react-lite';
 import AuthLayout from './layouts/AuthLayout';
@@ -27,6 +28,8 @@ import Visits from "./pages/Visits.jsx";
 import Tariffs from "./pages/Tariffs.jsx";
 import Memberships from "./pages/Memberships.jsx";
 import Dashboard from "./pages/dashboard/page.js";
+import { ThemeProvider } from "@/components/theme-provider"
+import SidebarLayout from "@/layouts/SidebarLayout.js";
 
 
 const App = observer(() => {
@@ -102,8 +105,8 @@ const App = observer(() => {
 
   return (
     <>
-
-      <Router>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <Router>
         <Toaster
           toastOptions={{
             // Define default options
@@ -134,7 +137,7 @@ const App = observer(() => {
           <Route path={"/auth/google/callback"} element={<GoogleAuthCallBack />} />
 
           {/* Admin-only Protected Routes */}
-          <Route path="/" element={<AuthLayout><AdminRoute><NavLayout/></AdminRoute></AuthLayout>}>
+          <Route path="/" element={<AuthLayout><AdminRoute><SidebarLayout><NavLayout/></SidebarLayout></AdminRoute></AuthLayout>}>
             <Route path={""} element={<Navigate to="dashboard" replace />} />
             <Route index path="dashboard" element={<Dashboard />} />
             {/*<Route index element={<Home />} />*/}
@@ -146,16 +149,13 @@ const App = observer(() => {
             <Route path="memberships" element={<Memberships/>} />
 
 
-            <Route path="profile" element={<ProfileLayout />}>
-              <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />
-              <Route
-                path="account-preference"
-                element={<AccountPreference />}
-              />
-              <Route path={"sessions"} element={<Sessions/>}/>
-              <Route path={"payments"} element={<Payments/>}/>
-              <Route path={"membership-history"} element={<MembershipHistory/>}/>
 
+            <Route path="profile" element={<AuthLayout><AdminRoute><ProfileLayout/></AdminRoute></AuthLayout>}>
+              <Route path="" element={<Outlet />} />
+              <Route path="account-preference" element={<AccountPreference />} />
+              <Route path="sessions" element={<Sessions />} />
+              <Route path="payments" element={<Payments />} />
+              <Route path="membership-history" element={<MembershipHistory />} />
             </Route>
 
           </Route>
@@ -171,7 +171,7 @@ const App = observer(() => {
           />
         </Routes>
       </Router>
-
+      </ThemeProvider>
     </>
   );
 });

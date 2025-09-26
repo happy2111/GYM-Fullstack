@@ -18,8 +18,8 @@ const MembershipHistory = observer(() => {
 
   useEffect(() => {
     if (memberships.length > 0) {
-      fetchTariffDetails();
-      fetchPaymentDetails();
+      // fetchTariffDetails();
+      // fetchPaymentDetails();
     }
   }, [memberships]);
 
@@ -218,6 +218,7 @@ const MembershipHistory = observer(() => {
     try {
       await membershipStore.getAllMemberships();
     } catch (error) {
+      console.error("Failed to fetch memberships:", error);
       toast.error("Failed to refresh memberships");
     } finally {
       setLoading(false);

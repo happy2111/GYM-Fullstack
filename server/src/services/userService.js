@@ -1,4 +1,5 @@
 const {pool} = require("../utils/database");
+const logger = require("../utils/logger");
 
 class UserService {
   async getAllUsers(limit = 50, offset = 0, sortBy = "created_at", sortOrder = "DESC", search = "") {
@@ -123,6 +124,22 @@ class UserService {
       newUsers,
       dailyRegistrations,
     };
+  }
+
+
+  async deleteUser(userId) {
+    const query = `
+        DELETE FROM users
+        WHERE id = $1
+        RETURNING id
+    `;
+    try {
+      const result = await pool.query(query, [userId]);
+      return result.rows[0] ? true : false;
+    } catch (error) {
+      logger.error('Error deleting user:', error);
+      throw error;
+    }
   }
 
 }

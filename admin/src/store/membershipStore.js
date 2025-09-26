@@ -18,7 +18,7 @@ class MembershipStore {
     this.isLoading = true;
     this.error = null;
     try {
-      const response = await membershipService.getAllMemberships();
+      const response = await membershipService.getAllMyMemberships();
 
       runInAction(() => {
         // сначала очищаем массив активных абонементов

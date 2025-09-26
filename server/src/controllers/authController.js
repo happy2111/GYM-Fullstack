@@ -265,7 +265,7 @@ class AuthController {
 
       // Текущая сессия
       const currentToken = req.cookies.refreshToken; // или из заголовка
-      const currentSession = await tokenService.findSessionByToken(currentToken);
+      const currentSession = await tokenService.findRefreshToken(currentToken);
       const currentSessionId = currentSession?.id;
 
       return res.json({

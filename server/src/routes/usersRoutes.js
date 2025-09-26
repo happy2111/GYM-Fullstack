@@ -13,6 +13,7 @@ router.get('/all',
 
 router.get('/stats', authMiddleware, requireRole(['admin', 'trainer']), userController.getUserStats);
 
+router.delete('/:id', authMiddleware, requireRole(['admin']), userController.deleteUser);
 
 // ==========================================
 // ОБРАБОТКА ОШИБОК

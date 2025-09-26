@@ -1,5 +1,5 @@
 import React, {useState, } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Button from "./Button.jsx";
 import {useLocation} from "react-router-dom";
 import {Menu, User} from "lucide-react"
@@ -27,7 +27,7 @@ const Navbar = observer(() => {
               border={location.pathname === "/" ? false : true}
             />
             <Button
-              text={"Packages"}
+              text={t("navigation.packages")}
               href={"/packages"}
               isTransparent={location.pathname === "/packages" ? false : true}
               border={location.pathname === "/packages" ? false : true}

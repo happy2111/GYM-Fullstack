@@ -330,14 +330,7 @@ class VisitController {
   async deleteVisit(req, res) {
     try {
       const { id } = req.params;
-      const { role, userId } = req.user;
-
-      // Только админы могут удалять посещения
-      if (role !== 'admin') {
-        return res.status(403).json({
-          message: 'Access denied. Only admins can delete visits'
-        });
-      }
+      const { userId } = req.user;
 
       const deletedVisit = await visitService.deleteVisit(id);
 

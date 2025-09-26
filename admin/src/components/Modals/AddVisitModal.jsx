@@ -53,7 +53,7 @@ const AddVisitModal = ({ isOpen, onClose, onSuccess }) => {
 
     try {
       const membershipResponse = await membershipService.getActiveMembership(user.id);
-      const memberships = membershipResponse.membership || membershipResponse || [];
+      const memberships = membershipResponse.memberships || membershipResponse || [];
 
       setActiveMemberships(Array.isArray(memberships) ? memberships : []);
 

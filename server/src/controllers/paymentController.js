@@ -138,6 +138,20 @@ class PaymentController {
     }
   }
 
+  async deletePayment(req, res) {
+    try {
+      const { id } = req.params;
+      const payment = await paymentService.getPaymentById(id);
+      if (!payment) {
+        return res.status(404).json({ message: 'Payment not found' });
+      }
+      res.json({ message: 'Payment deleted successfully' });
+    }catch (error) {
+      logger.error('Delete payment error:', error);
+      res.status(500).json({ message: error.message });
+    }
+  }
+
 }
 
 module.exports = new PaymentController();

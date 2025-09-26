@@ -113,7 +113,7 @@ const AddMembershipModal = ({ isOpen, onClose, onSuccess }) => {
       <div className="fixed inset-0" style={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }} onClick={closeModal} />
       <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-lg border" style={{ backgroundColor: 'var(--color-dark-10)', borderColor: 'var(--color-dark-20)' }}>
         <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: 'var(--color-dark-20)' }}>
-          <h2 className="text-xl font-bold">{t('createMembership')}</h2>
+          <h2 className="text-xl font-bold">{t('modal.createMembership')}</h2>
           <button onClick={closeModal} className="p-2 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-dark-15)' }} aria-label={t('cancel')}>
             <X className="w-5 h-5" />
           </button>

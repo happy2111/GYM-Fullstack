@@ -1,5 +1,6 @@
 const logger = require('../utils/logger');
 const userService = require('../services/userService');
+const authService = require('../services/authService');
 
 class UserController {
   async getAllUsers(req, res) {
@@ -51,6 +52,26 @@ class UserController {
       res.json({ data: stats });
     } catch (error) {
       logger.error("Get user stats error:", error);
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  async deleteUser(req, res) {
+    try {
+      const { id } = req.params;
+      const user = authService.findUserById(id)
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      const result = await userService.deleteUser(id);
+      if (!result) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json({ message: "User deleted successfully" });
+
+
+    }catch (error) {
+      logger.error("Delete user error:", error);
       res.status(500).json({ message: error.message });
     }
   }

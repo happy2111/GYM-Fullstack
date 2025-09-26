@@ -192,8 +192,8 @@ const MembershipsCRUD = () => {
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-97)' }}>
       <div className="container mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t('membershipsManagement')}</h1>
-          <p className="text-gray-70">{t('manageAllMemberships')}</p>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t('memberships.membershipsManagement')}</h1>
+          <p className="text-gray-70">{t('memberships.manageAllMemberships')}</p>
         </div>
 
         {/* Фильтры и поиск */}
@@ -422,9 +422,9 @@ const MembershipsCRUD = () => {
                   <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--color-brown-95)' }}>
                     <AlertCircle className="w-6 h-6" style={{ color: 'var(--color-brown-60)' }} />
                   </div>
-                  <h3 className="text-lg font-bold">{t('confirmDeletion')}</h3>
+                  <h3 className="text-lg font-bold">{t('deleteConfirmation.confirmDeletion')}</h3>
                 </div>
-                <p className="text-gray-70 mb-6">{t('deleteMembershipConfirm')}</p>
+                <p className="text-gray-70 mb-6">{t('deleteConfirmation.deleteMembershipConfirm')}</p>
                 <div className="flex gap-3">
                   <button
                     onClick={() => setIsDeleteConfirmOpen(false)}

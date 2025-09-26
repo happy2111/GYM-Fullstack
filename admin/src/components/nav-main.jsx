@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export function NavMain({
   items
@@ -37,10 +37,11 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton tooltip={item.title}>
-                <Link to={item.url}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+                {item.icon && <item.icon />}
+                <Link className="flex items-center text-sm gap-2" to={item.url}>
+                 {item.title}
                 </Link>
+
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

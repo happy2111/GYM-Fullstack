@@ -2,7 +2,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 @theme {
   --color-dark-06: #0F0F0F;
   --color-dark-10: #1A1A1A;
@@ -144,7 +143,6 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.645 0.246 16.439);
 }
-
 
 @layer base {
   * {

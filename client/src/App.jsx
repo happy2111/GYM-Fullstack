@@ -3,10 +3,10 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate
+  Navigate,
+  Outlet,
 } from 'react-router-dom';
 import {observer} from 'mobx-react-lite';
-import AuthLayout from './layouts/AuthLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/home/Home.jsx';
@@ -17,12 +17,10 @@ import NavLayout from "./layouts/NavLayout.jsx";
 import ProfileLayout from "./layouts/ProfileLayout.jsx";
 import AccountPreference from "./pages/profile/AccountPreference.jsx";
 import Sessions from "./pages/profile/Sessions.jsx";
-import api from "./http/index.js";
 import Payments from "./pages/profile/Payments.jsx";
 import PricingPackages from "./pages/home/PricingPackages.jsx";
 import MembershipHistory from "./pages/profile/MembershipHistory.jsx";
 import QRCodePage from "./pages/QRCodePage.jsx";
-import {useTranslation} from "react-i18next";
 import i18n from "./i18n.js";
 
 
@@ -177,15 +175,12 @@ const App = observer(() => {
               />
 
 
-            <Route path={"profile"} element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
-              <Route path="" element={window.innerWidth > 600 && <Navigate to="account-preference" replace />} />
-              <Route
-                path="account-preference"
-                element={<AccountPreference />}
-              />
-              <Route path={"sessions"} element={<Sessions/>}/>
-              <Route path={"payments"} element={<Payments/>}/>
-              <Route path={"membership-history"} element={<MembershipHistory/>}/>
+            <Route path="profile" element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
+              <Route path="" element={<Outlet />} />
+              <Route path="account-preference" element={<AccountPreference />} />
+              <Route path="sessions" element={<Sessions />} />
+              <Route path="payments" element={<Payments />} />
+              <Route path="membership-history" element={<MembershipHistory />} />
             </Route>
 
           </Route>

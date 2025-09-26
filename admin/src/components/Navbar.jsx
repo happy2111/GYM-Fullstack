@@ -7,6 +7,7 @@ import authStore from "../store/authStore";
 import {observer} from "mobx-react-lite";
 import SideBar from "./SideBar.jsx";
 import {ThemeToggle} from "@/components/theme-toggle.js";
+import {ModeToggle} from "@/components/mode-toggle.js";
 
 
 const Navbar = observer(() => {
@@ -78,6 +79,7 @@ const Navbar = observer(() => {
           </Link>
 
           <div className={"flex gap-2 max-md:hidden"}>
+            {/*<ModeToggle/>*/}
             {authStore.isAuthenticated ? (
               <Button
                 isTransparent={false}
