@@ -5,11 +5,9 @@ import BottomBar from "../components/BottomBar.jsx";
 
 const NavLayout = () => {
   return (
-    <div>
-      {/*<Navbar/>*/}
+    <div className={"pb-18"}>
       <Outlet />
       <BottomBar/>
-
     </div>
   );
 };

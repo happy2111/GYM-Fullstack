@@ -8,8 +8,14 @@ import PricingPackagesSkeletons from '../../components/Skeletons/PricingPackages
 import {useTranslation} from "react-i18next";
 
 
+import { useLocation } from "react-router-dom";
+import PageHelmet from "@/components/PageHelmet";
+import meta from "../../meta.js";
+
 
 const PricingPackages = () => {
+  const { pathname } = useLocation();
+
   const [isYearly, setIsYearly] = useState(false);
   const [monthlyTariffs, setMonthlyTariffs] = useState([]);
   const [yearlyTariffs, setYearlyTariffs] = useState([]);
@@ -100,6 +106,7 @@ const PricingPackages = () => {
 
   return (
     <>
+      <PageHelmet {...meta[pathname]} />
       <div className="min-h-screen bg-dark-06 text-gray-99 py-8 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}

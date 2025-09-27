@@ -6,6 +6,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react"
 
+
 import {
   Avatar,
   AvatarFallback,
@@ -26,11 +27,21 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import {Link, useNavigate} from "react-router-dom"
+import {Shield, UserRoundPen} from "lucide-react";
+import {useTranslation} from "react-i18next";
+import authStore from "@/store/authStore.js";
+import {observer} from "mobx-react-lite";
 
-export function NavUser({
-  user
-}) {
-  const { isMobile } = useSidebar()
+const NavUser = observer(({user}) => {
+  const {t} = useTranslation()
+  const navigate = useNavigate()
+
+  const {
+    setOpen,
+    setOpenMobile,
+    isMobile,
+  } = useSidebar()
 
   return (
     <SidebarMenu>
@@ -42,7 +53,7 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">{user?.name?.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -58,37 +69,53 @@ export function NavUser({
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}>
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="text-muted-foreground truncate text-xs">
+            <DropdownMenuLabel className="p-0 font-normal" >
+                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarFallback className="rounded-lg">
+                      {user?.name?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{user.name}</span>
+                    <span className="text-muted-foreground truncate text-xs">
                     {user.email}
                   </span>
+                  </div>
                 </div>
-              </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpenMobile(false);
+                  navigate("/profile");
+                }}
+              >
                 <IconUserCircle />
-                Account
+                {t("navigation.profile")}
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpenMobile(false);
+                  navigate("/profile/account-preference"); // через useNavigate
+                }}
+              >
+                <UserRoundPen />
+                {t("profile.account_preferences")}
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpenMobile(false);
+                  navigate("/profile/sessions");
+                }}>
+                <Shield />
+                {t("profile.sessions")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => authStore.logout()}>
               <IconLogout />
               Log out
             </DropdownMenuItem>
@@ -97,4 +124,6 @@ export function NavUser({
       </SidebarMenuItem>
     </SidebarMenu>
   );
-}
+})
+
+export {NavUser};

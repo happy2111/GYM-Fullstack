@@ -30,6 +30,7 @@ import Memberships from "./pages/Memberships.jsx";
 import Dashboard from "./pages/dashboard/page.js";
 import { ThemeProvider } from "@/components/theme-provider"
 import SidebarLayout from "@/layouts/SidebarLayout.js";
+import { HelmetProvider } from "@dr.pogodin/react-helmet";
 
 
 const App = observer(() => {
@@ -105,8 +106,8 @@ const App = observer(() => {
 
   return (
     <>
+      <HelmetProvider>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <Router>
         <Toaster
           toastOptions={{
             // Define default options
@@ -128,9 +129,8 @@ const App = observer(() => {
               },
             },
           }}/>
-
-
-        <Routes>
+        <Router>
+          <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
           {/*<Route path="/register" element={<Register />} />*/}
@@ -157,21 +157,18 @@ const App = observer(() => {
               <Route path="payments" element={<Payments />} />
               <Route path="membership-history" element={<MembershipHistory />} />
             </Route>
-
           </Route>
 
 
 
           <Route
             path="*"
-            element={<Navigate
-              to="/"
-              replace
-            />}
+            element={<Navigate to="/" replace />}
           />
         </Routes>
-      </Router>
+        </Router>
       </ThemeProvider>
+      </HelmetProvider>
     </>
   );
 });

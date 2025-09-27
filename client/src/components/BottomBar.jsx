@@ -1,29 +1,55 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { Home, Package, User, LogIn, QrCode } from 'lucide-react';
 import authStore from '../store/authStore';
 import { observer } from 'mobx-react-lite';
+import i18n from "../i18n.js";
+import {useTranslation} from "react-i18next";
 
 const BottomBar = observer(() => {
   const location = useLocation();
-
-  const navItems = [
+  const navigate = useNavigate()
+  const [isTelegram, setIsTelegram] = useState(false);
+  const {t} = useTranslation();
+  const [navItems, setNavItems] = useState([
     {
-      name: 'Home',
-      href: '/',
-      icon: Home,
-    },
-    {
-      name: 'Packages',
-      href: '/packages',
+      name: t('navigation.packages'),
+      href: "/packages",
       icon: Package,
     },
     {
-      name: 'Qr Code',
-      href: '/qr',
+      name: t('navigation.qr'),
+      href: "/qr",
       icon: QrCode,
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    if (window.Telegram?.WebApp?.initDataUnsafe?.user?.language_code) {
+      i18n.changeLanguage(window.Telegram.WebApp.initDataUnsafe.user.language_code);
+      setIsTelegram(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isTelegram) {
+      setNavItems((prev) => {
+        if (prev.some((item) => item.href === "/")) {
+          return prev; // уже добавлен
+        }
+        return [
+          {
+            name: t('navigation.home'),
+            href: "/",
+            icon: Home,
+          },
+          ...prev,
+        ];
+      });
+    }else {
+      navigate('/packages');
+    }
+  }, [isTelegram]);
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
@@ -62,7 +88,7 @@ const BottomBar = observer(() => {
                 }`}
               >
                 <User size={20} />
-                <span className="text-xs font-medium">Profile</span>
+                <span className="text-xs font-medium">{t('navigation.profile')}</span>
               </Link>
             ) : (
               <Link

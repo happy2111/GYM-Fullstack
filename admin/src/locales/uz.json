@@ -13,6 +13,13 @@
     }
   },
   "navigation": {
+    "scan-qr-code_short" : "Skanerlash",
+    "dashboard_short": "Panel",
+    "scan-qr-code" : "Qr kodini skanerlash",
+    "dashboard" : "Boshqaruv paneli",
+    "users" : "Foydalanuvchilar",
+    "tariffs" : "Tariflar",
+    "visits" : "Tashriflar",
     "home": "Bosh sahifa",
     "programs": "Dasturlar",
     "nutrition": "Ovqatlanish",

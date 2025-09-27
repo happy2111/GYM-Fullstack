@@ -15,6 +15,8 @@ import authStore from "../store/authStore.js";
 import membershipStore from "../store/membershipStore.js";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import PageHelmet from "@/components/PageHelmet";
+import meta from "../meta.js";
 
 const ProfileLayout = observer(() => {
   const { t, i18n } = useTranslation();
@@ -59,98 +61,100 @@ const ProfileLayout = observer(() => {
   const isProfileRoot = pathname === "/profile";
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-90)' }}>
-      <div className="container">
-        <ProfileInfo isProfileRoot={isProfileRoot} />
-      </div>
+    <>
+      <PageHelmet {...meta[pathname]} />
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--color-dark-06)', color: 'var(--color-gray-90)' }}>
+        <div className="container">
+          <ProfileInfo isProfileRoot={isProfileRoot} />
+        </div>
 
-      <div className="flex container gap-6">
-        {/* Sidebar */}
-        <div
-          className={`w-full md:w-1/4 p-6 rounded-2xl ${!isProfileRoot && "max-md:hidden"}`}
-          style={{ backgroundColor: 'var(--color-dark-10)' }}
-        >
-          <div className="flex items-center gap-2 mb-8">
-            <Settings className="w-5 h-5" style={{ color: 'var(--color-gray-70)' }} />
-            <h1 className="text-lg font-medium" style={{ color: 'var(--color-gray-90)' }}>Settings</h1>
+        <div className="flex container gap-6">
+          {/* Sidebar */}
+          <div
+            className={`w-full md:w-1/4 p-6 rounded-2xl ${!isProfileRoot && "max-md:hidden"}`}
+            style={{ backgroundColor: 'var(--color-dark-10)' }}
+          >
+            <div className="flex items-center gap-2 mb-8">
+              <Settings className="w-5 h-5" style={{ color: 'var(--color-gray-70)' }} />
+              <h1 className="text-lg font-medium" style={{ color: 'var(--color-gray-90)' }}>Settings</h1>
+            </div>
+
+            <nav className="space-y-2 mb-8">
+              {menuItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    onClick={() => handleActive(item.href)}
+                    to={`/profile/${item.href}`}
+                    key={index}
+                    className={`max-md:!bg-dark-12 max-md:!text-gray-99 flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${
+                      item.active ? 'text-white' : 'hover:bg-gray-700/30'
+                    }`}
+                    style={{
+                      backgroundColor: item.active ? 'var(--color-dark-20)' : 'transparent',
+                      color: item.active ? 'var(--color-gray-99)' : 'var(--color-gray-70)'
+                    }}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span className="text-sm">{item.label}</span>
+                  </Link>
+                );
+              })}
+
+              <button
+                onClick={() => authStore.logout()}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-sm">Log out</span>
+              </button>
+            </nav>
+
+            <hr className="border-dark-20" />
+
+            <div>
+              <div className="flex items-center gap-2 my-8">
+                <Languages className="w-5 h-5" style={{ color: 'var(--color-gray-70)' }} />
+                <h1 className="text-lg font-medium" style={{ color: 'var(--color-gray-90)' }}>{t('language')}</h1>
+              </div>
+
+              <div className="flex space-x-2">
+                {['en', 'ru', 'uz'].map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => i18n.changeLanguage(lang)}
+                    className={`px-3 py-1 grow-1 h-[49px] rounded-lg text-sm font-medium transition-all duration-300 ${
+                      i18n.language === lang
+                        ? 'bg-brown-60 text-white'
+                        : 'bg-dark-15 text-gray-70 hover:text-brown-70 hover:bg-dark-20'
+                    }`}
+                  >
+                    {lang.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <nav className="space-y-2 mb-8">
-            {menuItems.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  onClick={() => handleActive(item.href)}
-                  to={`/profile/${item.href}`}
-                  key={index}
-                  className={`max-md:!bg-dark-12 max-md:!text-gray-99 flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${
-                    item.active ? 'text-white' : 'hover:bg-gray-700/30'
-                  }`}
-                  style={{
-                    backgroundColor: item.active ? 'var(--color-dark-20)' : 'transparent',
-                    color: item.active ? 'var(--color-gray-99)' : 'var(--color-gray-70)'
-                  }}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span className="text-sm">{item.label}</span>
-                </Link>
-              );
-            })}
-
-            <button
-              onClick={authStore.logout}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="text-sm">Log out</span>
-            </button>
-          </nav>
-
-          <hr className="border-dark-20" />
-
-          <div>
-            <div className="flex items-center gap-2 my-8">
-              <Languages className="w-5 h-5" style={{ color: 'var(--color-gray-70)' }} />
-              <h1 className="text-lg font-medium" style={{ color: 'var(--color-gray-90)' }}>{t('language')}</h1>
+          {/* Content */}
+          <div className={`flex w-3/4 max-md:w-full flex-col ${isProfileRoot && "hidden"}`}>
+            {/* Mobile Back button */}
+            <div className="flex mb-6 items-center space-x-2 md:hidden">
+              <button
+                onClick={() => navigate("/profile")}
+                className="bg-dark-10 rounded-2xl px-6 py-3 flex items-center text-dark-35 hover:text-white transition-colors"
+              >
+                <ArrowLeft size={20} className="mr-2" />
+                Back
+              </button>
             </div>
 
-            <div className="flex space-x-2">
-              {['en', 'ru', 'uz'].map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => i18n.changeLanguage(lang)}
-                  className={`px-3 py-1 grow-1 h-[49px] rounded-lg text-sm font-medium transition-all duration-300 ${
-                    i18n.language === lang
-                      ? 'bg-brown-60 text-white'
-                      : 'bg-dark-15 text-gray-70 hover:text-brown-70 hover:bg-dark-20'
-                  }`}
-                >
-                  {lang.toUpperCase()}
-                </button>
-              ))}
-            </div>
+            {/* Main Content */}
+            <Outlet />
           </div>
         </div>
 
-        {/* Content */}
-        <div className={`flex w-3/4 max-md:w-full flex-col ${isProfileRoot && "hidden"}`}>
-          {/* Mobile Back button */}
-          <div className="flex mb-6 items-center space-x-2 md:hidden">
-            <button
-              onClick={() => navigate("/profile")}
-              className="bg-dark-10 rounded-2xl px-6 py-3 flex items-center text-dark-35 hover:text-white transition-colors"
-            >
-              <ArrowLeft size={20} className="mr-2" />
-              Back
-            </button>
-          </div>
-
-          {/* Main Content */}
-          <Outlet />
-        </div>
-      </div>
-
-      <style jsx>{`
+        <style jsx>{`
         input:focus, textarea:focus {
           ring: 2px solid var(--color-brown-70);
         }
@@ -163,7 +167,8 @@ const ProfileLayout = observer(() => {
           background-color: var(--color-dark-15);
         }
       `}</style>
-    </div>
+      </div>
+    </>
   );
 });
 

@@ -17,6 +17,8 @@ import {
   IconUsers,
 } from "@tabler/icons-react"
 
+import {Tag ,DoorOpen, BanknoteArrowDown} from  'lucide-react'
+
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -32,39 +34,49 @@ import {
 } from "@/components/ui/sidebar"
 import {Link} from "react-router-dom";
 import authStore from "@/store/authStore.js";
+import {useTranslation} from "react-i18next";
+import {observer} from "mobx-react-lite";
+import i18n from "@/i18n";
+import {LanguageSwitcher} from "@/components/LanguageSwitcher.jsx";
 
 const data = {
   user: {
-    name: authStore.user.name,
-    email: authStore.user.email,
-    avatar: "/avatars/shadcn.jpg",
+    name: authStore?.user?.name,
+    email: authStore?.user?.email,
+    avatar:  authStore?.user?.name?.charAt(0).toUpperCase(),
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: i18n.t("navigation.dashboard"),
       url: "/dashboard",
       icon: IconDashboard,
     },
     {
-      title: "Memberships",
+      title: i18n.t("navigation.users"),
+      url: "/users",
+      icon: IconUsers,
+    },
+    {
+      title: i18n.t("navigation.membership"),
       url: "/memberships",
       icon: IconTicket,
     },
     {
-      title: "Tariffs",
+      title: i18n.t("navigation.tariffs"),
       url: "/tariffs",
-      icon: IconTag,
+      icon: Tag,
     },
     {
-      title: "Visits",
+      title: i18n.t("navigation.visits"),
       url: "/visits",
-      icon: IconFolder,
+      icon: DoorOpen,
     },
     {
-      title: "Payments",
+      title:  i18n.t("navigation.payments"),
       url: "/payments",
-      icon: IconUsers,
+      icon: BanknoteArrowDown,
     },
+
   ],
   navClouds: [
     {
@@ -119,9 +131,7 @@ const data = {
   ],
 }
 
-export function AppSidebar({
-  ...props
-}) {
+const AppSidebar = observer(({...props}) => {
 
 
   return (
@@ -147,7 +157,10 @@ export function AppSidebar({
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
+        <LanguageSwitcher />
       </SidebarFooter>
     </Sidebar>
   );
-}
+})
+
+export  {AppSidebar};

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Package, Clock, CheckCircle, XCircle, AlertCircle, Star, RefreshCw, Target, CreditCard } from 'lucide-react';
-import authStore from "../../store/authStore.js";
-import api from "../../http/index.js";
 import toast from "react-hot-toast";
 import membershipStore from "../../store/membershipStore.js";
 import {observer} from "mobx-react-lite";
@@ -11,75 +9,10 @@ import {useNavigate} from "react-router-dom";
 const MembershipHistory = observer(() => {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('all');
-  const [tariffDetails, setTariffDetails] = useState({});
-  const [paymentDetails, setPaymentDetails] = useState({});
-  const { user } = authStore;
+
   const { memberships, isLoading } = membershipStore;
-
-  useEffect(() => {
-    if (memberships.length > 0) {
-      // fetchTariffDetails();
-      // fetchPaymentDetails();
-    }
-  }, [memberships]);
-
-  const fetchTariffDetails = async () => {
-    try {
-      const tariffIds = [...new Set(memberships.map(m => m.tariff_id))];
-      const tariffPromises = tariffIds.map(id =>
-        api.get(`/tariffs/${id}`).catch(err => ({ data: null, tariffId: id }))
-      );
-
-      const tariffResponses = await Promise.all(tariffPromises);
-      const tariffMap = {};
-
-      tariffResponses.forEach((response, index) => {
-        if (response.data) {
-          tariffMap[tariffIds[index]] = response.data;
-        } else {
-          // Fallback data if tariff not found
-          tariffMap[tariffIds[index]] = {
-            name: 'Unknown Tariff',
-            price: '0',
-            features: ['Basic gym access']
-          };
-        }
-      });
-
-      setTariffDetails(tariffMap);
-    } catch (error) {
-      console.error('Failed to fetch tariff details:', error);
-    }
-  };
-
-  const fetchPaymentDetails = async () => {
-    try {
-      const paymentIds = [...new Set(memberships.map(m => m.payment_id))];
-      const paymentPromises = paymentIds.map(id =>
-        api.get(`/payments/${id}`).catch(err => ({ data: null, paymentId: id }))
-      );
-
-      const paymentResponses = await Promise.all(paymentPromises);
-      const paymentMap = {};
-
-      paymentResponses.forEach((response, index) => {
-        if (response.data) {
-          paymentMap[paymentIds[index]] = response.data;
-        } else {
-          // Fallback data if payment not found
-          paymentMap[paymentIds[index]] = {
-            method: 'unknown',
-            amount: '0',
-            status: 'completed'
-          };
-        }
-      });
-
-      setPaymentDetails(paymentMap);
-    } catch (error) {
-      console.error('Failed to fetch payment details:', error);
-    }
-  };
+  const {t}  = useTranslation()
+  const navigate = useNavigate()
 
   const getStatusIcon = (status) => {
     switch (status.toLowerCase()) {
@@ -235,8 +168,6 @@ const MembershipHistory = observer(() => {
     );
   }
 
-  const {t}  = useTranslation()
-  const navigate = useNavigate()
 
   return (
     <div className="flex-1 w-full p-8 bg-dark-10 rounded-2xl">

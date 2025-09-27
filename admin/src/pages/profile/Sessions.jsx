@@ -20,8 +20,7 @@ import {observer} from "mobx-react-lite";
     useEffect(() => {
       authStore.getSessions();
     }, []);
-
-    const [sessions, setSessions] = useState(authStore.sessions);
+    const sessions = authStore.sessions
 
     const getDeviceIcon = (device) => {
       const lower = device.toLowerCase();
@@ -51,11 +50,8 @@ import {observer} from "mobx-react-lite";
     const handleDeleteSession = async (sessionId) => {
       try {
         const res = await authStore.revokeSession(sessionId);
-        setSessions((prev) =>
-          prev.filter((session) => session.id !== sessionId)
-        );
+        authStore.getSessions()
         toast.success(t("sessions.delete_success"));
-        authStore.getSessions();
       } catch (error) {
         console.error("Failed to delete session:", error);
       }

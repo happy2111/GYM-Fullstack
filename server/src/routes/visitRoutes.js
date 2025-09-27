@@ -86,6 +86,7 @@ router.post('/manual',
 // Получение списка всех посещений (с фильтрами)
 router.get('/',
   authMiddleware,
+  requireRole(['admin', 'trainer']),
   visitLimiter,
   validateQuery(visitSchemas.getVisits),
   visitController.getVisits

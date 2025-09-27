@@ -4,7 +4,8 @@ import {Eye, EyeOff, Mail, Lock} from 'lucide-react';
 import authStore from '../store/authStore';
 import toast from "react-hot-toast";
 import {Link, useNavigate, Navigate} from 'react-router-dom';
-import Helmet from "react-helmet";
+import {Helmet} from "@dr.pogodin/react-helmet";
+import i18n from "@/i18n.js";
 
 const Login = observer(() => {
   const [form, setForm] = useState({
@@ -23,7 +24,7 @@ const Login = observer(() => {
       const response = await authStore.login(form);
       if (response.user.role !== "admin") {
         authStore.logout();
-        toast.error("Access denied. Admins only.");
+        toast.error(i18n.t('errors.tooManyRequests') || 'Слишком много запросов. Попробуйте позже.');
         return;
       }
       toast.success("Login successful");
@@ -84,10 +85,8 @@ const Login = observer(() => {
     <>
       <Helmet>
         <title>Bullfit | Login</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
+        <meta name="description" content="Войдите в систему Bullfit, чтобы управлять своим профилем, абонементами и тренировками." />
+        <meta name="keywords" content="Bullfit, вход, тренажёрный зал, абонементы, фитнес" />
       </Helmet>
     <section className={"min-h-screen flex bg-dark-10 items-center justify-center p-4"}>
       <div className={"w-full max-w-md p-8 rounded-2xl shadow-2xl bg-dark-12 border border-dark-15"}>

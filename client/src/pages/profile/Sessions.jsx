@@ -15,13 +15,13 @@ import {observer} from "mobx-react-lite";
 
   const Sessions = observer(() => {
     const { t } = useTranslation();
-    const { isLoading } = authStore;
 
     useEffect(() => {
       authStore.getSessions();
     }, []);
 
-    const [sessions, setSessions] = useState(authStore.sessions);
+    const { isLoading } = authStore;
+    const sessions = authStore.sessions
 
     const getDeviceIcon = (device) => {
       const lower = device.toLowerCase();
@@ -51,9 +51,11 @@ import {observer} from "mobx-react-lite";
     const handleDeleteSession = async (sessionId) => {
       try {
         const res = await authStore.revokeSession(sessionId);
-        setSessions((prev) =>
-          prev.filter((session) => session.id !== sessionId)
-        );
+        authStore.getSessions()
+        // setSessions((prev) =>
+        //   prev.filter((session) => session.id !== sessionId)
+        // );
+
         toast.success(t("sessions.delete_success"));
         authStore.getSessions();
       } catch (error) {
@@ -64,21 +66,12 @@ import {observer} from "mobx-react-lite";
     const handleDeleteAllOtherSessions = async () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        setSessions((prev) => prev.filter((s) => s.current));
+        // setSessions((prev) => prev.filter((s) => s.current));
       } catch (error) {
         console.error("Failed to delete sessions:", error);
       }
     };
 
-    if (isLoading && sessions.length === 0) {
-      return (
-        <div className="flex-1 w-full p-8 bg-dark-10 rounded-2xl">
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brown-60"></div>
-          </div>
-        </div>
-      );
-    }
 
     return (
       <div className="flex-1 w-full p-8 bg-dark-10 rounded-2xl">

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import toast from "react-hot-toast";
-import i18n from '../i18n'; // путь к твоему i18n конфигу
-
+import i18n from '../i18n';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 
@@ -15,44 +14,42 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    // console.log("➡️ Request:", config.url, new Date().toISOString());
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor to handle token refresh
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
+    if (!error.response) {
+      console.error('Network or CORS error:', error);
+      toast.error(i18n.t('errors.network') || 'Проблема с сетью или CORS');
+      return Promise.reject(error);
+    }
+
     const originalRequest = error.config;
+    const status = error.response.status;
 
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // 🔄 401 Unauthorized → пробуем рефреш
+    if (status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        // Refresh token is sent automatically via cookies
         const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {}, {
-          withCredentials: true // Include cookies in refresh request
+          withCredentials: true,
         });
 
         const { accessToken } = response.data;
         localStorage.setItem('token', accessToken);
 
-        // Retry the original request with new token
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        // Refresh failed, clear localStorage and redirect to login
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         window.location.href = '/login';
@@ -60,25 +57,17 @@ api.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error);
-  }
-);
-
-
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    if (!error.response) {
-      console.error('Network or CORS error:', error);
-      toast.error('Проблема с сетью или CORS');
-      return Promise.reject(error);
+    // 🚫 403 Forbidden
+    if (status === 403) {
+      toast.error(i18n.t('errors.forbidden') || 'У вас нет доступа');
+      // Можно редиректить на главную или логин
+      // window.location.href = '/';
     }
 
-    const originalRequest = error.config;
-
-    if (error.response.status === 429) {
+    // ⏳ 429 Too Many Requests
+    if (status === 429) {
       console.warn('429 Too Many Requests');
-      toast.error(i18n.t('errors.tooManyRequests'));
+      toast.error(i18n.t('errors.tooManyRequests') || 'Слишком много запросов. Попробуйте позже.');
     }
 
     return Promise.reject(error);

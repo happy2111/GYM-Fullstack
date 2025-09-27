@@ -22,8 +22,7 @@ import PricingPackages from "./pages/home/PricingPackages.jsx";
 import MembershipHistory from "./pages/profile/MembershipHistory.jsx";
 import QRCodePage from "./pages/QRCodePage.jsx";
 import i18n from "./i18n.js";
-
-
+import {HelmetProvider} from "@dr.pogodin/react-helmet";
 
 
 // Protected Route Component
@@ -115,10 +114,9 @@ const App = observer(() => {
 
 
   return (
-    <Router>
-      {/*<AuthLayout>*/}
-        <Toaster
-          toastOptions={{
+    <>
+      <HelmetProvider>
+        <Toaster toastOptions={{
             // Define default options
             className: '',
             duration: 3000,
@@ -138,70 +136,66 @@ const App = observer(() => {
               },
             },
           }}/>
-        <Routes>
-          {/* Public Routes */}
-          <Route
-            path="/login"
-            element={<Login />}
-          />
-          <Route
-            path="/register"
-            element={<Register />}
-          />
-          <Route
-            path={"/auth/google/callback"}
-            element={<GoogleAuthCallBack />}
-          />
-
-          {/* Protected Routes */}
-          <Route path={"/"} element={<NavLayout/>}>
-            <Route
-              path=""
-              element={
-                <Home />
-              }
-            />
-
-            <Route
-              path="packages"
-              element={
-                <PricingPackages />
-              }
-            />
-
-            <Route
-              path={"qr"}
-              element={<ProtectedRoute><QRCodePage/></ProtectedRoute>}
+        <Router>
+            <Routes>
+              {/* Public Routes */}
+              <Route
+                path="/login"
+                element={<Login />}
+              />
+              <Route
+                path="/register"
+                element={<Register />}
+              />
+              <Route
+                path={"/auth/google/callback"}
+                element={<GoogleAuthCallBack />}
               />
 
+              {/* Protected Routes */}
+              <Route path={"/"} element={<NavLayout/>}>
+                <Route
+                  path=""
+                  element={
+                    <Home />
+                  }
+                />
 
-            <Route path="profile" element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
-              <Route path="" element={<Outlet />} />
-              <Route path="account-preference" element={<AccountPreference />} />
-              <Route path="sessions" element={<Sessions />} />
-              <Route path="payments" element={<Payments />} />
-              <Route path="membership-history" element={<MembershipHistory />} />
-            </Route>
+                <Route
+                  path="packages"
+                  element={
+                    <PricingPackages />
+                  }
+                />
 
-          </Route>
-
-
-
-
-
-          {/* Fallback */}
-          <Route
-            path="*"
-            element={<Navigate
-              to="/"
-              replace
-            />}
-          />
+                <Route
+                  path={"qr"}
+                  element={<ProtectedRoute><QRCodePage/></ProtectedRoute>}
+                  />
 
 
-        </Routes>
-      {/*</AuthLayout>*/}
-    </Router>
+                <Route path="profile" element={<ProtectedRoute><ProfileLayout/></ProtectedRoute>}>
+                  <Route path="" element={<Outlet />} />
+                  <Route path="account-preference" element={<AccountPreference />} />
+                  <Route path="sessions" element={<Sessions />} />
+                  <Route path="payments" element={<Payments />} />
+                  <Route path="membership-history" element={<MembershipHistory />} />
+                </Route>
+
+              </Route>
+
+              <Route
+                path="*"
+                element={<Navigate
+                  to="/"
+                  replace
+                />}
+              />
+
+            </Routes>
+        </Router>
+      </HelmetProvider>
+    </>
   );
 });
 

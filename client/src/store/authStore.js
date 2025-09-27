@@ -14,6 +14,7 @@ class AuthStore {
   constructor() {
     makeAutoObservable(this);
     this.initializeAuth();
+    this.logout = this.logout.bind(this);
   }
 
   initializeAuth() {
@@ -175,7 +176,7 @@ class AuthStore {
     }
   }
 
-  logout() {
+  logout = () => {
     runInAction(() => {
       this.user = null;
       this.isAuthenticated = false;
@@ -183,10 +184,9 @@ class AuthStore {
       this.error = null;
     });
 
-    // Clear localStorage only (cookies cleared by server)
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-  }
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  };
 
   clearError() {
     this.error = null;

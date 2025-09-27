@@ -13,6 +13,13 @@
     }
   },
   "navigation": {
+    "scan-qr-code_short" : "Сканировать",
+    "dashboard_short": "Панель",
+    "scan-qr-code" : "Сканировать QR-код",
+    "dashboard" : "Панель управления",
+    "users" : "Пользователи",
+    "tariffs" : "Тарифы",
+    "visits" : "Посещения",
     "home": "Главная",
     "programs": "Программы",
     "nutrition": "Питание",
@@ -22,7 +29,7 @@
     "packages": "Пакеты",
     "profile": "Профиль",
     "qr": "QR-код",
-    "sessions": "Сессии",
+    "sessions": "Сеансы",
     "payments": "Платежи",
     "membership": "Членство"
   },

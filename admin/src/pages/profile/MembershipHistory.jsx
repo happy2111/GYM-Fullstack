@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, User, Package, Clock, CheckCircle, XCircle, AlertCircle, Star, RefreshCw, Target, CreditCard } from 'lucide-react';
-import authStore from "../../store/authStore.js";
-import api from "../../http/index.js";
+import { Calendar, Package, Clock, CheckCircle, XCircle, AlertCircle, Star, RefreshCw, Target, CreditCard } from 'lucide-react';
 import toast from "react-hot-toast";
 import membershipStore from "../../store/membershipStore.js";
 import {observer} from "mobx-react-lite";
@@ -11,75 +9,10 @@ import {useNavigate} from "react-router-dom";
 const MembershipHistory = observer(() => {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('all');
-  const [tariffDetails, setTariffDetails] = useState({});
-  const [paymentDetails, setPaymentDetails] = useState({});
-  const { user } = authStore;
+
   const { memberships, isLoading } = membershipStore;
-
-  useEffect(() => {
-    if (memberships.length > 0) {
-      fetchTariffDetails();
-      fetchPaymentDetails();
-    }
-  }, [memberships]);
-
-  const fetchTariffDetails = async () => {
-    try {
-      const tariffIds = [...new Set(memberships.map(m => m.tariff_id))];
-      const tariffPromises = tariffIds.map(id =>
-        api.get(`/tariffs/${id}`).catch(err => ({ data: null, tariffId: id }))
-      );
-
-      const tariffResponses = await Promise.all(tariffPromises);
-      const tariffMap = {};
-
-      tariffResponses.forEach((response, index) => {
-        if (response.data) {
-          tariffMap[tariffIds[index]] = response.data;
-        } else {
-          // Fallback data if tariff not found
-          tariffMap[tariffIds[index]] = {
-            name: 'Unknown Tariff',
-            price: '0',
-            features: ['Basic gym access']
-          };
-        }
-      });
-
-      setTariffDetails(tariffMap);
-    } catch (error) {
-      console.error('Failed to fetch tariff details:', error);
-    }
-  };
-
-  const fetchPaymentDetails = async () => {
-    try {
-      const paymentIds = [...new Set(memberships.map(m => m.payment_id))];
-      const paymentPromises = paymentIds.map(id =>
-        api.get(`/payments/${id}`).catch(err => ({ data: null, paymentId: id }))
-      );
-
-      const paymentResponses = await Promise.all(paymentPromises);
-      const paymentMap = {};
-
-      paymentResponses.forEach((response, index) => {
-        if (response.data) {
-          paymentMap[paymentIds[index]] = response.data;
-        } else {
-          // Fallback data if payment not found
-          paymentMap[paymentIds[index]] = {
-            method: 'unknown',
-            amount: '0',
-            status: 'completed'
-          };
-        }
-      });
-
-      setPaymentDetails(paymentMap);
-    } catch (error) {
-      console.error('Failed to fetch payment details:', error);
-    }
-  };
+  const {t}  = useTranslation()
+  const navigate = useNavigate()
 
   const getStatusIcon = (status) => {
     switch (status.toLowerCase()) {
@@ -218,6 +151,7 @@ const MembershipHistory = observer(() => {
     try {
       await membershipStore.getAllMemberships();
     } catch (error) {
+      console.error("Failed to fetch memberships:", error);
       toast.error("Failed to refresh memberships");
     } finally {
       setLoading(false);
@@ -234,8 +168,6 @@ const MembershipHistory = observer(() => {
     );
   }
 
-  const {t}  = useTranslation()
-  const navigate = useNavigate()
 
   return (
     <div className="flex-1 w-full p-8 bg-dark-10 rounded-2xl">
@@ -298,8 +230,6 @@ const MembershipHistory = observer(() => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredMemberships.map((membership) => {
             const actualStatus = getMembershipStatus(membership);
-            const tariff = tariffDetails[membership.tariff_id];
-            const payment = paymentDetails[membership.payment_id];
             const remainingDays = calculateRemainingDays(membership.end_date);
             const totalDays = calculateTotalDays(membership.start_date, membership.end_date);
 
@@ -451,15 +381,15 @@ const MembershipHistory = observer(() => {
                   <div className="mb-4">
                     <p className="text-gray-400 text-sm mb-2">{t("profile.includedFeatures")}</p>
                     <div className="space-y-1">
-                      {membership?.tariff.features.slice(0, 3).map((feature, index) => (
+                      {membership?.tariff?.features.slice(0, 3).map((feature, index) => (
                         <div key={index} className="flex items-center gap-2">
                           <div className="w-1.5 h-1.5 bg-brown-60 rounded-full"></div>
                           <span className="text-sm text-gray-300">{feature}</span>
                         </div>
                       ))}
-                      {membership?.tariff.features.length > 3 && (
+                      {membership?.tariff?.features.length > 3 && (
                         <p className="text-xs text-gray-500 ml-3.5">
-                          +{tariff.features.length - 3} {t("profile.moreFeatures")}
+                          +{membership?.tariff?.features.length - 3} {t("profile.moreFeatures")}
                         </p>
                       )}
                     </div>
@@ -475,7 +405,7 @@ const MembershipHistory = observer(() => {
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap items-strech">
                   {actualStatus === 'expired' && (
                     <button
                       onClick={() => handleRenewMembership(membership.id)}
@@ -485,7 +415,7 @@ const MembershipHistory = observer(() => {
                         color: 'white'
                       }}
                     >
-                      {t("profile.renewMembership")}
+                      {t("renewMembership")}
                     </button>
                   )}
 

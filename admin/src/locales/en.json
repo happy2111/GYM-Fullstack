@@ -13,6 +13,13 @@
     }
   },
   "navigation": {
+    "scan-qr-code_short" : "Scan Qr Code",
+    "dashboard_short": "Dashboard",
+    "scan-qr-code" : "Scan Qr Code",
+    "dashboard" : "Dashboard",
+    "users" : "Users",
+    "tariffs" : "Tariffs",
+    "visits" : "Visits",
     "home": "Home",
     "programs": "Programs",
     "nutrition": "Nutrition",

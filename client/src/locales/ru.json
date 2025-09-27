@@ -13,6 +13,13 @@
     }
   },
   "navigation": {
+    "scan-qr-code_short" : "Сканировать",
+    "dashboard_short": "Панель",
+    "scan-qr-code" : "Сканировать QR-код",
+    "dashboard" : "Панель управления",
+    "users" : "Пользователи",
+    "tariffs" : "Тарифы",
+    "visits" : "Посещения",
     "home": "Главная",
     "programs": "Программы",
     "nutrition": "Питание",
@@ -21,10 +28,10 @@
     "contact": "Контакты",
     "packages": "Пакеты",
     "profile": "Профиль",
-    "qr": "QR Код",
-    "sessions": "Сессии",
+    "qr": "QR-код",
+    "sessions": "Сеансы",
     "payments": "Платежи",
-    "membership": "Абонемент"
+    "membership": "Членство"
   },
   "common": {
     "get_started": "Начать",
