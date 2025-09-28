@@ -4,6 +4,7 @@ export default function TelegramLoginButton() {
   useEffect(() => {
     // Создаём глобальную функцию для callback
     window.onTelegramAuth = (user) => {
+      console.log("Telegram login success:", user);
       alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
     }
       // fetch(`${import.meta.env.VITE_API_BASE || "http://localhost:5000"}/auth/telegram`, {
