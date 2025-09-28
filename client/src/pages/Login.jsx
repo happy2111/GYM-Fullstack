@@ -101,6 +101,8 @@ const Login = observer(() => {
             </p>
           </div>
 
+          <TelegramLoginButton/>
+
           <button
             className="w-full mb-6 bg-dark-15 text-gray-95 border-dark-25  px-4 py-3 rounded-lg border transition-all duration-200 flex items-center justify-center gap-3 hover:shadow-md"
             onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/auth/google`}
@@ -130,7 +132,6 @@ const Login = observer(() => {
             Continue with Google
           </button>
 
-          <TelegramLoginButton/>
 
           {/* Divider */}
           <div className="flex items-center mb-6">

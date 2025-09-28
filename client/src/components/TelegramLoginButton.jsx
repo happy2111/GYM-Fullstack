@@ -6,22 +6,19 @@ export default function TelegramLoginButton() {
     window.onTelegramAuth = (user) => {
       console.log("Telegram login success:", user);
       alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+      fetch(`${import.meta.env.VITE_API_BASE}/auth/telegram`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user), // ⚠️ здесь не { user }, а сам объект
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log("Login success:", data);
+          localStorage.setItem("token", data.accessToken);
+          window.location.href = "/profile";
+        })
+        .catch(err => console.error("Telegram login failed:", err));
     }
-      // fetch(`${import.meta.env.VITE_API_BASE || "http://localhost:5000"}/auth/telegram`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(user),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     console.log("Login success:", data);
-      //     localStorage.setItem("token", data.token); // сохраняем JWT
-      //     window.location.href = "/profile"; // редирект
-      //   })
-      //   .catch((err) => console.error("Telegram login failed:", err));
-    // };
 
     // Вставляем Telegram widget script
     const script = document.createElement("script");

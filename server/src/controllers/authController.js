@@ -1,6 +1,6 @@
 const authService = require('../services/authService');
 const tokenService = require('../services/tokenService');
-const { getClientInfo } = require('../utils/deviceParser');
+const {getClientInfo} = require('../utils/deviceParser');
 const logger = require('../utils/logger');
 const crypto = require('crypto');
 const buildCheckString = require('../utils/buildCheckString');
@@ -8,12 +8,12 @@ const buildCheckString = require('../utils/buildCheckString');
 class AuthController {
   async register(req, res) {
     try {
-      const { name, email, password, phone, dateOfBirth, gender } = req.body;
+      const {name, email, password, phone, dateOfBirth, gender} = req.body;
 
       // Проверяем юзера
       const existingUser = await authService.findUserByEmail(email);
       if (existingUser) {
-        return res.status(409).json({ message: 'User already exists' });
+        return res.status(409).json({message: 'User already exists'});
       }
 
       // Создаём нового
@@ -57,23 +57,23 @@ class AuthController {
       });
     } catch (error) {
       logger.error('Register error:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({message: error.message});
     }
   }
 
   async login(req, res) {
     try {
-      const { email, password } = req.body;
+      const {email, password} = req.body;
 
 
       const user = await authService.findUserByEmail(email);
       if (!user || !user.password) {
-        return res.status(401).json({ message: 'User email not found ' });
+        return res.status(401).json({message: 'User email not found '});
       }
 
       const isPasswordValid = await authService.comparePassword(password, user.password);
       if (!isPasswordValid) {
-        return res.status(401).json({ message: 'Password is not correct' });
+        return res.status(401).json({message: 'Password is not correct'});
       }
 
       const accessToken = tokenService.generateAccessToken({
@@ -103,7 +103,7 @@ class AuthController {
       });
     } catch (error) {
       logger.error('Login error:', error);
-      res.status(500).json({ message: 'Login failed' });
+      res.status(500).json({message: 'Login failed'});
     }
   }
 
@@ -114,13 +114,13 @@ class AuthController {
         await tokenService.deleteRefreshToken(refreshToken);
       }
 
-      res.clearCookie('refreshToken', { path: '/' });
+      res.clearCookie('refreshToken', {path: '/'});
 
       logger.info(`User logged out: ${req.user?.email || 'unknown'}`);
-      res.json({ message: 'Logout successful' });
+      res.json({message: 'Logout successful'});
     } catch (error) {
       logger.error('Logout error:', error);
-      res.status(500).json({ message: 'Logout failed' });
+      res.status(500).json({message: 'Logout failed'});
     }
   }
 
@@ -171,7 +171,7 @@ class AuthController {
       }
 
       if (!user) {
-        return res.status(401).json({ message: 'User not found' });
+        return res.status(401).json({message: 'User not found'});
       }
 
       // Set cookies
@@ -179,7 +179,11 @@ class AuthController {
         res.cookie('refreshToken', newRefreshToken, tokenService.getCookieOptions(true));
       }
 
-      res.json({ message: 'Token refreshed successfully', accessToken: newAccessToken, user: authService.getUserPublicData(user) });
+      res.json({
+        message: 'Token refreshed successfully',
+        accessToken: newAccessToken,
+        user: authService.getUserPublicData(user)
+      });
     } catch (error) {
       logger.error('Refresh token error:', error);
       res.status(401).json({
@@ -196,7 +200,6 @@ class AuthController {
       if (!user) {
         return res.redirect(`${process.env.FRONTEND_URL}/login?error=authentication_failed`);
       }
-
 
 
       const refreshToken = tokenService.generateRefreshToken();
@@ -249,7 +252,7 @@ class AuthController {
 
   async deleteSession(req, res) {
     try {
-      const { id } = req.params;
+      const {id} = req.params;
       const sessions = await tokenService.getUserSessions(req.user.id);
 
       const targetSession = sessions.find(session => session.id === id);
@@ -315,7 +318,7 @@ class AuthController {
     }
   }
 
-  async checkEmail(req, res)  {
+  async checkEmail(req, res) {
     try {
       const {email} = req.body;
       const user = await authService.findUserByEmail(email);
@@ -325,8 +328,7 @@ class AuthController {
       res.json({
         exists: true,
       });
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Check email error:', error);
       res.status(500).json({
         error: 'Internal server error'
@@ -351,14 +353,14 @@ class AuthController {
 
       // Проверка, что у нас есть user (если клиент прислал объектом)
       if (!rawInitData && (!initData || !initData.user)) {
-        return res.status(400).json({ message: 'Telegram user data is missing' });
+        return res.status(400).json({message: 'Telegram user data is missing'});
       }
 
       // 1. Проверка hash
       const botToken = process.env.BOT_TOKEN;
       if (!botToken) {
         logger.error('BOT_TOKEN is not set in environment');
-        return res.status(500).json({ message: 'Server misconfiguration: BOT_TOKEN is missing' });
+        return res.status(500).json({message: 'Server misconfiguration: BOT_TOKEN is missing'});
       }
 
 
@@ -398,7 +400,7 @@ class AuthController {
       if (!verified) {
         providedHash = providedHash || initData.hash;
         if (!providedHash) {
-          return res.status(400).json({ message: 'Telegram hash is missing' });
+          return res.status(400).json({message: 'Telegram hash is missing'});
         }
 
         const dataCheckString = buildCheckString(initData);
@@ -414,7 +416,7 @@ class AuthController {
 
 
       if (!verified) {
-        return res.status(403).json({ message: 'Telegram data hash verification failed' });
+        return res.status(403).json({message: 'Telegram data hash verification failed'});
       }
 
 
@@ -433,7 +435,7 @@ class AuthController {
       }
 
       if (!userData) {
-        return res.status(400).json({ message: 'Telegram user data is missing' });
+        return res.status(400).json({message: 'Telegram user data is missing'});
       }
 
       const user = await authService.createOrUpdateTelegramUser({
@@ -474,10 +476,9 @@ class AuthController {
       });
     } catch (err) {
       logger.error('Telegram login failed:', err);
-      res.status(500).json({ error: 'Failed to process Telegram user' });
+      res.status(500).json({error: 'Failed to process Telegram user'});
     }
   }
-
 
 
 }

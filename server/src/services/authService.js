@@ -93,7 +93,7 @@ class AuthService {
       logger.error('Error finding user by email:', error);
       throw error;
     }
-  }
+}
 
   async findUserByGoogleId(googleId) {
     const query = 'SELECT * FROM users WHERE google_id = $1';
