@@ -270,7 +270,8 @@
     }
   },
   "errors": {
-    "tooManyRequests": "Too many requests. Please try again later."
+    "tooManyRequests": "Too many requests. Please try again later.",
+    "forbidden" : "Access denied"
   }
 
 

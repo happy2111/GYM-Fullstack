@@ -34,17 +34,11 @@ import {
 } from "@/components/ui/sidebar"
 import {Link} from "react-router-dom";
 import authStore from "@/store/authStore.js";
-import {useTranslation} from "react-i18next";
 import {observer} from "mobx-react-lite";
 import i18n from "@/i18n";
 import {LanguageSwitcher} from "@/components/LanguageSwitcher.jsx";
 
 const data = {
-  user: {
-    name: authStore?.user?.name,
-    email: authStore?.user?.email,
-    avatar:  authStore?.user?.name?.charAt(0).toUpperCase(),
-  },
   navMain: [
     {
       title: i18n.t("navigation.dashboard"),
@@ -152,11 +146,10 @@ const AppSidebar = observer(({...props}) => {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/*<NavDocuments items={data.documents} />*/}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
         <LanguageSwitcher />
       </SidebarFooter>
     </Sidebar>

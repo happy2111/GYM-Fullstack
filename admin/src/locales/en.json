@@ -524,5 +524,10 @@
     "enterMaxVisits": "Enter max visits (leave empty for unlimited)",
     "enterFeatures": "Enter features (one per line)",
     "markAsBestOffer": "Mark as best offer"
+  },
+  "errors": {
+    "tooManyRequests": "Too many requests. Please try again later.",
+    "forbidden" : "Access denied"
   }
+
 }

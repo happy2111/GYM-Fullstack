@@ -8,6 +8,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import PageHelmet from "@/components/PageHelmet";
 import meta from "../meta.js";
+import TelegramLoginButton from "@/components/TelegramLoginButton.jsx";
 
 const Login = observer(() => {
   const { pathname } = useLocation();
@@ -128,6 +129,8 @@ const Login = observer(() => {
             </svg>
             Continue with Google
           </button>
+
+          <TelegramLoginButton/>
 
           {/* Divider */}
           <div className="flex items-center mb-6">

@@ -24,7 +24,7 @@ const Login = observer(() => {
       const response = await authStore.login(form);
       if (response.user.role !== "admin") {
         authStore.logout();
-        toast.error(i18n.t('errors.tooManyRequests') || 'Слишком много запросов. Попробуйте позже.');
+        toast.error(i18n.t('errors.forbidden'));
         return;
       }
       toast.success("Login successful");

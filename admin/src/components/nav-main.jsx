@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ScanQrCode} from 'lucide-react'
 import {useTranslation} from "react-i18next";
 
@@ -19,6 +19,7 @@ export function NavMain({
 }) {
   const {t} = useTranslation();
   const [position, setPosition] = React.useState("bottom")
+  const navigate = useNavigate();
 
   const {
     setOpen,
@@ -47,12 +48,9 @@ export function NavMain({
             <SidebarMenuItem key={item.title} onClick={() => {
               setOpenMobile(false);
             }}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <Link className="flex items-center text-sm gap-2" to={item.url}  >
-                 {item.title}
-                </Link>
-
+              <SidebarMenuButton tooltip={item.title} onClick={() => navigate(item.url)}>
+                  {item.icon && <item.icon />}
+                  {item.title}
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

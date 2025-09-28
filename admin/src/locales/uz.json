@@ -522,5 +522,9 @@
     "enterMaxVisits": "Maksimal tashriflarni kiriting (cheksiz uchun bo'sh qoldiring)",
     "enterFeatures": "Xususiyatlarni kiriting (har birini yangi qatorda)",
     "markAsBestOffer": "Eng yaxshi taklif sifatida belgilash"
+  },
+  "errors": {
+    "tooManyRequests": "Juda ko'p so'rovlar. Iltimos\", keyinroq qayta urinib ko'ring.",
+    "forbidden" : "Kirish taqiqlangan"
   }
 }

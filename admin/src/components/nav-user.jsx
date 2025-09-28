@@ -32,13 +32,18 @@ import {Shield, UserRoundPen} from "lucide-react";
 import {useTranslation} from "react-i18next";
 import authStore from "@/store/authStore.js";
 import {observer} from "mobx-react-lite";
+import {useEffect} from "react";
 
-const NavUser = observer(({user}) => {
+const NavUser = observer(() => {
   const {t} = useTranslation()
   const navigate = useNavigate()
+  useEffect(() => {
+    authStore.initializeAuth()
+  }, []);
+
+  const user = authStore.user;
 
   const {
-    setOpen,
     setOpenMobile,
     isMobile,
   } = useSidebar()
