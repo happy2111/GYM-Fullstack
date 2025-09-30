@@ -553,11 +553,11 @@ class AuthController {
       });
 
 
-      return res.json({
-        message: "Telegram login success",
-        accessToken,
-        user: publicUser,
-      });
+          return res.json({
+            message: "Telegram login success",
+            accessToken,
+            user: publicUser,
+          });
     } catch (err) {
       logger.error("Telegram widget login failed:", err);
       res.status(500).json({ error: "Failed to process Telegram login" });
