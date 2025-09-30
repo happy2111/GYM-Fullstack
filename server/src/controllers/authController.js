@@ -493,20 +493,26 @@ class AuthController {
         return res.status(500).json({ message: 'BOT_TOKEN is not configured' });
       }
 
-      // 1. Проверка hash (алгоритм для Login Widget)
-      const secretKey = crypto.createHash('sha256').update(botToken).digest();
-
+      // 1. Проверка hash (Telegram Login Widget)
       const dataCheckArr = [];
       for (const key of Object.keys(req.body).filter(k => k !== 'hash').sort()) {
         dataCheckArr.push(`${key}=${req.body[key]}`);
       }
       const dataCheckString = dataCheckArr.join('\n');
 
-      const hmac = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
+      const hmac = crypto
+        .createHmac('sha256', botToken)
+        .update(dataCheckString)
+        .digest('hex');
+
       const hashBuffer = Buffer.from(hash, 'hex');
       const hmacBuffer = Buffer.from(hmac, 'hex');
 
-      if (hashBuffer.length !== hmacBuffer.length || !crypto.timingSafeEqual(hashBuffer, hmacBuffer)) {
+      if (
+        hashBuffer.length !== hmacBuffer.length ||
+        !crypto.timingSafeEqual(hashBuffer, hmacBuffer)
+      ) {
+        logger.warn('Invalid Telegram hash for user:', id);
         return res.status(403).json({ message: 'Invalid Telegram hash' });
       }
 
@@ -514,7 +520,7 @@ class AuthController {
       const user = await authService.createOrUpdateTelegramUser({
         telegramId: id,
         firstName: first_name,
-        lastName: last_name,
+        lastName: last_name || null,
         username: username || null,
         photoUrl: photo_url || null,
       });
@@ -523,7 +529,7 @@ class AuthController {
       const accessToken = tokenService.generateAccessToken({
         userId: user.id,
         role: user.role,
-        method: 'telegram'
+        method: 'telegram',
       });
 
       const refreshToken = tokenService.generateRefreshToken();
@@ -531,8 +537,17 @@ class AuthController {
       const refreshExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
       await tokenService.deleteAllRefreshTokens(user.id, 'telegram');
-      await tokenService.saveRefreshToken(user.id, refreshToken, clientInfo, refreshExpires, 'telegram');
+      await tokenService.saveRefreshToken(
+        user.id,
+        refreshToken,
+        clientInfo,
+        refreshExpires,
+        'telegram'
+      );
+
       res.cookie('refreshToken', refreshToken, tokenService.getCookieOptions(true));
+
+      logger.info(`Telegram widget login success: ${user.id}`);
 
       return res.json({
         message: 'Telegram login success',
@@ -540,10 +555,14 @@ class AuthController {
         user: authService.getUserPublicData(user),
       });
     } catch (err) {
+      console.error('Telegram widget login failed:', err); // <- чтобы видеть stacktrace
       logger.error('Telegram widget login failed:', err);
-      res.status(500).json({ error: 'Failed to process Telegram login' });
+      if (!res.headersSent) {
+        return res.status(500).json({ error: 'Failed to process Telegram login' });
+      }
     }
   }
+
 
 
 
