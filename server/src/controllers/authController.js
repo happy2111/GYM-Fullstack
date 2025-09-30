@@ -484,82 +484,80 @@ class AuthController {
   async telegramWidget(req, res) {
     try {
       const { id, first_name, last_name, username, photo_url, auth_date, hash } = req.body;
+
       if (!id || !hash || !auth_date) {
-        return res.status(400).json({ message: 'Missing Telegram login data' });
+        return res.status(400).json({ message: "Missing Telegram login data" });
       }
 
       const botToken = process.env.BOT_TOKEN;
       if (!botToken) {
-        return res.status(500).json({ message: 'BOT_TOKEN is not configured' });
+        return res.status(500).json({ message: "BOT_TOKEN is not configured" });
       }
 
-      // 1. Проверка hash (Telegram Login Widget)
+      // 1. Hash verification (Telegram Login Widget rules)
       const dataCheckArr = [];
-      for (const key of Object.keys(req.body).filter(k => k !== 'hash').sort()) {
+      for (const key of Object.keys(req.body).filter(k => k !== "hash").sort()) {
         dataCheckArr.push(`${key}=${req.body[key]}`);
       }
-      const dataCheckString = dataCheckArr.join('\n');
+      const dataCheckString = dataCheckArr.join("\n");
 
-      const hmac = crypto
-        .createHmac('sha256', botToken)
+      // Secret key = sha256(botToken)
+      const secretKey = crypto.createHash("sha256").update(botToken).digest();
+
+      const hmac = crypto.createHmac("sha256", secretKey)
         .update(dataCheckString)
-        .digest('hex');
+        .digest("hex");
 
-      const hashBuffer = Buffer.from(hash, 'hex');
-      const hmacBuffer = Buffer.from(hmac, 'hex');
+      const hashBuffer = Buffer.from(hash, "hex");
+      const hmacBuffer = Buffer.from(hmac, "hex");
 
       if (
         hashBuffer.length !== hmacBuffer.length ||
         !crypto.timingSafeEqual(hashBuffer, hmacBuffer)
       ) {
-        logger.warn('Invalid Telegram hash for user:', id);
-        return res.status(403).json({ message: 'Invalid Telegram hash' });
+        logger.warn(`Invalid Telegram hash for user: ${id}`);
+        return res.status(403).json({ message: "Invalid Telegram hash" });
       }
 
-      // 2. Создаём или обновляем юзера
+      // 2. Create or update user
       const user = await authService.createOrUpdateTelegramUser({
         telegramId: id,
         firstName: first_name,
-        lastName: last_name || null,
+        lastName: last_name,
         username: username || null,
         photoUrl: photo_url || null,
       });
 
-      // 3. Генерация токенов
+      // 3. Generate tokens
       const accessToken = tokenService.generateAccessToken({
         userId: user.id,
         role: user.role,
-        method: 'telegram',
+        method: "telegram",
       });
 
       const refreshToken = tokenService.generateRefreshToken();
       const clientInfo = getClientInfo(req);
       const refreshExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
-      await tokenService.deleteAllRefreshTokens(user.id, 'telegram');
+      await tokenService.deleteAllRefreshTokens(user.id, "telegram");
       await tokenService.saveRefreshToken(
         user.id,
         refreshToken,
         clientInfo,
         refreshExpires,
-        'telegram'
+        "telegram"
       );
 
-      res.cookie('refreshToken', refreshToken, tokenService.getCookieOptions(true));
-
-      logger.info(`Telegram widget login success: ${user.id}`);
+      res.cookie("refreshToken", refreshToken, tokenService.getCookieOptions(true));
 
       return res.json({
-        message: 'Telegram login success',
+        message: "Telegram login success",
         accessToken,
         user: authService.getUserPublicData(user),
       });
     } catch (err) {
-      console.error('Telegram widget login failed:', err); // <- чтобы видеть stacktrace
-      logger.error('Telegram widget login failed:', err);
-      if (!res.headersSent) {
-        return res.status(500).json({ error: 'Failed to process Telegram login' });
-      }
+      logger.error("Telegram widget login failed:", err);
+      res.status(500).json({ error: "Failed to process Telegram login" });
     }
   }
 
