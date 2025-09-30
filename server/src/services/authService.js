@@ -169,9 +169,11 @@ class AuthService {
   }
 
   getUserPublicData(user) {
-    const { password, ...publicData } = user;
+    const plainUser = user.toJSON ? user.toJSON() : user;
+    const { password, ...publicData } = plainUser;
     return publicData;
   }
+
 }
 
 module.exports = new AuthService();

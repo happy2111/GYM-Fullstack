@@ -553,6 +553,7 @@ class AuthController {
       return res.json({
         message: "Telegram login success",
         accessToken,
+
         user: authService.getUserPublicData(user),
       });
     } catch (err) {
