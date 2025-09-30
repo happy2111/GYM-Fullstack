@@ -2,14 +2,13 @@ import { useEffect } from "react";
 
 export default function TelegramLoginButton() {
   useEffect(() => {
-    // Создаём глобальную функцию для callback
     window.onTelegramAuth = (user) => {
       console.log("Telegram login success:", user);
       alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-      fetch(`${import.meta.env.VITE_API_BASE}/auth/telegram`, {
+      fetch(`${import.meta.env.VITE_API_BASE}/auth/telegram/widget`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user), // ⚠️ здесь не { user }, а сам объект
+        body: JSON.stringify(user),
       })
         .then(res => res.json())
         .then(data => {
@@ -20,7 +19,6 @@ export default function TelegramLoginButton() {
         .catch(err => console.error("Telegram login failed:", err));
     }
 
-    // Вставляем Telegram widget script
     const script = document.createElement("script");
     script.src = "https://telegram.org/js/telegram-widget.js?22";
     script.setAttribute("data-telegram-login", "bullfituz_bot"); // ⚠️ замени на username своего бота без @

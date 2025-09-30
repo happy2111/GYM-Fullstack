@@ -68,4 +68,6 @@ router.delete('/sessions/:id', authMiddleware, authController.deleteSession);
 
 router.post("/telegram", authController.telegram)
 
+router.post('/telegram/widget', authController.telegramWidget);
+
 module.exports = router;
