@@ -546,6 +546,13 @@ class AuthController {
 
       logger.info("Public user response:", publicUser);
 
+      logger.info('Final response:', {
+        message: 'Telegram login success',
+        accessToken,
+        user: authService.getUserPublicData(user),
+      });
+
+
       return res.json({
         message: "Telegram login success",
         accessToken,
