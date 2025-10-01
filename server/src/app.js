@@ -19,7 +19,7 @@
   const app = express();
   app.set('trust proxy', 1);
 
-  if(process.env.NODE_ENV === 'development') {
+  if(process.env.NODE_ENV === 'production') {
     job.start()
   }
 

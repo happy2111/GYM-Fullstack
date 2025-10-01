@@ -2,7 +2,7 @@ const http = require("http");
 const https = require("https");
 const cron = require("cron");
 
-const job = new cron.CronJob("*/1 * * * *", function () {
+const job = new cron.CronJob("*/14 * * * *", function () {
   const url = process.env.API_URL;
   const client = url.startsWith("https") ? https : http;
 
